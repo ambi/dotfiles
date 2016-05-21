@@ -1,0 +1,45 @@
+homebrew_taps:
+  - homebrew/php
+  - railwaycat/emacsmacport
+  - sanemat/font
+      
+homebrew_packages:
+  - { name: ansible }
+  - { name: automake } # emacs-mac でこっそり必要。
+  - { name: autojump } # 使ってない…。
+  - { name: cmake }
+  - { name: emacs-mac }
+  - { name: gauche }
+  - { name: gmp } # ruby で必要？
+  - { name: go }
+  - { name: mysql }
+  - { name: nvm }
+  - { name: p7zip }
+  - { name: php56-intl }
+  - { name: python3 }
+  - { name: qt5 }
+  - { name: rbenv }
+  - { name: ricty } # XQuartz (X11.app) がインストールされていないといけなかった記憶。
+  - { name: ruby-build }
+  - { name: sbcl }
+  - { name: scala }
+  - { name: the_silver_searcher }
+  - { name: tig } # 使ってない…。
+  - { name: wget }
+  - { name: zsh-completions }
+  - { name: zsh-syntax-highlighting }
+      
+homebrew_cask_packages:
+  # - { name: atom }
+  - { name: chefdk }
+  # - { name: firefox }
+  # - { name: google-chrome }
+  # - { name: google-japanese-ime }
+  # - { name: iterm2 }
+  # - { name: kindle }
+  # - { name: kindlegen }
+  # - { name: skype }
+  # - { name: steam }
+  # - { name: thunderbird }
+  - { name: virtualbox }
+  - { name: vagrant }

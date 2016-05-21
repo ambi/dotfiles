@@ -1,0 +1,5 @@
+- name: copy .emacs
+  copy: src=.emacs dest=~/.emacs force=no
+
+- name: copy emacs configs
+  copy: src=.emacs.d dest=~/.emacs.d force=no

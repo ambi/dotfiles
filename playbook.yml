@@ -1,0 +1,6 @@
+- hosts: localhost
+  roles:
+    - { role: brew }
+    - { role: ruby }
+    - { role: zsh }
+    - { role: emacs }
