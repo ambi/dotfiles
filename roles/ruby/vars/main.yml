@@ -1,4 +1,4 @@
-ruby_version: 2.3.0
+ruby_version: 2.3.1
 
 ruby_gems:
   - { name: bundler }
