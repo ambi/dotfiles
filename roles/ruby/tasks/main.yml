@@ -2,16 +2,16 @@
 
 - shell: rbenv versions
   register: rbenv_ruby_versions
-  changed_when: false
+  changed_when: False
 - name: install ruby via rbenv
-  shell: bash -c 'RBENV_ROOT=/usr/local/rbenv CONFIGURE_OPTS=--disable-install-rdoc rbenv install {{ ruby_version }} -s'
+  shell: RBENV_ROOT=/usr/local/rbenv CONFIGURE_OPTS=--disable-install-rdoc rbenv install {{ ruby_version }} -s
   when: (ruby_version not in rbenv_ruby_versions.stdout.split())
 
 - shell: rbenv global
   register: rbenv_global
-  changed_when: false
+  changed_when: False
 - name: global ruby via rbenv
-  shell: bash -c "RBENV_ROOT=/usr/local/rbenv rbenv global {{ ruby_version }} && rbenv rehash"
+  shell: RBENV_ROOT=/usr/local/rbenv rbenv global {{ ruby_version }} && rbenv rehash
   when: (ruby_version != rbenv_global.stdout)
 
 - name: install ruby gems
