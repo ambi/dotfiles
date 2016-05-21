@@ -9,6 +9,7 @@
       
 - name: update brew
   homebrew: update_homebrew=yes
+  changed_when: False
       
 - name: install brew packages
   homebrew: name={{ item.name }} install_options={{ item.install_options | default() }} state={{ item.state | default('latest') }}
