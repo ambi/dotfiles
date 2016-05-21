@@ -5,3 +5,4 @@
     - { role: zsh }
     - { role: emacs }
     - { role: nodejs }
+    - { role: python }
