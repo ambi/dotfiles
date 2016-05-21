@@ -4,7 +4,6 @@ homebrew_taps:
   - sanemat/font
       
 homebrew_packages:
-  - { name: ansible }
   - { name: automake } # emacs-mac でこっそり必要。
   - { name: autojump } # 使ってない…。
   - { name: cmake }
