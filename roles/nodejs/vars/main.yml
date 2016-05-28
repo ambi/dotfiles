@@ -3,4 +3,5 @@ node_version: v6.0.0
 node_packages:
   - { name: bower }
   - { name: gulp-cli }
+  - { name: typescript }
   - { name: yo }
