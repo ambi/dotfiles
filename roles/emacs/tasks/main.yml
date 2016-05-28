@@ -1,5 +1,5 @@
 - name: copy .emacs
-  copy: src=.emacs dest=~/.emacs force=no
+  copy: src=.emacs dest=~/ force=no
 
 - name: copy emacs configs
-  copy: src=.emacs.d dest=~/.emacs.d force=no
+  copy: src=.emacs.d dest=~/ force=no

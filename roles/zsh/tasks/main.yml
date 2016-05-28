@@ -1,6 +1,6 @@
 - name: copy .zshenv
-  copy: src=.zshenv dest=~/.zshenv force=no
+  copy: src=.zshenv dest=~/ force=no
 
 - name: copy zsh configs
-  copy: src=.zsh.d dest=~/.zsh.d force=no
+  copy: src=.zsh.d dest=~/ force=no
   
