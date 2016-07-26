@@ -5,13 +5,10 @@
 (prefer-coding-system 'utf-8)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq ring-bell-function (lambda ()))
+(setq ring-bell-function 'ignore)
 
-(put 'upcase-region   'disabled nil)
+(put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
-
-;;; saveplace
-(require 'saveplace)
 
 ;;; desktop
 (desktop-save-mode)
@@ -33,15 +30,9 @@
 (global-set-key [?\C-8] 'split-window-vertically)
 (global-set-key [?\C-9] 'split-window-horizontally)
 (global-set-key [?\C-0] 'delete-window)
+(global-set-key [?\C-o] 'other-window)
 (global-set-key [?\C-^] 'comment-region)
 (global-set-key [?\C-~] 'uncomment-region)
-
-(global-set-key "\C-o" 'previous-multiframe-window)
-(global-set-key [C-tab] 'other-window)
-(global-set-key "\C-m" 'newline-and-indent)
-
-(global-set-key (kbd "C-,") 'previous-buffer)
-(global-set-key (kbd "C-.") 'next-buffer)
 
 (defun kill-current-buffer ()
   "kill the current buffer"
@@ -78,9 +69,6 @@
 (global-set-key (kbd "C-M-o") 'switch-buffer-to-other-window)
 
 (global-set-key "\C-cf" 'find-name-dired)
-
-(global-unset-key "\C-x\C-l")
-(global-unset-key "\C-x\C-u")
 
 ;;; emacs-lisp
 (define-key emacs-lisp-mode-map "\C-cb" 'emacs-lisp-byte-compile)

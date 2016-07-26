@@ -20,10 +20,7 @@
 
 ;;; helm
 (global-set-key [?\C-z] 'helm-mini)
-(define-key global-map (kbd "C-x b")   'helm-buffers-list)
-(global-set-key (kbd "C-x C-d") 'helm-ls-git-ls)
-(global-set-key [?\C-z] 'helm-mini)
-(global-set-key "\C-cy" 'helm-show-kill-ring)
+(define-key global-map (kbd "C-x b") 'helm-buffers-list)
 
 ;;; jaword
 (global-jaword-mode)
