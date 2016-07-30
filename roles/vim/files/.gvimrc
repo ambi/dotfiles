@@ -6,5 +6,7 @@ set lines=45
 set guifont=Ricty:h16
 set linespace=1
 
-set clipboard=unnamed
+set clipboard=unnamed,autoselect
 
+set noimdisable
+set imdisableactivate
