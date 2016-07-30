@@ -1,0 +1,5 @@
+- name: copy .vimrc
+  copy: src=.vimrc dest=~/ force=no
+
+- name: copy .gvimrc
+  copy: src=.gvimrc dest=~/ force=no

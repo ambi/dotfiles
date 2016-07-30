@@ -4,5 +4,6 @@
     - { role: ruby }
     - { role: zsh }
     - { role: emacs }
+    - { role: vim }
     - { role: nodejs }
     - { role: python }
