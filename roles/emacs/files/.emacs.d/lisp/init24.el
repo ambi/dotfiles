@@ -31,7 +31,7 @@
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
 ;;; multiple-cursors
-(global-set-key (kbd "C-;") 'mc/edit-lines)
+(global-set-key (kbd "C-:") 'mc/edit-lines)
 
 ;;; expand-region
 (global-set-key (kbd "C-@") 'er/expand-region)
