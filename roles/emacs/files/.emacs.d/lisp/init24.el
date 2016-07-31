@@ -18,9 +18,13 @@
 (define-key dired-mode-map (kbd "M-o") 'dired-omit-mode)
 (setq dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^.DS_Store$")
 
+;;; undo-tree-mode
+(global-undo-tree-mode)
+
 ;;; helm
 (global-set-key [?\C-z] 'helm-mini)
 (define-key global-map (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;;; jaword
 (global-jaword-mode)
@@ -70,6 +74,7 @@
 (diminish 'abbrev-mode "Abv")
 (diminish 'company-mode)
 (diminish 'smartparens-mode)
+(diminish 'undo-tree-mode)
 
 (provide 'init24)
 ;;; init24.el ends here

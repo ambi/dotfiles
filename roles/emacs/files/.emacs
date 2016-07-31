@@ -26,6 +26,7 @@
  '(dired-use-ls-dired nil)
  '(diredp-hide-details-initially-flag nil)
  '(history-length 5000)
+ '(horizontal-scroll-bar-mode nil)
  '(indent-tabs-mode nil)
  '(inferior-lisp-program "/usr/local/bin/sbcl" t)
  '(inhibit-startup-screen t)
