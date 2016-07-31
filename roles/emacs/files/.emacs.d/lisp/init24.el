@@ -30,22 +30,24 @@
 (global-set-key (kbd "M-%") 'anzu-query-replace)
 (global-set-key (kbd "C-M-%") 'anzu-query-replace-regexp)
 
-;;; autopair
-(autopair-global-mode 1)
+;;; multiple-cursors
+(global-set-key (kbd "C-;") 'mc/edit-lines)
+
+;;; expand-region
+(global-set-key (kbd "C-@") 'er/expand-region)
+(global-set-key (kbd "C-M-@") 'er/contract-region)
+
+;;; avy
+(global-set-key (kbd "C-;") 'avy-goto-char)
+
+;;; smartparens
+(require 'smartparens-config)
+(smartparens-global-mode)
 
 ;;; company
 (global-company-mode)
 
-;;; ruby-mode
-;; (add-hook 'ruby-mode-hook 'robe-mode)
-;; (add-hook 'robe-mode-hook 'ac-robe-setup)
-
-;;; python-mode
-;;; (add-hook 'python-mode-hook 'jedi:setup)
-
-;;; web-mdoe
-(add-hook 'web-mode-hook  #'(lambda () (autopair-mode -1)))
-
+;;; web-mode
 (setq web-mode-engines-alist
       '(("php" . "\\.phtml\\'")
         ("erb" . "\\.erb$")))
@@ -57,12 +59,17 @@
 (add-hook 'css-mode-hook  'emmet-mode)
 
 ;;; slime
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
 
 ;;; markdown-mode
 (add-hook 'visual-line-mode-hook (lambda() (setq word-wrap nil)))
 (add-hook 'gfm-mode-hook (lambda () (visual-line-mode 0)))
+
+;;; diminish
+(diminish 'anzu-mode)
+(diminish 'abbrev-mode "Abv")
+(diminish 'company-mode)
+(diminish 'smartparens-mode)
 
 (provide 'init24)
 ;;; init24.el ends here

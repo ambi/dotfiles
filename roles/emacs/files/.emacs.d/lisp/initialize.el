@@ -19,9 +19,6 @@
 ;;; dabbrev
 (require 'ja-dabbrev)
 
-;;; mode-line
-(require 'clean-mode-line)
-
 ;;; ruby-align
 (require 'ruby-align)
 
@@ -59,16 +56,6 @@
 (global-set-key "\C-xf" 'find-file-with-coding)
 
 (global-set-key (kbd "C-4") 'ff-find-other-file)
-
-(defun switch-buffer-to-other-window ()
-  (interactive)
-  (let ((other-buffer (save-window-excursion (other-window 1) (current-buffer))))
-    (if (eq (current-buffer) other-buffer)
-        (switch-to-buffer (last-buffer))
-      (switch-to-buffer other-buffer))))
-(global-set-key (kbd "C-M-o") 'switch-buffer-to-other-window)
-
-(global-set-key "\C-cf" 'find-name-dired)
 
 ;;; emacs-lisp
 (define-key emacs-lisp-mode-map "\C-cb" 'emacs-lisp-byte-compile)
@@ -143,17 +130,15 @@
   (put (car pair) 'scheme-indent-function (cdr pair)))
 
 ;;; auto-mode-alist
-(setq auto-mode-alist
-      (append '(("\\.h$" . c++-mode)
-                ("\\.sci$" . scheme-mode)
-                ("\\.md$" . gfm-mode)
-                ("\\.js$" . js2-mode)
-                ("\\.html?$" . web-mode)
-                ("\\.erb$" . web-mode)
-                ("^SConstruct\\'" . python-mode)
-                ("^SConscript\\'" . python-mode)
-                ("^Rakefile$" . ruby-mode)
-                ) auto-mode-alist))
+(add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.Sci$" . scheme-mode))
+(add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
+(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.html?$" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
+(add-to-list 'auto-mode-alist '("^SConstruct\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("^SConscript\\'" . python-mode))
+(add-to-list 'auto-mode-alist '("^Rakefile$" . ruby-mode))
 
 (provide 'initialize)
 ;;; initialize.el ends here
