@@ -16,6 +16,9 @@
    (quote
     ("82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "0ec59d997a305e938d9ec8f63263a8fc12e17990aafc36ff3aff9bc5c5a202f0" "2e5705ad7ee6cfd6ab5ce81e711c526ac22abed90b852ffaf0b316aa7864b11f" default)))
  '(dabbrev-case-replace nil)
+ '(desktop-globals-to-save
+   (quote
+    (desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history command-history extended-command-history)))
  '(dired-dwim-target t)
  '(dired-listing-switches "-alh")
  '(dired-recursive-copies (quote top))
