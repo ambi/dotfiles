@@ -129,13 +129,12 @@
 (dolist (pair scheme-indent-settings)
   (put (car pair) 'scheme-indent-function (cdr pair)))
 
+;;; visual-mode
+(add-hook 'visual-line-mode-hook (lambda() (setq word-wrap nil)))
+
 ;;; auto-mode-alist
 (add-to-list 'auto-mode-alist '("\\.h$" . c++-mode))
 (add-to-list 'auto-mode-alist '("\\.Sci$" . scheme-mode))
-(add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
-(add-to-list 'auto-mode-alist '("\\.js$" . js2-mode))
-(add-to-list 'auto-mode-alist '("\\.html?$" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 (add-to-list 'auto-mode-alist '("^SConstruct\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("^SConscript\\'" . python-mode))
 (add-to-list 'auto-mode-alist '("^Rakefile$" . ruby-mode))

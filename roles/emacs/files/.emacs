@@ -11,6 +11,9 @@
  '(column-number-mode t)
  '(company-dabbrev-downcase nil)
  '(company-idle-delay 0)
+ '(completion-ignored-extensions
+   (quote
+    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".DS_Store")))
  '(css-indent-offset 2)
  '(custom-safe-themes
    (quote
@@ -21,16 +24,22 @@
     (desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history command-history extended-command-history)))
  '(dired-dwim-target t)
  '(dired-listing-switches "-alh")
+ '(dired-omit-files "^\\.?#\\|^\\.$\\|^\\.\\.$\\|^.DS_Store$")
  '(dired-recursive-copies (quote top))
  '(dired-recursive-deletes (quote top))
  '(dired-use-ls-dired nil)
  '(diredp-hide-details-initially-flag nil)
+ '(helm-ff-newfile-prompt-p nil)
+ '(helm-mini-default-sources
+   (quote
+    (helm-source-buffers-list helm-source-projectile-files-list helm-source-files-in-current-dir helm-source-recentf helm-source-buffer-not-found)))
  '(history-length 5000)
  '(horizontal-scroll-bar-mode nil)
  '(indent-tabs-mode nil)
  '(inferior-lisp-program "/usr/local/bin/sbcl" t)
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
+ '(js-indent-level 2)
  '(js2-auto-indent-p t)
  '(js2-basic-offset 2)
  '(js2-enter-indents-newline t)
@@ -50,10 +59,13 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (smartparens diminish expand-region avy helm jaword zlc zenburn-theme yaml-mode wgrep-ag web-mode undo-tree tide scss-mode php-mode multiple-cursors markdown-mode leuven-theme json-mode js2-mode inf-ruby go-mode emmet-mode dockerfile-mode dired+ csharp-mode company coffee-mode cmake-mode anzu ag)))
+    (magit exec-path-from-shell helm-projectile projectile php-mode smartparens diminish expand-region avy helm jaword zlc zenburn-theme yaml-mode wgrep-ag web-mode undo-tree tide scss-mode multiple-cursors markdown-mode leuven-theme json-mode js2-mode inf-ruby go-mode emmet-mode dockerfile-mode dired+ csharp-mode company coffee-mode cmake-mode anzu ag)))
  '(perl-continued-brace-offset -2)
  '(perl-continued-statement-offset 2)
  '(perl-indent-level 2)
+ '(projectile-globally-ignored-file-suffixes
+   (quote
+    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".DS_Store" ".cache")))
  '(python-indent 2)
  '(python-indent-offset 2)
  '(python-shell-interpreter "/usr/local/bin/python3")
