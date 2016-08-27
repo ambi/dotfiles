@@ -16,6 +16,9 @@
 ;;; uniquify
 (require 'uniquify)
 
+;;; electric-pair-mode
+(electric-pair-mode)
+
 ;;; dabbrev
 (require 'ja-dabbrev)
 

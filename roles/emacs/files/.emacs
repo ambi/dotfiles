@@ -9,6 +9,7 @@
  '(ag-highlight-search t)
  '(c-offsets-alist (quote ((inextern-lang . 0) (innamespace . 0))))
  '(column-number-mode t)
+ '(company-dabbrev-char-regexp "[a-zA-Z_0-9]")
  '(company-dabbrev-downcase nil)
  '(company-idle-delay 0)
  '(completion-ignored-extensions
