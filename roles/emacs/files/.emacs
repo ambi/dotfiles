@@ -18,7 +18,7 @@
  '(css-indent-offset 2)
  '(custom-safe-themes
    (quote
-    ("82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "0ec59d997a305e938d9ec8f63263a8fc12e17990aafc36ff3aff9bc5c5a202f0" "2e5705ad7ee6cfd6ab5ce81e711c526ac22abed90b852ffaf0b316aa7864b11f" default)))
+    ("7485c473334e95534b8aaa238bf6d4b7a12777a6bd3cc14d78b627d806e745c9" "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "0ec59d997a305e938d9ec8f63263a8fc12e17990aafc36ff3aff9bc5c5a202f0" "2e5705ad7ee6cfd6ab5ce81e711c526ac22abed90b852ffaf0b316aa7864b11f" default)))
  '(dabbrev-case-replace nil)
  '(desktop-globals-to-save
    (quote
@@ -40,6 +40,7 @@
  '(inferior-lisp-program "/usr/local/bin/sbcl" t)
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
+ '(ivy-use-virtual-buffers t)
  '(js-indent-level 2)
  '(js2-auto-indent-p t)
  '(js2-basic-offset 2)
@@ -47,6 +48,23 @@
  '(js2-indent-on-enter-key t)
  '(js2-strict-missing-semi-warning nil)
  '(mark-even-if-inactive t)
+ '(markdown-code-lang-modes
+   (quote
+    (("jsx" . rjsx-mode)
+     ("ocaml" . tuareg-mode)
+     ("elisp" . emacs-lisp-mode)
+     ("ditaa" . artist-mode)
+     ("asymptote" . asy-mode)
+     ("dot" . fundamental-mode)
+     ("sqlite" . sql-mode)
+     ("calc" . fundamental-mode)
+     ("C" . c-mode)
+     ("cpp" . c++-mode)
+     ("C++" . c++-mode)
+     ("screen" . shell-script-mode)
+     ("shell" . sh-mode)
+     ("bash" . sh-mode))))
+ '(markdown-fontify-code-blocks-natively t)
  '(mode-line-format
    (quote
     ("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification " " mode-line-position
@@ -60,7 +78,7 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (magit exec-path-from-shell helm-projectile projectile php-mode smartparens diminish expand-region avy helm jaword zlc zenburn-theme yaml-mode wgrep-ag web-mode undo-tree tide scss-mode multiple-cursors markdown-mode leuven-theme json-mode js2-mode inf-ruby go-mode emmet-mode dockerfile-mode dired+ csharp-mode company coffee-mode cmake-mode anzu ag)))
+    (counsel-projectile dumb-jump rjsx-mode mmm-mode elixir-mode exec-path-from-shell helm-projectile projectile smartparens diminish expand-region avy helm jaword zlc zenburn-theme yaml-mode wgrep-ag web-mode undo-tree tide scss-mode multiple-cursors markdown-mode leuven-theme json-mode js2-mode inf-ruby go-mode emmet-mode dockerfile-mode dired+ csharp-mode company anzu ag)))
  '(perl-continued-brace-offset -2)
  '(perl-continued-statement-offset 2)
  '(perl-indent-level 2)
@@ -99,3 +117,4 @@
     (require 'init24))
 (if (string-equal system-type "darwin")
     (require 'init-osx))
+(put 'set-goal-column 'disabled nil)

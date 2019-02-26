@@ -86,29 +86,3 @@ set hidden
 
 " ステータスライン
 set statusline=%F%m%r%h%w\ [%{&fenc!=''?&fenc:&enc}/%{&ff}]\ %Y%=(%l,%v)\ %p%%
-
-" vim-plug
-call plug#begin('~/.vim/plugged')
-
-Plug 'scrooloose/nerdtree'
-
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/neocomplete.vim'
-
-Plug 'plasticboy/vim-markdown'
-
-" Add plugins to &runtimepath
-call plug#end()
-
-" Unite
-nnoremap [unite] <Nop>
-nmap <Space>f [unite]
-
-let g:unite_enable_start_insert=1
-nnoremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [unite]b :<C-u>Unite buffer<CR>
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> [unite]c :<C-u>Unite bookmark<CR>
-
-let g:vim_markdown_folding_disabled = 1
-

@@ -22,9 +22,6 @@
 ;;; dabbrev
 (require 'ja-dabbrev)
 
-;;; ruby-align
-(require 'ruby-align)
-
 ;;; global key setting
 (global-set-key [?\C-7] 'delete-other-windows)
 (global-set-key [?\C-8] 'split-window-vertically)
