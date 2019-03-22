@@ -1,9 +1,10 @@
 - hosts: localhost
+  connection: local
   roles:
-    - { role: brew }
-    - { role: ruby }
-    - { role: zsh }
-    - { role: emacs }
-    - { role: vim }
-    - { role: nodejs }
-    - { role: python }
+    - brew
+    - ruby
+    - zsh
+    - emacs
+    - vim
+    - nodejs
+    - python

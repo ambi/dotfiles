@@ -1,6 +1,16 @@
+- name: install zplugin
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/zdharma/zplugin/master/doc/install.sh)"
+  args:
+    creates: ~/.zplugin/bin/zplugin.zsh
+
 - name: copy .zshenv
-  copy: src=.zshenv dest=~/ force=no
+  copy:
+    src: .zshenv
+    dest: ~/
+    force: no
 
 - name: copy zsh configs
-  copy: src=.zsh.d dest=~/ force=no
-  
+  copy:
+    src: .zsh.d
+    dest: ~/
+    force: no

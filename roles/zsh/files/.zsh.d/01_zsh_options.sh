@@ -23,6 +23,8 @@ fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit
 compinit
 
-# bindkey
-# bindkey 設定は auto-fu より先に行わないとうまく動かない模様
+# bindkey (before auto-fu)
 bindkey "^W" kill-region
+
+# PATH
+export PATH=$PATH:/usr/local/sbin

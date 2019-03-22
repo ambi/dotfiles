@@ -8,9 +8,9 @@
   when: "'using node {{ node_version }}' not in result.stdout"
 
 - name: install node packages
-  npm: >-
-    name={{ item.name }}
-    state=present
-    executable=~/.nvm/versions/node/{{node_version}}/bin/npm
-    global=yes
-  with_items: "{{node_packages}}"
+  npm:
+    name: "{{ item.name }}"
+    state: present
+    executable: ~/.nvm/versions/node/{{node_version}}/bin/npm
+    global: yes
+  with_items: "{{ node_packages }}"

@@ -1,2 +1,5 @@
 - name: copy .vimrc
-  copy: src=.vimrc dest=~/ force=no
+  copy:
+    src: .vimrc
+    dest: ~/
+    force: no

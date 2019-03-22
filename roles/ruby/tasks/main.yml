@@ -17,4 +17,4 @@
 - name: install ruby gems
   gem: name={{ item.name }} user_install=no executable=/usr/local/rbenv/shims/gem
   # why need execuable???
-  with_items: "{{ruby_gems}}"
+  with_items: "{{ ruby_gems }}"

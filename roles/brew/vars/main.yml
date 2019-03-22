@@ -1,11 +1,12 @@
 homebrew_taps:
   - railwaycat/emacsmacport
-      
+
 homebrew_packages:
   - { name: automake } # for emacs-mac
   - { name: emacs-mac }
   - { name: gauche }
   - { name: go }
+  - { name: jq }
   - { name: mysql }
   - { name: nvm }
   - { name: python }
@@ -13,19 +14,20 @@ homebrew_packages:
   - { name: rename }
   - { name: the_silver_searcher }
   - { name: tig }
+  - { name: tmux }
   - { name: tree }
   - { name: wget }
   - { name: yarn }
   - { name: zsh-completions }
-      
+
 homebrew_cask_packages:
   - { name: docker }
-  # - { name: firefox }
+  - { name: firefox }
   - { name: font-cica }
   # - { name: google-chrome }
-  # - { name: google-japanese-ime }
-  # - { name: iterm2 }
-  # - { name: java }
-  # - { name: thunderbird }
+  - { name: google-japanese-ime }
+  - { name: iterm2 }
+  - { name: java }
+  - { name: thunderbird }
   - { name: virtualbox }
   - { name: vagrant }

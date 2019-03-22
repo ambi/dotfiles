@@ -1,4 +1,3 @@
 python_packages:
-  - { name: Flask }
   - { name: ipython }
   - { name: jupyter }

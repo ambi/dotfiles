@@ -1,5 +1,5 @@
 ### Zplugin
-source '/Users/tn/.zplugin/bin/zplugin.zsh'
+source "$HOME/.zplugin/bin/zplugin.zsh"
 autoload -Uz _zplugin
 (( ${+_comps} )) && _comps[zplugin]=_zplugin
 

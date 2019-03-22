@@ -1,88 +1,72 @@
-" vi互換モードを無効化する
-set nocompatible
-
-" 全角文字の幅設定
+" Character encoding (UTF-8)
 set ambiwidth=double
+set encoding=utf-8
+set fileencoding=utf-8
+set fileformat=unix
+scriptencoding utf-8
 
-" 長い最終行も表示させる
-set display=lastline
-
-" シンタックスハイライト
-syntax enable
-
-" ファイルタイプによるプラグイン有効化
+" filetype
 filetype indent plugin on
 
-" 文字コードの設定
-set encoding=UTF-8
-set fileencoding=UTF-8
-set termencoding=UTF-8
-
-" ５行の余裕を持ってスクロールする
+" Display
+set display=lastline
 set scrolloff=5
+set ttyfast
+syntax enable
 
-" バックアップファイルなし
-set noswapfile
-set nowritebackup
-set nobackup
-
-" バックスペースによる削除を有効化
+" Backspace
 set backspace=indent,eol,start
 
-" ビープ音なし
+" Visual bell
 set novisualbell
 set visualbell t_vb=
 
-" カーソルの位置表示を行う
+" Position
 set ruler
 
-" カッコを閉じたときに対応するカッコを強調
-set nostartofline
-
-" カッコのマッチ
+" Match parentheses
 set matchpairs& matchpairs+=<:>
-set showmatch
 set matchtime=1
+set showmatch
 
-" 折り返し
-set wrap
-
-" 自動改行しない
-set textwidth=0
-
-" 挿入モードの単語補完で、小文字でも大文字で補完
+" Completion
 set infercase
 
-" 検索
+" Search
+set gdefault
+set hlsearch
 set ignorecase
-set smartcase
 set incsearch
+set smartcase
 set wrapscan
 
-" タブをスペースに展開する
+" Tab, space, and indent
+set autoindent
+set cindent
 set expandtab
+set shiftwidth=2    
 set smarttab
 set smartindent
-set shiftwidth=2    
-set tabstop=2
 set softtabstop=2
+set tabstop=2
 
-" 常にステータスラインを表示する
-set laststatus=2
-
-" 置換のときgオプションをデフォルトで有効
-set gdefault
-
-" 入力中のコマンドを表示する
-set showcmd
+" Command
 set history=10000
-
-" コマンドモードでTABキーによるファイル名補完をする
+set showcmd
 set wildmenu
 set wildmode=list:longest
 
-" バッファを保存していなくても別のバッファを開けるようにする
+" File
+set autoread
 set hidden
+set nobackup
+set noswapfile
 
-" ステータスライン
+" Status line
+set laststatus=2
 set statusline=%F%m%r%h%w\ [%{&fenc!=''?&fenc:&enc}/%{&ff}]\ %Y%=(%l,%v)\ %p%%
+
+" OS
+set mouse=a
+set shellslash
+

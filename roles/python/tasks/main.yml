@@ -1,3 +1,5 @@
 - name: install python packages
-  pip: name={{ item.name }} executable=/usr/local/bin/pip3
-  with_items: "{{python_packages}}"
+  pip: 
+    name: "{{ item.name }}"
+    executable: /usr/local/bin/pip3
+  with_items: "{{ python_packages }}"
