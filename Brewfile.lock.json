@@ -200,6 +200,15 @@
             "appdir": "/Applications"
           }
         }
+      },
+      "java": {
+        "version": "13.0.2,8:d4173c853231432d94f001e99d882ca7",
+        "options": {
+          "full_name": "java",
+          "args": {
+            "appdir": "/Applications"
+          }
+        }
       }
     }
   },
