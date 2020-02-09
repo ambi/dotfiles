@@ -1,0 +1,22 @@
+cask_args appdir: '/Applications'
+
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
+tap 'homebrew/core'
+tap 'railwaycat/emacsmacport'
+
+brew 'emacs-mac'
+brew 'go'
+brew 'hugo'
+brew 'the_silver_searcher'
+brew 'zsh-completions'
+brew 'zsh-syntax-highlighting'
+
+cask 'docker'
+cask 'font-cica'
+cask 'google-chrome'
+cask 'google-japanese-ime'
+cask 'iterm2'
+cask 'steam'
+cask 'thunderbird'
+cask 'visual-studio-code'
