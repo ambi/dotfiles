@@ -1,4 +1,0 @@
-node_version: v11.12.0
-
-node_packages:
-  - { name: typescript }

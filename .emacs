@@ -37,7 +37,7 @@
  '(helm-ff-newfile-prompt-p nil)
  '(helm-mini-default-sources
    (quote
-    (helm-source-buffers-list helm-source-projectile-files-list helm-source-files-in-current-dir helm-source-recentf helm-source-buffer-not-found)))
+    (helm-source-buffers-list helm-source-files-in-current-dir helm-source-recentf helm-source-buffer-not-found)))
  '(history-length 5000)
  '(hl-sexp-background-color "#efebe9")
  '(horizontal-scroll-bar-mode nil)
@@ -86,13 +86,10 @@
  '(org-startup-truncated nil)
  '(package-selected-packages
    (quote
-    (ivy-rich counsel-projectile dumb-jump rjsx-mode mmm-mode elixir-mode exec-path-from-shell helm-projectile projectile smartparens diminish expand-region avy helm jaword zlc zenburn-theme yaml-mode wgrep-ag web-mode undo-tree tide scss-mode multiple-cursors markdown-mode leuven-theme json-mode js2-mode inf-ruby go-mode emmet-mode dockerfile-mode dired+ csharp-mode company anzu ag)))
+    (ag anzu avy company counsel diminish dockerfile-mode dumb-jump exec-path-from-shell expand-region go-mode helm ivy-rich jaword js2-mode json-mode markdown-mode mmm-mode multiple-cursors smartparens web-mode wgrep-ag yaml-mode)))
  '(perl-continued-brace-offset -2)
  '(perl-continued-statement-offset 2)
  '(perl-indent-level 2)
- '(projectile-globally-ignored-file-suffixes
-   (quote
-    (".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".DS_Store" ".cache")))
  '(python-indent 2)
  '(python-indent-offset 2)
  '(python-shell-interpreter "/usr/local/bin/python3")
@@ -143,7 +140,6 @@
 ;;; initialize
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'initialize)
-(if (>= emacs-major-version 24)
-    (require 'init24))
+(require 'init24)
 (if (string-equal system-type "darwin")
     (require 'init-osx))

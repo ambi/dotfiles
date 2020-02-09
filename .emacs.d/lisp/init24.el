@@ -16,16 +16,6 @@
 (define-key dired-mode-map "\C-o" 'other-window)
 (define-key dired-mode-map "\C-xo" 'diredp-find-file-other-frame)
 
-;;; undo-tree-mode
-(global-undo-tree-mode)
-
-;;; helm
-;; (require 'helm-projectile)
-;; (global-set-key [?\C-z] 'helm-mini)
-;; (define-key global-map (kbd "C-x b") 'helm-buffers-list)
-;; (global-set-key (kbd "M-x") 'helm-M-x)
-;; (global-set-key (kbd "C-@") 'helm-imenu)
-
 ;;; ivy
 ;; (global-set-key "\C-s" 'swiper)
 (ivy-mode 1)
@@ -37,7 +27,7 @@
 (define-key minibuffer-local-map (kbd "C-r") 'counsel-minibuffer-history)
 (global-set-key [?\C-z] 'ivy-switch-buffer)
 
-;;; action
+;;; jaword
 (global-jaword-mode)
 
 ;;; anzu
@@ -65,12 +55,6 @@
 (add-to-list 'auto-mode-alist '("\\.html?$" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.erb$" . web-mode))
 
-;;; emmet
-(add-hook 'web-mode-hook  'emmet-mode)
-(add-hook 'sgml-mode-hook 'emmet-mode)
-(add-hook 'html-mode-hook 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-
 ;;; markdown-mode
 (add-hook 'gfm-mode-hook (lambda () (visual-line-mode 0)))
 (add-to-list 'auto-mode-alist '("\\.md$" . gfm-mode))
@@ -84,9 +68,6 @@
 (diminish 'company-mode)
 (diminish 'smartparens-mode)
 (diminish 'undo-tree-mode)
-
-;;; magit
-(global-set-key (kbd "C-x g") 'magit-status)
 
 ;;; dump-jump-mode
 (dumb-jump-mode)
