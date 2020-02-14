@@ -9,6 +9,7 @@ brew 'emacs-mac'
 brew 'go'
 brew 'hugo'
 brew 'the_silver_searcher'
+brew 'tree'
 brew 'zsh-completions'
 brew 'zsh-syntax-highlighting'
 
