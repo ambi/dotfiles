@@ -11,7 +11,7 @@ setopt pushd_ignore_dups
 ## Completion
 fpath=(/usr/local/share/zsh-completions $fpath)
 autoload -U compinit
-compinit
+compinit -u
 
 ## Expansion and Globbing
 # Filename expansion after "="
@@ -47,11 +47,14 @@ PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
 ## ZLE
 bindkey "^W" kill-region
 
-### Go
+## anyenv
+eval "$(anyenv init -)"
+
+## Go
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 
-### Ruby
+## Ruby
 # export RBENV_ROOT=/usr/local/rbenv
 # export PATH=$RBENV_ROOT/bin:$PATH
 # eval "$(rbenv init - --no-rehash)"
