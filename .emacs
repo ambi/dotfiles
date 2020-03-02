@@ -32,7 +32,6 @@
  '(dired-recursive-copies (quote top))
  '(dired-recursive-deletes (quote top))
  '(dired-use-ls-dired nil)
- '(diredp-hide-details-initially-flag nil)
  '(fci-rule-color "#5B6268")
  '(helm-ff-newfile-prompt-p nil)
  '(helm-mini-default-sources
@@ -84,9 +83,7 @@
  '(org-startup-folded nil)
  '(org-startup-indented t)
  '(org-startup-truncated nil)
- '(package-selected-packages
-   (quote
-    (ag anzu avy company counsel diminish dockerfile-mode dumb-jump exec-path-from-shell expand-region go-mode helm ivy-rich jaword js2-mode json-mode markdown-mode mmm-mode multiple-cursors smartparens web-mode wgrep-ag yaml-mode)))
+ '(package-selected-packages (quote (use-package)))
  '(perl-continued-brace-offset -2)
  '(perl-continued-statement-offset 2)
  '(perl-indent-level 2)
@@ -140,6 +137,5 @@
 ;;; initialize
 (add-to-list 'load-path "~/.emacs.d/lisp")
 (require 'initialize)
-(require 'init24)
 (if (string-equal system-type "darwin")
     (require 'init-osx))
