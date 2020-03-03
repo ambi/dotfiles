@@ -33,10 +33,6 @@
  '(dired-recursive-deletes (quote top))
  '(dired-use-ls-dired nil)
  '(fci-rule-color "#5B6268")
- '(helm-ff-newfile-prompt-p nil)
- '(helm-mini-default-sources
-   (quote
-    (helm-source-buffers-list helm-source-files-in-current-dir helm-source-recentf helm-source-buffer-not-found)))
  '(history-length 5000)
  '(hl-sexp-background-color "#efebe9")
  '(horizontal-scroll-bar-mode nil)
@@ -45,9 +41,6 @@
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
  '(ivy-use-virtual-buffers t)
- '(jdee-db-active-breakpoint-face-colors (cons "#1B2229" "#51afef"))
- '(jdee-db-requested-breakpoint-face-colors (cons "#1B2229" "#98be65"))
- '(jdee-db-spec-breakpoint-face-colors (cons "#1B2229" "#3f444a"))
  '(js-indent-level 2)
  '(js2-auto-indent-p t)
  '(js2-basic-offset 2)

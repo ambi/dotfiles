@@ -10,6 +10,8 @@
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
+(put 'dired-find-alternate-file 'disabled nil)
+
 ;;; dabbrev
 (defadvice dabbrev-expand
     (around modify-regexp-for-japanese activate compile)
@@ -145,7 +147,10 @@
   :mode (("\\.md$" . gfm-mode)))
 
 (use-package multiple-cursors
-  :bind (("C-:" . mc/edit-lines)))
+  :bind (("C-:" . mc/edit-lines)
+         ("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)
+         ("C-C C-<" . mc/mark-all-like-this)))
 
 (use-package newcomment :ensure nil
   :bind (("C-^" . comment-region)
