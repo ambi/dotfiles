@@ -5,6 +5,7 @@ cask_args appdir: '/Applications'
 
 tap 'homebrew/bundle'
 tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
 tap 'homebrew/core'
 tap 'railwaycat/emacsmacport'
 
@@ -21,7 +22,7 @@ brew 'zsh-completions'
 brew 'zsh-syntax-highlighting'
 
 cask 'docker'
-cask 'font-cica'
+cask 'font-hackgen'
 cask 'google-chrome'
 cask 'google-japanese-ime'
 cask 'iterm2'
