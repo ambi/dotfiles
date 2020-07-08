@@ -1,12 +1,12 @@
 # dotfiles
 
 ``` shell
-# Install brew
+# Install homebrew
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-# Install packages in Brewfile
-brew bundle
+# Install ansible
+brew install ansible
 
-# Copy dotfiles
-cp -r .emacs .emacs.d .emacs.elc .gitconfig .vimrc .zshrc ~/
+# ansible-playbook
+ansible-playbook site.yml
 ```

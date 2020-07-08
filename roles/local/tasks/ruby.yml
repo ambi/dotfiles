@@ -1,0 +1,23 @@
+- block:
+  - name: check ruby version
+    shell: rbenv versions | grep {{ ruby_version }}
+    register: ruby_version_result
+    changed_when: false
+    ignore_errors: yes
+
+  - name: install ruby
+    shell: rbenv install {{ ruby_version }}
+    when: ruby_version_result is failed
+  tags: ruby_install
+
+- block:
+  - name: check global ruby version
+    shell: rbenv version | grep {{ ruby_version }}
+    register: ruby_global_version_result
+    changed_when: false
+    ignore_errors: yes
+
+  - name: set global version of ruby
+    shell: rbenv global {{ ruby_version }}
+    when: ruby_global_version_result is failed
+  tags: ruby_set_global_version

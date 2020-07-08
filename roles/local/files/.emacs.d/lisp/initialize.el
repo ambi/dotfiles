@@ -59,6 +59,12 @@
   (interactive)
   (dired (if buffer-file-name (file-name-directory buffer-file-name) "~/")))
 
+(defun dired-find-file-x ()
+  (interactive)
+  (if (file-directory-p (dired-get-filename))
+      (dired-find-alternate-file)
+    (dired-find-file)))
+
 ;;; visual-mode
 (add-hook 'visual-line-mode-hook (lambda() (setq word-wrap nil)))
 
@@ -101,7 +107,7 @@
 (use-package dired :ensure nil
   :bind (("C-x d" . dired-cd)
          :map dired-mode-map
-              ("RET" . dired-find-alternate-file)
+              ("RET" . dired-find-file-x)
               ("^" . (lambda () (interactive) (find-alternate-file "..")))
               ("C-o" . other-window)))
 

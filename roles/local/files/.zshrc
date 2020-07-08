@@ -9,7 +9,7 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 
 ## Completion
-fpath=(/usr/local/share/zsh-completions $fpath)
+fpath=(/usr/local/share/zsh-completions ~/.zfunc $fpath)
 autoload -U compinit
 compinit -u
 
@@ -47,14 +47,16 @@ PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
 ## ZLE
 bindkey "^W" kill-region
 
-## anyenv
-eval "$(anyenv init -)"
-
 ## Go
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
 
+## Python
+# eval "$(pyenv init -)"
+export PATH=$HOME/.poetry/bin:$PATH
+
 ## Ruby
-# export RBENV_ROOT=/usr/local/rbenv
-# export PATH=$RBENV_ROOT/bin:$PATH
-# eval "$(rbenv init - --no-rehash)"
+eval "$(rbenv init -)"
+
+## iTerm
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"

@@ -44,7 +44,7 @@ set wrapscan
 set autoindent
 set cindent
 set expandtab
-set shiftwidth=2    
+set shiftwidth=2
 set smarttab
 set smartindent
 set softtabstop=2
@@ -69,4 +69,3 @@ set statusline=%F%m%r%h%w\ [%{&fenc!=''?&fenc:&enc}/%{&ff}]\ %Y%=(%l,%v)\ %p%%
 " OS
 set mouse=a
 set shellslash
-

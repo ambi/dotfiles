@@ -1,0 +1,45 @@
+dotfiles:
+  - .emacs
+  - .emacs.d/lisp
+  - .emacs.elc
+  - .gitconfig
+  - .vimrc
+  - .zshrc
+homebrew_cask_packages:
+  - name: docker
+  - name: font-hackgen
+  - name: google-chrome
+  - name: google-japanese-ime
+  - name: iterm2
+  - name: steam
+  - name: thunderbird
+  - name: vagrant
+  - name: virtualbox
+  - name: visual-studio-code
+homebrew_packages:
+  - name: ansible
+  - name: bat
+  - name: clang-format
+  - name: emacs-mac
+  - name: evans
+  - name: go
+  - name: hugo
+  - name: mariadb
+  - name: massren
+  - name: node
+  # - name: pyenv
+  - name: rbenv
+  - name: rustup-init
+  - name: the_silver_searcher
+  - name: tree
+  - name: zsh-completions
+  - name: zsh-syntax-highlighting
+homebrew_taps:
+  - homebrew/bundle
+  - homebrew/cask
+  - homebrew/cask-fonts
+  - homebrew/core
+  - ktr0731/evans
+  - railwaycat/emacsmacport
+python_version: 3.8.3
+ruby_version: 2.7.1
