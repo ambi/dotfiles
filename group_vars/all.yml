@@ -6,6 +6,7 @@ dotfiles:
   - .vimrc
   - .zshrc
 homebrew_cask_packages:
+  - name: adoptopenjdk
   - name: docker
   - name: font-hackgen
   - name: google-chrome
