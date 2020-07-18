@@ -23,8 +23,8 @@ homebrew_packages:
   - name: emacs-mac
   - name: evans
   - name: go
+  - name: hadolint
   - name: hugo
-  - name: mariadb
   - name: massren
   - name: node
   # - name: pyenv
