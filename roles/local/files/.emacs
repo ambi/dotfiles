@@ -47,6 +47,7 @@
  '(js2-enter-indents-newline t)
  '(js2-indent-on-enter-key t)
  '(js2-strict-missing-semi-warning nil)
+ '(line-spacing 5)
  '(mark-even-if-inactive t)
  '(markdown-code-lang-modes
    (quote

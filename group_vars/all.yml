@@ -24,6 +24,7 @@ homebrew_packages:
   - name: emacs-mac
   - name: evans
   - name: go
+  - name: golangci/tap/golangci-lint
   - name: hadolint
   - name: hugo
   - name: massren
@@ -36,6 +37,7 @@ homebrew_packages:
   - name: zsh-completions
   - name: zsh-syntax-highlighting
 homebrew_taps:
+  - golangci/tap
   - homebrew/bundle
   - homebrew/cask
   - homebrew/cask-fonts
