@@ -18,7 +18,6 @@ homebrew_cask_packages:
   - name: virtualbox
   - name: visual-studio-code
 homebrew_packages:
-  - name: ansible
   - name: bat
   - name: clang-format
   - name: emacs-mac
@@ -30,6 +29,7 @@ homebrew_packages:
   - name: massren
   - name: node
   # - name: pyenv
+  - name: python@3.8
   - name: rbenv
   - name: rustup-init
   - name: the_silver_searcher
@@ -44,5 +44,8 @@ homebrew_taps:
   - homebrew/core
   - ktr0731/evans
   - railwaycat/emacsmacport
-python_version: 3.8.3
+python_pip_executable: pip3
+python_pip_modules:
+  - name: ansible-lint
+python_version: 3.8.5
 ruby_version: 2.7.1

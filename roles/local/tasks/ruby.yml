@@ -6,7 +6,7 @@
     ignore_errors: yes
 
   - name: install ruby
-    shell: rbenv install {{ ruby_version }}
+    command: rbenv install {{ ruby_version }}
     when: ruby_version_result is failed
   tags: ruby_install
 
@@ -18,6 +18,6 @@
     ignore_errors: yes
 
   - name: set global version of ruby
-    shell: rbenv global {{ ruby_version }}
+    command: rbenv global {{ ruby_version }}
     when: ruby_global_version_result is failed
   tags: ruby_set_global_version

@@ -7,21 +7,20 @@
 - name: homebrew tap
   homebrew_tap:
     name: '{{ item }}'
-    state: present
   with_items: '{{ homebrew_taps }}'
   tags: homebrew_tap
 
 - name: install brews
   homebrew:
     name: '{{ item.name }}'
-    state: '{{ item.state | default("present") }}'
+    state: '{{ item.state | default("latest") }}'
   with_items: '{{ homebrew_packages }}'
   tags: homebrew_brew
 
 - name: install casks
   homebrew_cask:
     name: '{{ item.name }}'
-    state: '{{ item.state | default("present") }}'
+    state: '{{ item.state | default("latest") }}'
     install_options: 'appdir=/Applications'
   with_items: '{{ homebrew_cask_packages }}'
   tags: homebrew_cask

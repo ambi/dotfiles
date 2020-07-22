@@ -7,12 +7,21 @@
 #   tags: python_set_global_version
 
 - block:
-  - shell: which poetry
+  - name: check poetry
+    command: which poetry
     register: which_poetry_result
     ignore_errors: true
     changed_when: false
 
   - name: install poetry
-    shell: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3
+    shell: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 # noqa 303
     when: which_poetry_result is failed
   tags: python_poetry_install
+
+- name: install pip modules
+  pip:
+    executable: '{{ python_pip_executable | default("pip") }}'
+    name: '{{ item.name }}'
+    state: '{{ item.state | default("latest") }}'
+  with_items: '{{ python_pip_modules }}'
+  tags: python_pip_modules

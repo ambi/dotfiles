@@ -1,5 +1,6 @@
 - name: copy dotfiles
-  copy:
-    src: "{{ item }}"
+  file:
+    src: "{{ role_path }}/files/{{ item }}"
     dest: "~/{{ item }}"
-  with_items: '{{ dotfiles }}'
+    state: link
+  with_items: "{{ dotfiles }}"
