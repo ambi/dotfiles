@@ -12,16 +12,30 @@
     register: which_poetry_result
     ignore_errors: true
     changed_when: false
+    check_mode: false
 
   - name: install poetry
     shell: curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python3 # noqa 303
     when: which_poetry_result is failed
-  tags: python_poetry_install
 
-- name: install pip modules
+  - name: get poetry completion script for zsh
+    command: poetry completions zsh
+    register: poetry_completions_zsh
+    changed_when: false
+    check_mode: false
+
+  - name: save poetry completion script for zsh
+    copy:
+      content: "{{ poetry_completions_zsh.stdout }}"
+      dest: ~/.zfunc/_poetry
+
+  tags: python_poetry
+
+- name: install pip packages
   pip:
     executable: '{{ python_pip_executable | default("pip") }}'
     name: '{{ item.name }}'
-    state: '{{ item.state | default("latest") }}'
-  with_items: '{{ python_pip_modules }}'
-  tags: python_pip_modules
+    state: '{{ item.state | default("present") }}'
+    # Pip would be changed in state=latest and check mode. So, I use state=present.
+  with_items: '{{ python_pip_packages }}'
+  tags: python_pip_packages

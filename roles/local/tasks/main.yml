@@ -6,3 +6,5 @@
   tags: python
 - import_tasks: ruby.yml
   tags: ruby
+- import_tasks: vscode.yml
+  tags: vscode

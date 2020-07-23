@@ -47,16 +47,11 @@ PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
 ## ZLE
 bindkey "^W" kill-region
 
-## Go
-export GOPATH=$HOME/go
-export PATH=$GOPATH/bin:$PATH
-
-## Python
-# eval "$(pyenv init -)"
-export PATH=$HOME/.poetry/bin:$PATH
-
-## Ruby
-eval "$(rbenv init -)"
-
 ## iTerm
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source "${HOME}/.iterm2_shell_integration.zsh"
+
+## Python (should move to .zprofile?)
+# eval "$(pyenv init -)"
+
+## Ruby (should move to .zprofile?)
+eval "$(rbenv init -)"
