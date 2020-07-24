@@ -6,4 +6,4 @@ export PATH=$GOPATH/bin:$PATH
 export PATH=$HOME/.cargo/bin:$PATH
 
 # Python (Poetry)
-export PATH="$HOME/.poetry/bin:$PATH
+export PATH=$HOME/.poetry/bin:$PATH

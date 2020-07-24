@@ -11,6 +11,7 @@ homebrew_cask_packages:
   - name: docker
   - name: font-hackgen
   - name: google-chrome
+  - name: google-cloud-sdk
   - name: google-japanese-ime
   - name: iterm2
   - name: steam
@@ -47,7 +48,9 @@ homebrew_taps:
   - railwaycat/emacsmacport
 python_pip_executable: pip3
 python_pip_packages:
+  - name: ansible
   - name: ansible-lint
+  - name: molecule[docker]
 python_version: 3.8.5
 ruby_version: 2.7.1
 vscode_extensions:
