@@ -52,9 +52,5 @@ source "${HOME}/.iterm2_shell_integration.zsh"
 ## Python (should move to .zprofile?)
 # eval "$(pyenv init -)"
 
-## Ruby (should move to .zprofile?)
-eval "$(rbenv init -)"
-
 ## Google Cloud
-source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
 source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
