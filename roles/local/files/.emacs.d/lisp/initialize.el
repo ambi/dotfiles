@@ -5,7 +5,6 @@
 (prefer-coding-system 'utf-8)
 
 (fset 'yes-or-no-p 'y-or-n-p)
-(setq ring-bell-function 'ignore)
 
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)

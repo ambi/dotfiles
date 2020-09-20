@@ -15,7 +15,6 @@ homebrew_cask_packages:
   - name: google-japanese-ime
   - name: iterm2
   - name: steam
-  - name: thunderbird
   - name: vagrant
   - name: virtualbox
   - name: visual-studio-code
@@ -25,7 +24,7 @@ homebrew_packages:
   - name: emacs-mac
   - name: evans
   - name: go
-  - name: golangci/tap/golangci-lint
+  - name: golangci-lint
   - name: hadolint
   - name: hugo
   - name: massren
@@ -39,11 +38,11 @@ homebrew_packages:
   - name: zsh-completions
   - name: zsh-syntax-highlighting
 homebrew_taps:
-  - golangci/tap
   - homebrew/bundle
   - homebrew/cask
   - homebrew/cask-fonts
   - homebrew/core
+  - homebrew/services
   - ktr0731/evans
   - railwaycat/emacsmacport
 python_pip_executable: pip3

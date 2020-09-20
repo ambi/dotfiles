@@ -1,3 +1,6 @@
+# brew
+export PATH=/usr/local/sbin:$PATH
+
 ## Go
 export GOPATH=$HOME/go
 export PATH=$GOPATH/bin:$PATH
