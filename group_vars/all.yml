@@ -50,8 +50,8 @@ python_pip_packages:
   - name: ansible
   - name: ansible-lint
   - name: molecule[docker]
-python_version: 3.8.5
-ruby_version: 2.7.1
+python_version: 3.9
+ruby_version: 2.7.2
 vscode_extensions:
   - Cardinal90.multi-cursor-case-preserve
   - golang.go
