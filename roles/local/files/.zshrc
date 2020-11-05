@@ -3,6 +3,7 @@
 ## Alias
 alias ll="ls -GlFh"
 alias ls="ls -GF"
+alias ag="ag -W 1000"
 ## Changing Directories
 setopt auto_pushd
 setopt pushd_ignore_dups

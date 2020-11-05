@@ -1,10 +1,3 @@
-# - name: install vscode
-#   homebrew_cask:
-#     name: visual-studio-code
-#     state: latest
-#     install_options: 'appdir=/Applications'
-#   tags: vscode_install
-
 - block:
   - name: list vscode extensions
     command: code --list-extensions

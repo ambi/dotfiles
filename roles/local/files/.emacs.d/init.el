@@ -72,7 +72,8 @@
  '(org-startup-folded nil)
  '(org-startup-indented t)
  '(org-startup-truncated nil)
- '(package-selected-packages '(use-package))
+ '(package-selected-packages
+   '(yaml-mode wgrep-ag web-mode undo-tree multiple-cursors markdown-mode js2-mode jaword go-mode expand-region exec-path-from-shell dumb-jump dockerfile-mode diminish counsel anzu use-package))
  '(perl-continued-brace-offset -2)
  '(perl-continued-statement-offset 2)
  '(perl-indent-level 2)

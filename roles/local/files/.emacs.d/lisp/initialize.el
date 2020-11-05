@@ -77,23 +77,21 @@
   (package-refresh-contents)
   (package-install 'use-package))
 (require 'use-package)
-(require 'use-package-ensure)
-(setq use-package-always-ensure t)
 
-(use-package anzu
+(use-package anzu :ensure t
   :bind (("M-%" . anzu-query-replace)
          ("C-M-%" . anzu-query-replace-regexp))
   :config (global-anzu-mode +1)
   :diminish anzu-mode)
 
-(use-package company
+(use-package company :ensure t
   :diminish company-mode
   :config (global-company-mode))
 
 (use-package cc-mode :ensure nil
   :mode (("\\.h$" . c++-mode))) 
 
-(use-package counsel
+(use-package counsel :ensure t
   :bind (("M-x" . counsel-M-x)
          ("C-x C-f" . counsel-find-file)
          ("C-c g" . counsel-ag)))
@@ -101,7 +99,7 @@
 (use-package desktop :ensure nil
   :config (desktop-save-mode t))
 
-(use-package diminish)
+(use-package diminish :ensure t)
 
 (use-package dired :ensure nil
   :bind (("C-x d" . dired-cd)
@@ -110,9 +108,9 @@
               ("^" . (lambda () (interactive) (find-alternate-file "..")))
               ("C-o" . other-window)))
 
-(use-package dockerfile-mode)
+(use-package dockerfile-mode :ensure t)
 
-(use-package dumb-jump)
+(use-package dumb-jump :ensure t)
 
 (use-package elec-pair :ensure nil
   :config (electric-pair-mode))
@@ -122,11 +120,11 @@
               ("C-c b" . emacs-lisp-byte-compile)
               ("C-c l" . emacs-lisp-byte-compile-and-load)))
 
-(use-package exec-path-from-shell
+(use-package exec-path-from-shell :ensure t
   :if (memq window-system '(mac ns))
   :config (exec-path-from-shell-initialize))
 
-(use-package expand-region
+(use-package expand-region :ensure t
   :bind (("C-;" . er/expand-region)
          ("C-M-;" . er/contract-region)))
 
@@ -134,24 +132,24 @@
   :bind (("C-x f" . find-file-with-coding)
          ("C-x k" . kill-current-buffer)))
 
-(use-package go-mode)
+(use-package go-mode :ensure t)
 
-(use-package jaword
+(use-package jaword :ensure t
   :init (global-jaword-mode))
 
 (use-package indent :ensure nil
   :bind (("C-c i" . indent-all)))
 
-(use-package ivy
+(use-package ivy :ensure t
   :bind (("C-z" . ivy-switch-buffer)))
 
-(use-package js2-mode
+(use-package js2-mode :ensure t
   :mode (("\\.js$" . js2-mode)))
 
-(use-package markdown-mode
+(use-package markdown-mode :ensure t
   :mode (("\\.md$" . gfm-mode)))
 
-(use-package multiple-cursors
+(use-package multiple-cursors :ensure t
   :bind (("C-:" . mc/edit-lines)
          ("C->" . mc/mark-next-like-this)
          ("C-<" . mc/mark-previous-like-this)
@@ -227,18 +225,18 @@
   (put 'if-let1 'scheme-indent-function 2)
   (put 'match 'scheme-indent-function 1))
 
-(use-package undo-tree
+(use-package undo-tree :ensure t
   :diminish undo-tree-mode
   :config (global-undo-tree-mode))
 
 (use-package uniquify :ensure nil)
 
-(use-package web-mode
+(use-package web-mode :ensure t
   :mode (("\\.html?$" . web-mode)
          ("\\.erb$" . web-mode))
   :config (setq web-mode-engines-alist '(("erb" . "\\.erb$"))))
 
-(use-package wgrep-ag)
+(use-package wgrep-ag :ensure t)
 
 (use-package window :ensure nil
   :bind (("C-7" . delete-other-windows)
@@ -247,7 +245,7 @@
          ("C-0" . delete-window)
          ("C-o" . other-window)))
 
-(use-package yaml-mode)
+(use-package yaml-mode :ensure t)
 
 (provide 'initialize)
 ;;; initialize.el ends here

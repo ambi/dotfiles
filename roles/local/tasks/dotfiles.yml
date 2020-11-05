@@ -1,3 +1,10 @@
+- name: ensure directories of dotfiles
+  file:
+    path: "~/{{ item }}"
+    state: directory
+    mode: '0755'
+  with_items: "{{ dotdirectories }}"
+
 - name: copy dotfiles
   file:
     src: "{{ role_path }}/files/{{ item }}"

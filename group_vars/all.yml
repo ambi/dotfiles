@@ -1,7 +1,11 @@
+dotdirectories:
+  - .emacs.d
+  - .config
 dotfiles:
-  - .emacs
+  - .config/bat
+  - .emacs.d/init.el
+  - .emacs.d/init.elc
   - .emacs.d/lisp
-  - .emacs.elc
   - .gitconfig
   - .vimrc
   - .zprofile
@@ -14,7 +18,7 @@ homebrew_cask_packages:
   - name: google-cloud-sdk
   - name: google-japanese-ime
   - name: iterm2
-  - name: steam
+  # - name: steam
   - name: vagrant
   - name: virtualbox
   - name: visual-studio-code
@@ -22,7 +26,6 @@ homebrew_packages:
   - name: bat
   - name: clang-format
   - name: emacs-mac
-  - name: evans
   - name: go
   - name: golangci-lint
   - name: hadolint
@@ -30,7 +33,7 @@ homebrew_packages:
   - name: massren
   - name: node
   # - name: pyenv
-  - name: python@3.8
+  - name: python
   - name: rbenv
   - name: rustup-init
   - name: the_silver_searcher
@@ -43,19 +46,15 @@ homebrew_taps:
   - homebrew/cask-fonts
   - homebrew/core
   - homebrew/services
-  - ktr0731/evans
   - railwaycat/emacsmacport
 python_pip_executable: pip3
 python_pip_packages:
   - name: ansible
-  - name: ansible-lint
-  - name: molecule[docker]
 python_version: 3.9
 ruby_version: 2.7.2
 vscode_extensions:
   - Cardinal90.multi-cursor-case-preserve
   - golang.go
-  - hashicorp.terraform
   - ionutvmi.path-autocomplete
   - jebbs.plantuml
   - lextudio.restructuredtext
@@ -64,7 +63,6 @@ vscode_extensions:
   - ms-python.python
   - ms-vscode.cpptools
   - rebornix.ruby
-  - rust-lang.rust
   - sgryjp.japanese-word-handler
   - wingrunr21.vscode-ruby
   - yeannylam.recenter-top-bottom

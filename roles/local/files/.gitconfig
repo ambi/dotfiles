@@ -2,4 +2,4 @@
 	name = tn
 	email = prtnog@gmail.com
 [alias]
-	co = checkout
+  co = checkout
