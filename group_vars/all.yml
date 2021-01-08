@@ -15,7 +15,7 @@ homebrew_cask_packages:
   - name: docker
   - name: font-hackgen
   - name: google-chrome
-  - name: google-cloud-sdk
+  # - name: google-cloud-sdk
   - name: google-japanese-ime
   - name: iterm2
   # - name: steam

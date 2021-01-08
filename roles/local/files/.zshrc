@@ -52,6 +52,3 @@ source "${HOME}/.iterm2_shell_integration.zsh"
 
 ## Python (should move to .zprofile?)
 # eval "$(pyenv init -)"
-
-## Google Cloud
-source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
