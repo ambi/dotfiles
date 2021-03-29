@@ -1,2 +1,3 @@
 --style=plain
 --theme=ansi-light
+--wrap=character
