@@ -48,7 +48,7 @@ PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
 bindkey "^W" kill-region
 
 ## iTerm
-source "${HOME}/.iterm2_shell_integration.zsh"
+# source "${HOME}/.iterm2_shell_integration.zsh"
 
 ## Python (should move to .zprofile?)
 # eval "$(pyenv init -)"

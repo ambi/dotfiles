@@ -11,16 +11,15 @@ dotfiles:
   - .zprofile
   - .zshrc
 homebrew_cask_packages:
-  - name: adoptopenjdk
+  # - name: adoptopenjdk
   - name: docker
   - name: font-hackgen
   - name: google-chrome
-  # - name: google-cloud-sdk
   - name: google-japanese-ime
   - name: iterm2
   # - name: steam
-  - name: vagrant
-  - name: virtualbox
+  # - name: vagrant
+  # - name: virtualbox
   - name: visual-studio-code
 homebrew_packages:
   - name: bat
@@ -32,10 +31,7 @@ homebrew_packages:
   - name: hugo
   - name: massren
   - name: node
-  # - name: pyenv
-  - name: python
   - name: rbenv
-  - name: rustup-init
   - name: the_silver_searcher
   - name: tree
   - name: zsh-completions
@@ -57,14 +53,8 @@ vscode_extensions:
   - golang.go
   - ionutvmi.path-autocomplete
   - jebbs.plantuml
-  - lextudio.restructuredtext
-  - ms-azuretools.vscode-docker
-  - ms-pyright.pyright
-  - ms-python.python
   - ms-vscode.cpptools
-  - rebornix.ruby
   - sgryjp.japanese-word-handler
-  - wingrunr21.vscode-ruby
   - yeannylam.recenter-top-bottom
   - yzhang.markdown-all-in-one
   - zxh404.vscode-proto3

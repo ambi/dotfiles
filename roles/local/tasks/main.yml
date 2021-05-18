@@ -2,9 +2,9 @@
   tags: dotfiles
 - import_tasks: homebrew.yml
   tags: homebrew
-- import_tasks: python.yml
-  tags: python
-- import_tasks: ruby.yml
-  tags: ruby
+#- import_tasks: python.yml
+#  tags: python
+#- import_tasks: ruby.yml
+#  tags: ruby
 - import_tasks: vscode.yml
   tags: vscode
