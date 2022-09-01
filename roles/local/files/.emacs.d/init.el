@@ -9,6 +9,8 @@
  '(ag-highlight-search t)
  '(ansi-color-faces-vector
    [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#2e3436" "#a40000" "#4e9a06" "#c4a000" "#204a87" "#5c3566" "#729fcf" "#eeeeec"])
  '(c-offsets-alist '((inextern-lang . 0) (innamespace . 0)))
  '(column-number-mode t)
  '(company-dabbrev-char-regexp "[a-zA-Z_0-9]")
@@ -17,9 +19,7 @@
  '(completion-ignored-extensions
    '(".o" "~" ".bin" ".lbin" ".so" ".a" ".ln" ".blg" ".bbl" ".elc" ".lof" ".glo" ".idx" ".lot" ".svn/" ".hg/" ".git/" ".bzr/" "CVS/" "_darcs/" "_MTN/" ".fmt" ".tfm" ".class" ".fas" ".lib" ".mem" ".x86f" ".sparcf" ".dfsl" ".pfsl" ".d64fsl" ".p64fsl" ".lx64fsl" ".lx32fsl" ".dx64fsl" ".dx32fsl" ".fx64fsl" ".fx32fsl" ".sx64fsl" ".sx32fsl" ".wx64fsl" ".wx32fsl" ".fasl" ".ufsl" ".fsl" ".dxl" ".lo" ".la" ".gmo" ".mo" ".toc" ".aux" ".cp" ".fn" ".ky" ".pg" ".tp" ".vr" ".cps" ".fns" ".kys" ".pgs" ".tps" ".vrs" ".pyc" ".pyo" ".DS_Store"))
  '(css-indent-offset 2)
- '(custom-enabled-themes '(tango))
- '(custom-safe-themes
-   '("3bc187cd480ad79f151b593f7cb7d4ad869b19741247589238c353f637e7fb21" "fa2af0c40576f3bde32290d7f4e7aa865eb6bf7ebe31eb9e37c32aa6f4ae8d10" "6b2636879127bf6124ce541b1b2824800afc49c6ccd65439d6eb987dbf200c36" "7485c473334e95534b8aaa238bf6d4b7a12777a6bd3cc14d78b627d806e745c9" "75cd4234cc08d4ccf3ddef8fb763b9e145d4e68d3c938a3502d892c72f71e007" "82d2cac368ccdec2fcc7573f24c3f79654b78bf133096f9b40c20d97ec1d8016" "0ec59d997a305e938d9ec8f63263a8fc12e17990aafc36ff3aff9bc5c5a202f0" "2e5705ad7ee6cfd6ab5ce81e711c526ac22abed90b852ffaf0b316aa7864b11f" default))
+ '(custom-enabled-themes '(tsdh-dark))
  '(dabbrev-case-replace nil)
  '(desktop-globals-to-save
    '(desktop-missing-file-warning tags-file-name tags-table-list search-ring regexp-search-ring register-alist file-name-history command-history extended-command-history))
@@ -34,6 +34,7 @@
  '(hl-sexp-background-color "#efebe9")
  '(horizontal-scroll-bar-mode nil)
  '(indent-tabs-mode nil)
+ '(indicate-empty-lines t)
  '(inferior-lisp-program "/usr/local/bin/sbcl" t)
  '(inhibit-startup-screen t)
  '(initial-scratch-message nil)
@@ -66,8 +67,8 @@
    '("%e" mode-line-front-space mode-line-mule-info mode-line-client mode-line-modified mode-line-remote mode-line-frame-identification mode-line-buffer-identification " " mode-line-position
      (vc-mode vc-mode)
      " " mode-line-modes mode-line-misc-info " " buffer-file-name mode-line-end-spaces))
- '(ns-alternate-modifier 'super t)
- '(ns-command-modifier 'meta t)
+ '(ns-alternate-modifier 'super)
+ '(ns-command-modifier 'meta)
  '(org-level-color-stars-only t)
  '(org-startup-folded nil)
  '(org-startup-indented t)
@@ -85,8 +86,10 @@
  '(scheme-program-name "gosh -i")
  '(select-enable-clipboard t)
  '(show-paren-mode t)
+ '(show-trailing-whitespace t)
  '(tab-width 2)
  '(tool-bar-mode nil)
+ '(undo-tree-auto-save-history nil)
  '(uniquify-buffer-name-style 'post-forward-angle-brackets nil (uniquify))
  '(vc-annotate-background "#282c34")
  '(vc-annotate-color-map
@@ -121,8 +124,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(mouse ((t (:background "black"))))
  '(org-table ((t (:foreground "dark gray"))))
  '(region ((t (:background "gray74")))))
+
+(setq nobreak-char-display nil)
 
 ;;; initialize
 (add-to-list 'load-path "~/.emacs.d/lisp")

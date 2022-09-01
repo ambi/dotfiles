@@ -2,6 +2,7 @@
 
 ;;; Font
 (set-face-attribute 'default nil :family "HackGen" :height 150)
+(set-face-attribute 'mode-line nil :family "HackGen")
 
 (setq-default line-spacing 3)
 
