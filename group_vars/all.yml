@@ -1,48 +1,11 @@
 dotdirectories:
-  - .emacs.d
   - .config
 dotfiles:
   - .config/bat
-  - .emacs.d/init.el
-  - .emacs.d/init.elc
-  - .emacs.d/lisp
   - .gitconfig
   - .vimrc
   - .zprofile
   - .zshrc
-homebrew_cask_packages:
-  # - name: adoptopenjdk
-  - name: docker
-  - name: font-hackgen
-  - name: google-chrome
-  - name: google-japanese-ime
-  - name: iterm2
-  # - name: steam
-  # - name: vagrant
-  # - name: virtualbox
-  - name: visual-studio-code
-homebrew_packages:
-  - name: bat
-  - name: clang-format
-  - name: emacs-mac
-  - name: go
-  - name: golangci-lint
-  - name: hadolint
-  - name: hugo
-  - name: massren
-  - name: node
-  - name: rbenv
-  - name: the_silver_searcher
-  - name: tree
-  - name: zsh-completions
-  - name: zsh-syntax-highlighting
-homebrew_taps:
-  - homebrew/bundle
-  - homebrew/cask
-  - homebrew/cask-fonts
-  - homebrew/core
-  - homebrew/services
-  - railwaycat/emacsmacport
 python_pip_executable: pip3
 python_pip_packages:
   - name: ansible
