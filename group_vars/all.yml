@@ -9,8 +9,8 @@ dotfiles:
 python_pip_executable: pip3
 python_pip_packages:
   - name: ansible
-python_version: 3.9
-ruby_version: 2.7.2
+python_version: 3.10
+ruby_version: 3.2.0
 vscode_extensions:
   - Cardinal90.multi-cursor-case-preserve
   - golang.go
