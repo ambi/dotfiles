@@ -1,34 +1,62 @@
-tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
-tap "homebrew/services"
-brew "bat"
-brew "clang-format"
-brew "node"
-brew "corepack"
-brew "go"
-brew "golangci-lint"
-brew "hadolint"
-brew "hugo"
-brew "libavif"
-brew "massren"
-brew "mysql"
-brew "p7zip"
-brew "protobuf"
-brew "python"
-brew "rbenv"
-brew "rustup-init"
-brew "the_silver_searcher"
-brew "tree"
-brew "zsh-completions"
-brew "zsh-syntax-highlighting"
-cask "docker", args: { appdir: "/Applications" }
-cask "dotnet-sdk"
-cask "font-hackgen", args: { appdir: "/Applications" }
-cask "google-chrome", args: { appdir: "/Applications" }
-cask "google-japanese-ime", args: { appdir: "/Applications" }
-cask "iterm2", args: { appdir: "/Applications" }
-cask "rar"
-cask "visual-studio-code", args: { appdir: "/Applications" }
-cask "vlc"
+tap 'homebrew/bundle'
+tap 'homebrew/cask'
+tap 'homebrew/cask-fonts'
+tap 'homebrew/core'
+tap 'homebrew/services'
+brew 'bat'
+brew 'clang-format'
+brew 'node'
+brew 'corepack'
+brew 'deno'
+brew 'gmp'
+brew 'go'
+brew 'golangci-lint'
+brew 'hadolint'
+brew 'hugo'
+brew 'massren'
+brew 'p7zip'
+brew 'python@3.11'
+brew 'rbenv'
+brew 'ripgrep'
+brew 'rustup-init'
+brew 'tree'
+brew 'zsh-completions'
+brew 'zsh-syntax-highlighting'
+cask 'docker', args: { appdir: '/Applications' }
+cask 'dotnet-sdk'
+cask 'flutter'
+cask 'font-hackgen', args: { appdir: '/Applications' }
+cask 'google-chrome', args: { appdir: '/Applications' }
+cask 'google-japanese-ime', args: { appdir: '/Applications' }
+cask 'iterm2', args: { appdir: '/Applications' }
+cask 'rar'
+cask 'visual-studio-code', args: { appdir: '/Applications' }
+cask 'vlc'
+vscode 'Asuka.insertnumbers'
+vscode 'bierner.markdown-mermaid'
+vscode 'bpruitt-goddard.mermaid-markdown-syntax-highlighting'
+vscode 'Cardinal90.multi-cursor-case-preserve'
+vscode 'Dart-Code.dart-code'
+vscode 'Dart-Code.flutter'
+vscode 'dbaeumer.vscode-eslint'
+vscode 'fwcd.kotlin'
+vscode 'golang.go'
+vscode 'ionutvmi.path-autocomplete'
+vscode 'jebbs.plantuml'
+vscode 'marp-team.marp-vscode'
+vscode 'mikestead.dotenv'
+vscode 'ms-azuretools.vscode-docker'
+vscode 'ms-dotnettools.csharp'
+vscode 'ms-python.python'
+vscode 'ms-vscode.cmake-tools'
+vscode 'ms-vscode.cpptools'
+vscode 'ms-vscode.cpptools-extension-pack'
+vscode 'ms-vscode.cpptools-themes'
+vscode 'Prisma.prisma'
+vscode 'rebornix.ruby'
+vscode 'sgryjp.japanese-word-handler'
+vscode 'twxs.cmake'
+vscode 'wingrunr21.vscode-ruby'
+vscode 'yeannylam.recenter-top-bottom'
+vscode 'yzhang.markdown-all-in-one'
+vscode 'zxh404.vscode-proto3'

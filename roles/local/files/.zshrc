@@ -3,7 +3,7 @@
 ## Alias
 alias ll="ls -GlFh"
 alias ls="ls -GF"
-alias ag="ag -W 1000"
+alias rg="rg -M 1000 --max-columns-preview"
 ## Changing Directories
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -49,6 +49,3 @@ bindkey "^W" kill-region
 
 ## iTerm
 # source "${HOME}/.iterm2_shell_integration.zsh"
-
-## Python (should move to .zprofile?)
-# eval "$(pyenv init -)"
