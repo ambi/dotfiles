@@ -3,7 +3,6 @@ tap "homebrew/cask"
 tap "homebrew/cask-fonts"
 tap "homebrew/core"
 tap "homebrew/services"
-tap "railwaycat/emacsmacport"
 brew "bat"
 brew "clang-format"
 brew "go"
@@ -12,20 +11,21 @@ brew "hadolint"
 brew "hugo"
 brew "massren"
 brew "node"
-brew "python@3.9"
+brew "p7zip"
+brew "python@3.12"
 brew "rbenv"
+brew "ripgrep"
 brew "rustup-init"
-brew "the_silver_searcher"
 brew "tree"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
-brew "railwaycat/emacsmacport/emacs-mac"
-cask "adoptopenjdk"
-cask "docker"
-cask "font-hackgen"
-cask "google-chrome"
+cask "docker", args: { appdir: "/Applications" }
+cask "dotnet-sdk"
+cask "font-hackgen", args: { appdir: "/Applications" }
+cask "google-chrome", args: { appdir: "/Applications" }
 cask "google-japanese-ime"
-cask "iterm2"
-cask "vagrant"
-cask "virtualbox"
-cask "visual-studio-code"
+cask "iterm2", args: { appdir: "/Applications" }
+cask "steam", args: { appdir: "/Applications" }
+cask "vagrant", args: { appdir: "/Applications" }
+cask "virtualbox", args: { appdir: "/Applications" }
+cask "visual-studio-code", args: { appdir: "/Applications" }

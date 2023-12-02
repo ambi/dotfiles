@@ -1,36 +1,33 @@
 # dotfiles
 
-## Apply
+## Homebrew
 
-``` shell
-# Install homebrew
+```shell
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+brew bundle #  --force cleanup
+```
 
-# Install ansible
-brew install python
-pip3 install ansible
+## Copy dotfiles
 
-# ansible-playbook
-ansible-playbook site.yml
+```shell
+ln -s ~/src/dotfiles/files/.config/bat ~/.config/bat
+ln -s  ~/src/dotfiles/files/.gemrc ~/.gemrc
+ln -s  ~/src/dotfiles/files/.gitconfig ~/.gitconfig
+ln -s  ~/src/dotfiles/files/.vimrc ~/.vimrc
+ln -s  ~/src/dotfiles/files/.zprofile ~/.zprofile
+ln -s  ~/src/dotfiles/files/.zshrc ~/.zshrc
 ```
 
 ## VSCode Settings
 
 On Mac:
-``` shell
+```shell
 cp vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 cp vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
 ```
 
-## Uninstall unused brew packages
+## Update Brewfile
 
-``` shell
-# `brew bundle dump` generates Brewfile, and ...
-brew bundle --force cleanup
-```
-
-## apply lint
-
-``` shell
-ansible-lint site.yml
+```shell
+brew bundle dump # --force
 ```
