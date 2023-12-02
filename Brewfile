@@ -5,12 +5,14 @@ tap "homebrew/core"
 tap "homebrew/services"
 brew "bat"
 brew "clang-format"
+brew "node"
+brew "corepack"
+brew "deno"
 brew "go"
 brew "golangci-lint"
 brew "hadolint"
 brew "hugo"
 brew "massren"
-brew "node"
 brew "p7zip"
 brew "python@3.12"
 brew "rbenv"
@@ -21,11 +23,24 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 cask "docker", args: { appdir: "/Applications" }
 cask "dotnet-sdk"
+cask "flutter"
 cask "font-hackgen", args: { appdir: "/Applications" }
 cask "google-chrome", args: { appdir: "/Applications" }
 cask "google-japanese-ime"
 cask "iterm2", args: { appdir: "/Applications" }
+cask "rar"
 cask "steam", args: { appdir: "/Applications" }
 cask "vagrant", args: { appdir: "/Applications" }
 cask "virtualbox", args: { appdir: "/Applications" }
 cask "visual-studio-code", args: { appdir: "/Applications" }
+vscode "Cardinal90.multi-cursor-case-preserve"
+vscode "golang.go"
+vscode "ionutvmi.path-autocomplete"
+vscode "jebbs.plantuml"
+vscode "mathiasfrohlich.Kotlin"
+vscode "ms-azuretools.vscode-docker"
+vscode "ms-python.python"
+vscode "ms-vscode.cpptools"
+vscode "sgryjp.japanese-word-handler"
+vscode "yeannylam.recenter-top-bottom"
+vscode "yzhang.markdown-all-in-one"
