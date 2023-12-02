@@ -1,19 +1,30 @@
 {
     "C_Cpp.clang_format_fallbackStyle": "Google",
     "C_Cpp.clang_format_style": "Google",
+    "csharp.referencesCodeLens.enabled": false,
     "editor.fontFamily": "HackGen",
     "editor.fontSize": 14,
     "editor.formatOnSave": true,
     "editor.minimap.enabled": false,
-    "editor.suggest.statusBar.visible": true,
+    "editor.stickyScroll.enabled": true,
     "editor.tabCompletion": "on",
     "editor.tabSize": 2,
     "editor.wordWrapColumn": 120,
     "files.trimTrailingWhitespace": true,
+    "git.path": "/usr/bin/git",
     "go.formatTool": "goimports",
+    "go.lintTool": "golangci-lint",
     "go.useLanguageServer": true,
-    "workbench.editor.enablePreviewFromQuickOpen": false,
-    "window.zoomLevel": 0,
-    "workbench.colorTheme": "Quiet Light",
-    "go.lintTool": "golangci-lint"
+    "go.toolsManagement.autoUpdate": true,
+    "ruby.format": "rubocop",
+    "ruby.lint": {
+        "rubocop": {
+            "useBundler": true
+        }
+    },
+    "ruby.useBundler": true,
+    "ruby.useLanguageServer": true,
+    "window.zoomLevel": 1,
+    "window.newWindowDimensions": "inherit",
+    "workbench.editor.enablePreviewFromQuickOpen": false
 }

@@ -1,3 +1,4 @@
+--pager="less -RFX"
 --style=plain
---theme=ansi-light
+--theme=ansi
 --wrap=character

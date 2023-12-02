@@ -3,7 +3,7 @@
 ## Alias
 alias ll="ls -GlFh"
 alias ls="ls -GF"
-alias ag="ag -W 1000"
+alias rg="rg -M 1000 --max-columns-preview"
 ## Changing Directories
 setopt auto_pushd
 setopt pushd_ignore_dups
@@ -48,4 +48,4 @@ PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
 bindkey "^W" kill-region
 
 ## iTerm
-source "${HOME}/.iterm2_shell_integration.zsh"
+# source "${HOME}/.iterm2_shell_integration.zsh"
