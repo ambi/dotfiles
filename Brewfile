@@ -1,7 +1,4 @@
 tap "homebrew/bundle"
-tap "homebrew/cask"
-tap "homebrew/cask-fonts"
-tap "homebrew/core"
 tap "homebrew/services"
 brew "bat"
 brew "clang-format"
@@ -17,7 +14,7 @@ brew "p7zip"
 brew "python@3.11"
 brew "rbenv"
 brew "ripgrep"
-brew "rustup-init"
+brew "rustup"
 brew "tree"
 brew "zsh-completions"
 brew "zsh-syntax-highlighting"
@@ -26,19 +23,21 @@ cask "dotnet-sdk"
 cask "flutter"
 cask "font-hackgen", args: { appdir: "/Applications" }
 cask "google-chrome", args: { appdir: "/Applications" }
-cask "google-japanese-ime"
 cask "iterm2", args: { appdir: "/Applications" }
 cask "rar"
 cask "steam", args: { appdir: "/Applications" }
-cask "vagrant", args: { appdir: "/Applications" }
-cask "virtualbox", args: { appdir: "/Applications" }
 cask "visual-studio-code", args: { appdir: "/Applications" }
-vscode "Cardinal90.multi-cursor-case-preserve"
+vscode "bierner.markdown-mermaid"
+vscode "biomejs.biome"
+vscode "cardinal90.multi-cursor-case-preserve"
+vscode "denoland.vscode-deno"
 vscode "golang.go"
 vscode "ionutvmi.path-autocomplete"
 vscode "jebbs.plantuml"
-vscode "mathiasfrohlich.Kotlin"
+vscode "mathiasfrohlich.kotlin"
 vscode "ms-azuretools.vscode-docker"
+vscode "ms-dotnettools.csharp"
+vscode "ms-dotnettools.vscode-dotnet-runtime"
 vscode "ms-python.python"
 vscode "ms-vscode.cpptools"
 vscode "sgryjp.japanese-word-handler"
