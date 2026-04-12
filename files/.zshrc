@@ -9,9 +9,11 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 
 ## Completion
-fpath=(/usr/local/share/zsh-completions ~/.zfunc $fpath)
+fpath=(/usr/local/share/zsh-completions ~/.docker/completions ~/.zfunc $fpath)
 autoload -U compinit
 compinit -u
+
+eval "$(uv generate-shell-completion zsh)"
 
 ## Expansion and Globbing
 # Filename expansion after "="
@@ -46,6 +48,3 @@ PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
 
 ## ZLE
 bindkey "^W" kill-region
-
-## iTerm
-# source "${HOME}/.iterm2_shell_integration.zsh"

@@ -12,6 +12,8 @@ brew bundle #  --force cleanup
 
 ```shell
 ln -s ~/src/dotfiles/files/.config/bat ~/.config/bat
+ln -s ~/src/dotfiles/files/.config/ghostty ~/.config/ghostty
+ln -s ~/src/dotfiles/files/.config/yazi ~/.config/yazi
 ln -s  ~/src/dotfiles/files/.gemrc ~/.gemrc
 ln -s  ~/src/dotfiles/files/.gitconfig ~/.gitconfig
 ln -s  ~/src/dotfiles/files/.vimrc ~/.vimrc
@@ -22,6 +24,7 @@ ln -s  ~/src/dotfiles/files/.zshrc ~/.zshrc
 ## VSCode Settings
 
 On Mac:
+
 ```shell
 cp vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
 cp vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
@@ -30,5 +33,5 @@ cp vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.
 ## Update Brewfile
 
 ```shell
-brew bundle dump # --force
+brew bundle dump --force
 ```
