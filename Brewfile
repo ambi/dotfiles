@@ -1,17 +1,14 @@
 tap "oven-sh/bun"
 brew "bat"
 brew "clang-format"
-brew "deno"
 brew "dust"
 brew "go"
 brew "golangci-lint"
 brew "hadolint"
 brew "hugo"
-brew "node"
 brew "p7zip"
 brew "ripgrep"
 brew "rustup"
-brew "tmux"
 brew "uv"
 brew "valkey"
 brew "yazi"
@@ -23,7 +20,6 @@ cask "claude-code"
 cask "docker-desktop", args: { appdir: "/Applications" }
 cask "dotnet-sdk"
 cask "font-hackgen", args: { appdir: "/Applications" }
-cask "ghostty"
 cask "google-chrome", args: { appdir: "/Applications" }
 cask "iterm2", args: { appdir: "/Applications" }
 cask "steam", args: { appdir: "/Applications" }
