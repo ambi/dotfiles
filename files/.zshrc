@@ -9,7 +9,7 @@ setopt auto_pushd
 setopt pushd_ignore_dups
 
 ## Completion
-fpath=(/usr/local/share/zsh-completions ~/.docker/completions ~/.zfunc $fpath)
+fpath=(/opt/homebrew/share/zsh-completions ~/.docker/completions ~/.zfunc $fpath)
 autoload -U compinit
 compinit -u
 
