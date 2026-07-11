@@ -1,8 +1,9 @@
 ### zsh
 
 ## Alias
-alias ll="ls -GlFh"
-alias ls="ls -GF"
+alias ls='eza --icons --group-directories-first'
+alias ll='eza -la --icons --group-directories-first --git'
+alias lt='eza --tree --level=2 --icons'
 alias rg="rg -M 1000 --max-columns-preview"
 ## Changing Directories
 setopt auto_pushd
@@ -11,9 +12,16 @@ setopt pushd_ignore_dups
 ## Completion
 fpath=(/opt/homebrew/share/zsh-completions ~/.docker/completions ~/.zfunc $fpath)
 autoload -U compinit
-compinit -u
+# Use cached completion dump if it exists and is less than 24 hours old, otherwise create a new one
+if [[ -n ${ZDOTDIR:-$HOME}/.zcompdump(#qN.mh+24) ]]; then
+  compinit -u
+else
+  compinit -uC
+fi
 
 eval "$(uv generate-shell-completion zsh)"
+
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 ## Expansion and Globbing
 # Filename expansion after "="
@@ -43,8 +51,14 @@ zstyle ':vcs_info:git:*' unstagedstr "%F{red}+"
 zstyle ':vcs_info:*' formats "%F{green}%c%u[%b]%f"
 zstyle ':vcs_info:*' actionformats '[%b|%a]'
 precmd () { vcs_info }
-PROMPT='%F{yellow}%m%f %B%/%b ${vcs_info_msg_0_}
+PROMPT='%B%/%b ${vcs_info_msg_0_}
 %B%#%b '
 
 ## ZLE
 bindkey "^W" kill-region
+
+## zoxide
+eval "$(zoxide init zsh)"
+
+## zsh-syntax-highlighting (MUST be last)
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh

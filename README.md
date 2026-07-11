@@ -21,6 +21,13 @@ ln -s  ~/src/dotfiles/files/.zprofile ~/.zprofile
 ln -s  ~/src/dotfiles/files/.zshrc ~/.zshrc
 ```
 
+## Docker Compose
+
+```shell
+mkdir -p ~/.docker/cli-plugins
+ln -s $(brew --prefix docker-compose)/bin/docker-compose ~/.docker/cli-plugins/docker-compose
+```
+
 ## VSCode Settings
 
 On Mac:
