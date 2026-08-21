@@ -1,9 +1,4 @@
-## brew
-eval "$({{ .brewPrefix }}/bin/brew shellenv)"
-
-## local
-export PATH=~/.local/bin:$PATH
-{{ if .proxy }}
+{{ if .proxy -}}
 ## proxy
 export http_proxy={{ .proxy | quote }}
 export https_proxy={{ .proxy | quote }}

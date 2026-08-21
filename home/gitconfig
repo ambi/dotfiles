@@ -1,0 +1,8 @@
+[alias]
+  co = checkout
+[init]
+  defaultBranch = main
+# マシン固有値 (user / ghq.root / proxy) は chezmoi がここに生成する。
+# 存在しない include は git が黙って無視するので、未生成でも安全。
+[include]
+  path = ~/.gitconfig.local

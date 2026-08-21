@@ -1,0 +1,27 @@
+{
+  // chezmoi のソースは dot_ 接頭辞と .tmpl 接尾辞が付くため、VS Code が
+  // 言語を判定できず色付けされない。拡張子で判定できるものは除き、
+  // 判定できないものだけをここで対応付ける。
+  "files.associations": {
+    // シェル
+    // symlink_dot_* が指す実体。拡張子が無いので判定できない。
+    "zshrc": "shellscript",
+    "zprofile": "shellscript",
+    "dot_zprofile.local.tmpl": "shellscript",
+    "*.sh.tmpl": "shellscript",
+    // modify_ は「現在の内容を stdin で受けて新しい内容を stdout に出す」
+    // シェルスクリプト。名前に .json が入るが中身は shell。
+    "modify_*": "shellscript",
+
+    // chezmoi 自身の特殊ファイル
+    "*.toml.tmpl": "toml",
+    ".chezmoiignore": "ignore",
+
+    // その他
+    "gitconfig": "properties",
+    "dot_gitconfig.local.tmpl": "properties",
+    "dot_gemrc*": "yaml",
+    "**/git/ignore": "ignore",
+    "**/bat/config": "properties"
+  }
+}

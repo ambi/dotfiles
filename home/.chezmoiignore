@@ -3,3 +3,12 @@
 Library/
 .config/karabiner/
 {{ end }}
+
+{{- /*
+   以下は ~/ に配置するファイルではなく、symlink_dot_* が指す実体。
+   symlink にすることで、インストーラの `>> ~/.zshrc` や
+   `git config --global` がリポジトリに直接書き戻る。
+*/}}
+zshrc
+zprofile
+gitconfig
