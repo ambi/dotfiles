@@ -1,14 +1,21 @@
 #!/bin/sh
 # ~/.claude/settings.json は Claude Code 自身が書き換える（/config やテーマ変更）。
-# symlink 運用ではその都度壊れて貼り直しが必要だったので、modify_ スクリプトにする。
+# symlink 運用ではその都度リンクが壊れて貼り直しが必要だったので modify_ にする。
 #
 # modify_ は「現在のファイル内容を stdin で受け取り、新しい内容を stdout に出す」。
-# よって管理対象のキーだけを上書きし、Claude Code が書いた theme / tui は素通しできる。
-# --slurp + `.[0] // {}` は初回（ファイル未存在 = stdin が空）で jq が落ちないようにするため。
-exec jq -S --slurp '(.[0] // {})
-  | .permissions = {"allow": ["WebFetch(domain:repo1.maven.org)"], "defaultMode": "auto"}
-  | .model = "opus"
-  | .effortLevel = "high"
-  | .enabledPlugins = {"feature-dev@claude-plugins-official": false, "frontend-design@claude-plugins-official": true, "gopls-lsp@claude-plugins-official": false, "stitch-design@google-labs-code-stitch-skills": true, "stitch-utilities@google-labs-code-stitch-skills": true, "stitch-build@google-labs-code-stitch-skills": true}
-  | .statusLine = {"type":"command","command":"bash {{ .chezmoi.homeDir }}/.claude/statusline-command.sh"}
-'
+# jq の `+` は浅いマージで右辺が勝つので、管理キーだけを固定し、
+# Claude Code が書いた theme / tui などは素通しできる。
+set -eu
+
+# 管理するキー。ここが唯一の定義で、jq が無い場合のフォールバックからも参照する。
+MANAGED='{"permissions":{"allow":["WebFetch(domain:repo1.maven.org)"],"defaultMode":"auto"},"model":"opus","effortLevel":"high","enabledPlugins":{"feature-dev@claude-plugins-official":false,"frontend-design@claude-plugins-official":true,"gopls-lsp@claude-plugins-official":false,"stitch-design@google-labs-code-stitch-skills":true,"stitch-utilities@google-labs-code-stitch-skills":true,"stitch-build@google-labs-code-stitch-skills":true},"statusLine":{"type":"command","command":"bash {{ .chezmoi.homeDir }}/.claude/statusline-command.sh"}}'
+
+# jq が無い環境（新マシンで Brewfile 適用前、Linux など）でも apply 全体を
+# 落とさない。既存の内容があればそのまま返し、無ければ管理キーのみを出力する。
+if ! command -v jq >/dev/null 2>&1; then
+    input=$(cat)
+    if [ -n "$input" ]; then printf '%s' "$input"; else printf '%s\n' "$MANAGED"; fi
+    exit 0
+fi
+
+exec jq -S --slurp --argjson managed "$MANAGED" '(.[0] // {}) + $managed'
