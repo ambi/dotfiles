@@ -1,0 +1,58 @@
+{
+    "C_Cpp.clang_format_fallbackStyle": "Google",
+    "C_Cpp.clang_format_style": "Google",
+    "editor.fontFamily": "HackGen",
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.tabCompletion": "on",
+    "editor.tabSize": 2,
+    "editor.wordWrapColumn": 120,
+    "files.trimTrailingWhitespace": true,
+    "go.formatTool": "goimports",
+    "go.useLanguageServer": true,
+    "workbench.editor.enablePreviewFromQuickOpen": false,
+    "go.lintTool": "golangci-lint",
+    "window.zoomLevel": 1,
+    "terminal.integrated.fontSize": 14,
+    "[markdown]": {
+        "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+    },
+    "go.toolsManagement.autoUpdate": true,
+    "continue.telemetryEnabled": false,
+    "dotnetAcquisitionExtension.enableTelemetry": false,
+    "telemetry.telemetryLevel": "off",
+    "editor.wordWrap": "on",
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "[typescript]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "biomejs.biome"
+    },
+    "geminicodeassist.project": "",
+    "geminicodeassist.inlineSuggestions.enableAuto": false,
+    "biome.searchInPath": false,
+    "docker.extension.dockerEngineAvailabilityPrompt": false,
+    "telemetry.feedback.enabled": false,
+    "docker.lsp.telemetry": "off",
+    "editor.accessibilitySupport": "off",
+    "plantuml.server": "https://www.plantuml.com/plantuml",
+    "json.schemaDownload.trustedDomains": {
+        "https://schemastore.azurewebsites.net/": true,
+        "https://raw.githubusercontent.com/": true,
+        "https://www.schemastore.org/": true,
+        "https://json.schemastore.org/": true,
+        "https://json-schema.org/": true,
+        "https://biomejs.dev": true
+    },
+    "claudeCode.preferredLocation": "panel",
+    "chat.viewSessions.orientation": "stacked",
+    "files.associations": {
+        "**/ghostty/config": "ini"
+    },
+    "markdown.extension.tableFormatter.delimiterRowNoPadding": true,
+    "markdown.extension.tableFormatter.normalizeIndentation": true,
+    "markdown.extension.tableFormatter.enabled": false,
+    "markdown.preview.breaks": true
+}
