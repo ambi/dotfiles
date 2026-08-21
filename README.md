@@ -74,7 +74,7 @@ chezmoi は**実ファイル**を配置する（symlink ではない）。
 `~/.claude` は履歴やセッションなどの状態も持つため、ディレクトリごとではなく個別に管理する。
 
 - `home/dot_agents/skills/` … 自作の skill の実体。`~/.agents/skills` に配置される
-- `home/.chezmoiexternal.toml.tmpl` … 外部リポジトリから取得する skill の宣言。[mattpocock/skills](https://github.com/mattpocock/skills) は commit、[yusukebe/ax](https://github.com/yusukebe/ax) は CLI と歩調を合わせてタグでピン留めする。更新は該当のピンを差し替えて `chezmoi -R apply`
+- `home/.chezmoiexternal.toml.tmpl` … 外部リポジトリから取得する skill の宣言。[mattpocock/skills](https://github.com/mattpocock/skills) は commit でピン留めし（更新は `$ref` を差し替える）、[yusukebe/ax](https://github.com/yusukebe/ax) は `main` を追う。いずれも `chezmoi -R apply` で取得し直せる
 - `home/dot_claude/symlink_skills.tmpl` … `~/.claude/skills` → `~/.agents/skills` の symlink 1 本
 - `home/dot_claude/modify_private_settings.json.tmpl` … `settings.json` は Claude Code 自身がテーマ変更などで書き換えるため、丸ごと上書きせず `jq` で管理キーだけを固定する。`theme` や `tui` は素通しする
 
