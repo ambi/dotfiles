@@ -1,9 +1,0 @@
-[user]
-	name = tn
-	email = prtnog@gmail.com
-[alias]
-  co = checkout
-[init]
-  defaultBranch = main
-[ghq]
-  root = /Users/tn/src

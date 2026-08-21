@@ -1,0 +1,12 @@
+[user]
+	name = tn
+	email = {{ .email }}
+[alias]
+  co = checkout
+[init]
+  defaultBranch = main
+[ghq]
+  root = {{ .chezmoi.homeDir }}/src
+{{ if .proxy }}[http]
+  proxy = {{ .proxy }}
+{{ end -}}
