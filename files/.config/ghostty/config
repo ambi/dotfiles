@@ -49,7 +49,7 @@
 # resize-overlay-duration = 4s 200ms
 
 copy-on-select = clipboard
-font-family = HackGen
-font-size = 16
+font-family = HackGen Console NF
+font-size = 15
 macos-option-as-alt = true
 scrollback-limit = 100000000

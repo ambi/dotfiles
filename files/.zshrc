@@ -1,5 +1,8 @@
 ### zsh
 
+## mise
+eval "$(mise activate zsh)"
+
 ## Alias
 alias ls='eza --icons --group-directories-first'
 alias ll='eza -la --icons --group-directories-first --git'

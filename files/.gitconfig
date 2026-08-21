@@ -4,4 +4,6 @@
 [alias]
   co = checkout
 [init]
-	defaultBranch = main
+  defaultBranch = main
+[ghq]
+  root = /Users/tn/src
