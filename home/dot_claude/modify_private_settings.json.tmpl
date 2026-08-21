@@ -1,0 +1,14 @@
+#!/bin/sh
+# ~/.claude/settings.json は Claude Code 自身が書き換える（/config やテーマ変更）。
+# symlink 運用ではその都度壊れて貼り直しが必要だったので、modify_ スクリプトにする。
+#
+# modify_ は「現在のファイル内容を stdin で受け取り、新しい内容を stdout に出す」。
+# よって管理対象のキーだけを上書きし、Claude Code が書いた theme / tui は素通しできる。
+# --slurp + `.[0] // {}` は初回（ファイル未存在 = stdin が空）で jq が落ちないようにするため。
+exec jq -S --slurp '(.[0] // {})
+  | .permissions = {"allow": ["WebFetch(domain:repo1.maven.org)"], "defaultMode": "auto"}
+  | .model = "opus"
+  | .effortLevel = "high"
+  | .enabledPlugins = {"feature-dev@claude-plugins-official": false, "frontend-design@claude-plugins-official": true, "gopls-lsp@claude-plugins-official": false, "stitch-design@google-labs-code-stitch-skills": true, "stitch-utilities@google-labs-code-stitch-skills": true, "stitch-build@google-labs-code-stitch-skills": true}
+  | .statusLine = {"type":"command","command":"bash {{ .chezmoi.homeDir }}/.claude/statusline-command.sh"}
+'

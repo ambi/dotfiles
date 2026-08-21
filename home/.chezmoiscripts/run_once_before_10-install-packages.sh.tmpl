@@ -1,0 +1,15 @@
+#!/bin/sh
+# 新マシンでの初回 apply 時に一度だけ走る（run_once_）。
+# Homebrew と Brewfile のパッケージを揃えてから設定ファイルを配置したいので before_。
+set -eu
+{{ if eq .chezmoi.os "darwin" -}}
+if ! command -v brew >/dev/null 2>&1; then
+    echo "==> Homebrew を導入します"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+eval "$({{ .brewPrefix }}/bin/brew shellenv)"
+echo "==> brew bundle"
+brew bundle --file="{{ .chezmoi.workingTree }}/Brewfile"
+{{- else -}}
+echo "==> {{ .chezmoi.os }} では Brewfile を適用しません"
+{{- end }}

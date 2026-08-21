@@ -1,0 +1,9 @@
+[tools]
+bun = "latest"
+go = "latest"
+golangci-lint = "latest"
+"npm:@fission-ai/openspec" = "latest"
+uv = "latest"
+
+[settings.npm]
+bun = true

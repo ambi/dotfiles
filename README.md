@@ -1,60 +1,60 @@
 # dotfiles
 
-## Homebrew
+[chezmoi](https://www.chezmoi.io/) で管理している。
+ソースは `home/` 配下（`.chezmoiroot` で指定）で、ターゲットは `$HOME`。
+
+## 新しいマシンで構築する
 
 ```shell
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-brew bundle #  --force cleanup
+brew install chezmoi   # 未導入なら
+chezmoi init --apply git@github.com:ambi/dotfiles.git --source ~/src/dotfiles
 ```
 
-## Copy dotfiles
+初回に Git の email と HTTP proxy を聞かれる（proxy が無ければ空欄でよい）。
+Homebrew の導入と `brew bundle` は `run_once_` スクリプトが自動で行う。
 
-```shell
-mkdir -p ~/.claude
-ln -s ~/src/dotfiles/files/.agents ~/.agents
-ln -s ~/src/dotfiles/files/.claude/settings.json ~/.claude/settings.json
-ln -s ~/src/dotfiles/files/.claude/skills ~/.claude/skills
-ln -s ~/src/dotfiles/files/.claude/statusline-command.sh ~/.claude/statusline-command.sh
-ln -s ~/src/dotfiles/files/.config/bat ~/.config/bat
-ln -s ~/src/dotfiles/files/.config/ghostty ~/.config/ghostty
-ln -s ~/src/dotfiles/files/.config/yazi ~/.config/yazi
-ln -s  ~/src/dotfiles/files/.gemrc ~/.gemrc
-ln -s  ~/src/dotfiles/files/.gitconfig ~/.gitconfig
-ln -s  ~/src/dotfiles/files/.vimrc ~/.vimrc
-ln -s  ~/src/dotfiles/files/.zprofile ~/.zprofile
-ln -s  ~/src/dotfiles/files/.zshrc ~/.zshrc
-```
+## 日々の操作
 
-### Claude Code / Agent Skills
+| やりたいこと | コマンド |
+|---|---|
+| 変更を反映する | `chezmoi apply` |
+| 何が変わるか見る | `chezmoi diff` |
+| ソースを直接編集して反映 | `chezmoi edit --apply ~/.zshrc` |
+| アプリが書き換えた設定を取り込む | `chezmoi re-add ~/.config/foo` |
+| 外部取得の skill を更新する | `chezmoi -R apply` |
+| 設定と実ファイルのズレを検査 | `chezmoi verify` / `chezmoi doctor` |
 
-`~/.claude` は履歴・セッション等の状態も持つため、ディレクトリごとではなく設定ファイルだけを個別に symlink する。
+chezmoi は**実ファイル**を配置する（symlink ではない）。
+リポジトリを編集しただけでは反映されないので `chezmoi apply` を挟む。
 
-- `files/.agents` … Agent Skills の実体（`.skill-lock.json` 込み）
-- `files/.claude/skills` … `../../.agents/skills/*` への相対 symlink 群。リポジトリ内でも同じ相対関係になるのでそのまま解決される
-- `files/.claude/settings.json`, `files/.claude/statusline-command.sh`
+## マシンごとの差分
 
-`settings.json` は Claude Code 側（`/config` やテーマ変更）から書き換えられる。
-書き換え方によっては symlink が実ファイルに置き換わることがあるので、その場合は再度 `mv` + `ln -s` で貼り直す。
+非機密の出し分けのみ。`.chezmoi.toml.tmpl` が `chezmoi init` 時に一度だけ聞き、
+`~/.config/chezmoi/chezmoi.toml` に保存する。
 
-## Docker Compose
+| 変数 | 用途 |
+|---|---|
+| `email` | `.gitconfig` の `user.email` |
+| `proxy` | `.zprofile` の `http_proxy` 等と `.gitconfig` の `http.proxy`。空なら該当ブロックごと出力されない |
+| `brewPrefix` | OS/arch から自動決定（darwin arm64 → `/opt/homebrew`、darwin amd64 → `/usr/local`、linux → linuxbrew） |
 
-```shell
-mkdir -p ~/.docker/cli-plugins
-ln -s $(brew --prefix docker-compose)/bin/docker-compose ~/.docker/cli-plugins/docker-compose
-```
+値を変えたいときは `chezmoi init --prompt` で聞き直すか、上記の設定ファイルを直接編集する。
 
-## VSCode Settings
+## Claude Code / Agent Skills
 
-On Mac:
+`~/.claude` は履歴やセッションなどの状態も持つため、ディレクトリごとではなく個別に管理する。
 
-```shell
-cp vscode/settings.json ~/Library/Application\ Support/Code/User/settings.json
-cp vscode/keybindings.json ~/Library/Application\ Support/Code/User/keybindings.json
-```
+- `home/dot_agents/skills/` … 自作の skill の実体。`~/.agents/skills` に配置される
+- `home/.chezmoiexternal.toml.tmpl` … [mattpocock/skills](https://github.com/mattpocock/skills) から取得する skill を commit 単位でピン留めして宣言する。更新は `$ref` を差し替えて `chezmoi -R apply`
+- `home/dot_claude/symlink_skills.tmpl` … `~/.claude/skills` → `~/.agents/skills` の symlink 1 本
+- `home/dot_claude/modify_private_settings.json.tmpl` … `settings.json` は Claude Code 自身がテーマ変更などで書き換えるため、丸ごと上書きせず `jq` で管理キーだけを固定する。`theme` や `tui` は素通しする
 
-## Update Brewfile
+## Brewfile の更新
 
 ```shell
 brew bundle dump --force --no-go
 ```
+
+## Windows
+
+[Windows.md](Windows.md) を参照。現時点では chezmoi の管理対象外。

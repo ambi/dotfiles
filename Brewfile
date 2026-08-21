@@ -1,9 +1,10 @@
-tap "yusukebe/tap"
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
 # Formatting tools for C, C++, Obj-C, Java, JavaScript, TypeScript
+# Manage your dotfiles across multiple diverse machines, securely
+brew "chezmoi"
 brew "clang-format"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima", restart_service: :changed
@@ -70,7 +71,6 @@ brew "zsh-completions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
 # The AI-era curl: fetch, discover, extract. One command.
-brew "yusukebe/tap/ax", trusted: true
 # Terminal interface for Antigravity agents
 cask "antigravity-cli"
 # Terminal-based AI coding assistant
