@@ -3,9 +3,9 @@ tap "yusukebe/tap"
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
-# Formatting tools for C, C++, Obj-C, Java, JavaScript, TypeScript
 # Manage your dotfiles across multiple diverse machines, securely
 brew "chezmoi"
+# Formatting tools for C, C++, Obj-C, Java, JavaScript, TypeScript
 brew "clang-format"
 # Container runtimes on MacOS (and Linux) with minimal setup
 brew "colima", restart_service: :changed
@@ -17,8 +17,6 @@ brew "docker"
 brew "docker-compose"
 # More intuitive version of du in rust
 brew "dust"
-# Modern, maintained replacement for ls
-brew "eza"
 # Simple, fast and user-friendly alternative to find
 brew "fd"
 # Play, record, convert, and stream select audio and video codecs
@@ -73,7 +71,6 @@ brew "zsh-completions"
 brew "zsh-syntax-highlighting"
 # The AI-era curl: fetch, discover, extract. One command.
 brew "yusukebe/tap/ax", trusted: true
-# The AI-era curl: fetch, discover, extract. One command.
 # Terminal interface for Antigravity agents
 cask "antigravity-cli"
 # Terminal-based AI coding assistant
