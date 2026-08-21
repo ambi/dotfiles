@@ -22,9 +22,14 @@ symlink なので、`echo ... >> ~/.zshrc` や `git config --global` がその�
 ### home/ — chezmoi が配置するもの
 
 アプリが「一時ファイルに書いて rename」で更新する設定は symlink だと張り替えで壊れる。
-Claude Code の `settings.json`、Karabiner、VS Code はこちら。
-マシン固有値のテンプレート（`.gitconfig.local` / `.zprofile.local`）と
-skill の外部取得もこちら。
+Karabiner と VS Code はこちら。マシン固有値のテンプレート
+（`.gitconfig.local` / `.zprofile.local`）と skill の外部取得もこちら。
+
+`~/.claude/settings.json` は**あえて追跡しない**。中身は `/config` で数秒で戻せる好み
+（model / theme / effortLevel）と 1 件の permission だけで、唯一復元が面倒に見える
+`enabledPlugins` も on/off のフラグしか持たない。プラグインの入手元は
+`~/.claude/plugins/known_marketplaces.json` にあり、そちらを追跡しない限り
+`enabledPlugins` だけあっても復元できない。
 
 ## 新しいマシンで構築する
 

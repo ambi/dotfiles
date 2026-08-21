@@ -38,11 +38,22 @@ prune_ancestors() {
     done
 }
 
+# 前回この場所に symlink を張ったか。取り込みの判定に使う。
+was_linked() { [ -f "$STATE" ] && grep -qxF "$1" "$STATE"; }
+
 # 1) link/ 配下の全ファイルを symlink し、張った先を記録する
 find "$LINK" -type f | while IFS= read -r src; do
     dst="$DEST/${src#"$LINK"/}"
     printf '%s\n' "$dst" >> "$NEW"
     [ "$(readlink "$dst" 2>/dev/null || true)" = "$src" ] && continue
+    # 前回張った場所が実ファイルになっていたら、アプリが「一時ファイルに
+    # 書いて rename」で symlink を張り替えたということ。その実ファイルが
+    # アプリの書いた最新なので、上書きする前にリポジトリへ取り込む。
+    # 「前回張った」条件が要る。新マシンで元からあった実ファイルを
+    # 誤って取り込まないため。
+    if [ -f "$dst" ] && [ ! -L "$dst" ] && was_linked "$dst"; then
+        cp "$dst" "$src"
+    fi
     prune_ancestors "$(dirname "$dst")"
     mkdir -p "$(dirname "$dst")"
     ln -sfn "$src" "$dst"
