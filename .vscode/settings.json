@@ -1,27 +1,24 @@
 {
-  // chezmoi のソースは dot_ 接頭辞と .tmpl 接尾辞が付くため、VS Code が
-  // 言語を判定できず色付けされない。拡張子で判定できるものは除き、
-  // 判定できないものだけをここで対応付ける。
+  // chezmoi のソース (home/) は dot_ 接頭辞と .tmpl 接尾辞が付き、
+  // symlink の実体 (link/) は拡張子が無いため、どちらも VS Code が
+  // 言語を判定できない。判定できないものだけをここで対応付ける。
   "files.associations": {
-    // シェル
-    // symlink_dot_* が指す実体。拡張子が無いので判定できない。
+    // link/ … symlink の実体。手編集するとリポジトリに直接反映される
     "zshrc": "shellscript",
     "zprofile": "shellscript",
-    "dot_zprofile.local.tmpl": "shellscript",
-    "*.sh.tmpl": "shellscript",
-    // modify_ は「現在の内容を stdin で受けて新しい内容を stdout に出す」
-    // シェルスクリプト。名前に .json が入るが中身は shell。
-    "modify_*": "shellscript",
+    "gitconfig": "properties",
+    "gemrc": "yaml",
+    "**/link/config/bat/config": "properties",
+    "**/link/config/ghostty/config": "ini",
+    "**/link/config/git/ignore": "ignore",
 
-    // chezmoi 自身の特殊ファイル
+    // home/ … chezmoi が配置するもの
+    "*.sh.tmpl": "shellscript",
+    // modify_ は名前に .json が入るが中身はシェルスクリプト
+    "modify_*": "shellscript",
     "*.toml.tmpl": "toml",
     ".chezmoiignore": "ignore",
-
-    // その他
-    "gitconfig": "properties",
-    "dot_gitconfig.local.tmpl": "properties",
-    "dot_gemrc*": "yaml",
-    "**/git/ignore": "ignore",
-    "**/bat/config": "properties"
+    "dot_zprofile.local.tmpl": "shellscript",
+    "dot_gitconfig.local.tmpl": "properties"
   }
 }

@@ -1,7 +1,15 @@
 # dotfiles
 
-[chezmoi](https://www.chezmoi.io/) で管理している。
-ソースは `home/` 配下（`.chezmoiroot` で指定）で、ターゲットは `$HOME`。
+[chezmoi](https://www.chezmoi.io/) で管理している。ディレクトリは2つに分かれる。
+
+| | 方式 | 中身 |
+|---|---|---|
+| `link/` | **symlink の実体** | 手編集する設定。`~/.zshrc` などがここへの symlink になるので、`echo ... >> ~/.zshrc` や `git config --global` がそのままリポジトリに書き戻る |
+| `home/` | **chezmoi のソース**（`.chezmoiroot` で指定） | symlink 宣言、テンプレート、外部取得、アプリがアトミックに書き換えるファイル |
+
+アプリが「一時ファイルに書いて rename」で更新する設定（Claude Code の `settings.json`、
+Karabiner、VS Code）は symlink だと張り替えで壊れるため、`home/` 側のコピー方式に置く。
+逆に追記される設定は `link/` に置く。この使い分けが設計の核。
 
 ## 新しいマシンで構築する
 
