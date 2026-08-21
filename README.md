@@ -55,7 +55,3 @@ chezmoi は**実ファイル**を配置する（symlink ではない）。
 ```shell
 brew bundle dump --force --no-go
 ```
-
-## Windows
-
-[Windows.md](Windows.md) を参照。現時点では chezmoi の管理対象外。
