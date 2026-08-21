@@ -1,41 +1,45 @@
 {{- /*
-   mattpocock/skills から取得する vendor 済み skill。
-   自作の skill（ast-grep / ast-grep-outline / commit / japanese-tech-writing）は
-   通常の管理ファイルとして dot_agents/skills/ に置いてあり、ここには載せない。
+   外部リポジトリから取得する skill。自作分（ast-grep / ast-grep-outline /
+   commit / japanese-tech-writing）は link/.agents/skills/ に実体があるので
+   ここには載せない。
 
    1 skill = 1 external にしている。.agents/skills ディレクトリ全体を単一の
    external にすると自作分と同居できないため。同じ URL のアーカイブは
-   chezmoi がキャッシュするので、25 エントリでもダウンロードは 1 回。
+   chezmoi がキャッシュするので、件数ぶんダウンロードが走ることはない。
 
    include / exclude は stripComponents 適用「前」のパスにマッチするので、
-   先頭の skills-<sha>/ を * で受ける必要がある。
-   stripComponents は 4（skills-<sha>/skills/<cat>/<name>/ まで剥がす）。
-   3 にすると .agents/skills/<name>/<name>/SKILL.md と一段深く入れ子になる。
+   先頭の <repo>-main/ を * で受ける必要がある。
 
-   更新するときは $ref を新しい commit に差し替えて `chezmoi -R apply`。
+   更新は refreshPeriod 経過後の apply か `chezmoi -R apply`。
 */ -}}
-{{- $ref := "5b15a47f2d7150f545fbcacbfe381787fc0230dc" -}}
-{{- $skills := dict }}
-{{- range $n := list "ask-matt" "code-review" "codebase-design" "diagnosing-bugs" "domain-modeling" "grill-with-docs" "implement" "improve-codebase-architecture" "prototype" "research" "resolving-merge-conflicts" "setup-matt-pocock-skills" "tdd" "to-spec" "to-tickets" "triage" "wayfinder" "wizard" }}
-{{-   $_ := set $skills $n "engineering" }}
-{{- end }}
-{{- range $n := list "grill-me" "grilling" "handoff" "teach" "to-questionnaire" "wait-what" "writing-for-agents" }}
-{{-   $_ := set $skills $n "productivity" }}
-{{- end }}
-{{ range $name, $cat := $skills }}
-[".agents/skills/{{ $name }}"]
-    type           = "archive"
-    url            = "https://github.com/mattpocock/skills/archive/{{ $ref }}.tar.gz"
-    stripComponents = 4
-    include        = ["*/skills/{{ $cat }}/{{ $name }}", "*/skills/{{ $cat }}/{{ $name }}/**"]
-    refreshPeriod  = "168h"
-{{ end -}}
 
 {{- /*
-   ax は mattpocock/skills とは別リポジトリ。skills/<name> と一段浅いので
-   stripComponents は 3。
-   ピン留めせず main を追う。更新は refreshPeriod 経過後の apply か
-   `chezmoi -R apply` で入る。
+   mattpocock/skills
+   アーカイブ内は <repo>-main/skills/<category>/<name>/ なので strip は 4。
+   カテゴリを * で受けているのは、upstream が skill を別カテゴリへ移したときに
+   include がマッチしなくなって黙って空になるのを避けるため。
+*/ -}}
+{{- $mattpocock := list
+      "ask-matt" "code-review" "codebase-design"
+      "diagnosing-bugs" "domain-modeling" "grill-me"
+      "grill-with-docs" "grilling" "handoff"
+      "implement" "improve-codebase-architecture" "prototype"
+      "research" "resolving-merge-conflicts" "setup-matt-pocock-skills"
+      "tdd" "teach" "to-questionnaire"
+      "to-spec" "to-tickets" "triage"
+      "wait-what" "wayfinder" "wizard"
+      "writing-for-agents" -}}
+{{ range $name := $mattpocock }}
+[".agents/skills/{{ $name }}"]
+    type           = "archive"
+    url            = "https://github.com/mattpocock/skills/archive/refs/heads/main.tar.gz"
+    stripComponents = 4
+    include        = ["*/skills/*/{{ $name }}", "*/skills/*/{{ $name }}/**"]
+    refreshPeriod  = "168h"
+{{ end }}
+{{- /*
+   yusukebe/ax
+   こちらは <repo>-main/skills/<name>/ とカテゴリ階層が無いので strip は 3。
 */ -}}
 [".agents/skills/ax"]
     type           = "archive"
