@@ -1,0 +1,32 @@
+{{- /*
+   mattpocock/skills から取得する vendor 済み skill。
+   自作の skill（ast-grep / ast-grep-outline / commit / japanese-tech-writing）は
+   通常の管理ファイルとして dot_agents/skills/ に置いてあり、ここには載せない。
+
+   1 skill = 1 external にしている。.agents/skills ディレクトリ全体を単一の
+   external にすると自作分と同居できないため。同じ URL のアーカイブは
+   chezmoi がキャッシュするので、25 エントリでもダウンロードは 1 回。
+
+   include / exclude は stripComponents 適用「前」のパスにマッチするので、
+   先頭の skills-<sha>/ を * で受ける必要がある。
+   stripComponents は 4（skills-<sha>/skills/<cat>/<name>/ まで剥がす）。
+   3 にすると .agents/skills/<name>/<name>/SKILL.md と一段深く入れ子になる。
+
+   更新するときは $ref を新しい commit に差し替えて `chezmoi -R apply`。
+*/ -}}
+{{- $ref := "5b15a47f2d7150f545fbcacbfe381787fc0230dc" -}}
+{{- $skills := dict }}
+{{- range $n := list "ask-matt" "code-review" "codebase-design" "diagnosing-bugs" "domain-modeling" "grill-with-docs" "implement" "improve-codebase-architecture" "prototype" "research" "resolving-merge-conflicts" "setup-matt-pocock-skills" "tdd" "to-spec" "to-tickets" "triage" "wayfinder" "wizard" }}
+{{-   $_ := set $skills $n "engineering" }}
+{{- end }}
+{{- range $n := list "grill-me" "grilling" "handoff" "teach" "to-questionnaire" "wait-what" "writing-for-agents" }}
+{{-   $_ := set $skills $n "productivity" }}
+{{- end }}
+{{ range $name, $cat := $skills }}
+[".agents/skills/{{ $name }}"]
+    type           = "archive"
+    url            = "https://github.com/mattpocock/skills/archive/{{ $ref }}.tar.gz"
+    stripComponents = 4
+    include        = ["*/skills/{{ $cat }}/{{ $name }}", "*/skills/{{ $cat }}/{{ $name }}/**"]
+    refreshPeriod  = "168h"
+{{ end -}}
