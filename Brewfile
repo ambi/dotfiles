@@ -1,3 +1,4 @@
+tap "yusukebe/tap"
 # Code searching, linting, rewriting
 brew "ast-grep"
 # Clone of cat(1) with syntax highlighting and Git integration
@@ -70,6 +71,8 @@ brew "zsh-autosuggestions"
 brew "zsh-completions"
 # Fish shell like syntax highlighting for zsh
 brew "zsh-syntax-highlighting"
+# The AI-era curl: fetch, discover, extract. One command.
+brew "yusukebe/tap/ax", trusted: true
 # The AI-era curl: fetch, discover, extract. One command.
 # Terminal interface for Antigravity agents
 cask "antigravity-cli"

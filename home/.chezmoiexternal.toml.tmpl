@@ -30,3 +30,15 @@
     include        = ["*/skills/{{ $cat }}/{{ $name }}", "*/skills/{{ $cat }}/{{ $name }}/**"]
     refreshPeriod  = "168h"
 {{ end -}}
+
+{{- /*
+   ax は mattpocock/skills とは別リポジトリ。skills/<name> と一段浅いので
+   stripComponents は 3。CLI（Brewfile の yusukebe/tap/ax）と歩調を合わせて
+   タグでピン留めする。
+*/ -}}
+[".agents/skills/ax"]
+    type           = "archive"
+    url            = "https://github.com/yusukebe/ax/archive/refs/tags/v0.1.25.tar.gz"
+    stripComponents = 3
+    include        = ["*/skills/ax", "*/skills/ax/**"]
+    refreshPeriod  = "168h"
