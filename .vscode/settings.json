@@ -1,18 +1,13 @@
 {
-  // chezmoi のソース (home/) は dot_ 接頭辞と .tmpl 接尾辞が付き、
-  // symlink の実体 (link/) は拡張子が無いため、どちらも VS Code が
-  // 言語を判定できない。判定できないものだけをここで対応付ける。
+  // link/ は $HOME の完全なミラーなので、.zshrc / .zprofile / .gitconfig は
+  // VS Code の組み込み判定が効く。ここに書くのは判定できないものだけ。
   "files.associations": {
-    // link/ … symlink の実体。手編集するとリポジトリに直接反映される
-    "zshrc": "shellscript",
-    "zprofile": "shellscript",
-    "gitconfig": "properties",
-    "gemrc": "yaml",
-    "**/link/config/bat/config": "properties",
-    "**/link/config/ghostty/config": "ini",
-    "**/link/config/git/ignore": "ignore",
+    // link/ … 拡張子も既知のファイル名も持たないもの
+    "**/link/.gemrc": "yaml",
+    "**/link/.config/bat/config": "properties",
+    "**/link/.config/git/ignore": "ignore",
 
-    // home/ … chezmoi が配置するもの
+    // home/ … chezmoi のソース。dot_ 接頭辞と .tmpl 接尾辞で判定できない
     "*.sh.tmpl": "shellscript",
     // modify_ は名前に .json が入るが中身はシェルスクリプト
     "modify_*": "shellscript",

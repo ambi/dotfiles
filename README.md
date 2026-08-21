@@ -4,12 +4,27 @@
 
 | | 方式 | 中身 |
 |---|---|---|
-| `link/` | **symlink の実体** | 手編集する設定。`~/.zshrc` などがここへの symlink になるので、`echo ... >> ~/.zshrc` や `git config --global` がそのままリポジトリに書き戻る |
-| `home/` | **chezmoi のソース**（`.chezmoiroot` で指定） | symlink 宣言、テンプレート、外部取得、アプリがアトミックに書き換えるファイル |
+| `link/` | **symlink の実体** | `$HOME` の完全なミラー。`link/<path>` が `~/<path>` に symlink される |
+| `home/` | **chezmoi のソース**（`.chezmoiroot` で指定） | テンプレート、外部取得、bootstrap、アプリがアトミックに書き換えるファイル |
 
-アプリが「一時ファイルに書いて rename」で更新する設定（Claude Code の `settings.json`、
-Karabiner、VS Code）は symlink だと張り替えで壊れるため、`home/` 側のコピー方式に置く。
-逆に追記される設定は `link/` に置く。この使い分けが設計の核。
+### link/ — 手編集する設定
+
+`link/` にファイルを置けば、次の `chezmoi apply` で `~/` の同じパスに symlink が張られる。
+宣言を書く必要はない。消せば symlink も掃除される
+（`home/.chezmoiscripts/run_after_20-link.sh.tmpl` が行う）。
+
+symlink なので、`echo ... >> ~/.zshrc` や `git config --global` がそのままリポジトリに
+書き戻る。インストーラが勝手に追記しても `git status` に出る。
+
+ディレクトリ単位ではなくファイル単位で張っている。`~/.config/gh` は `config.yml` だけを
+追跡し、トークンを持つ `hosts.yml` は実ファイルのまま残す必要があるため。
+
+### home/ — chezmoi が配置するもの
+
+アプリが「一時ファイルに書いて rename」で更新する設定は symlink だと張り替えで壊れる。
+Claude Code の `settings.json`、Karabiner、VS Code はこちら。
+マシン固有値のテンプレート（`.gitconfig.local` / `.zprofile.local`）と
+skill の外部取得もこちら。
 
 ## 新しいマシンで構築する
 

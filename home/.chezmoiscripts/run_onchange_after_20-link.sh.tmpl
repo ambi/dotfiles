@@ -1,0 +1,67 @@
+#!/bin/sh
+# link/ を $HOME にミラーして symlink を張る。
+#
+# 規則は 1 つだけ:  link/<path>  ->  ~/<path>   （ファイル単位）
+#
+# ファイル単位にしているのは、リポジトリに入れてはいけないものと同居する
+# ディレクトリがあるため。~/.config/gh は config.yml だけを追跡し、
+# トークンを持つ hosts.yml は実ファイルのまま残す必要がある。
+# ~/.claude も statusline-command.sh だけで、settings.json は chezmoi 管理。
+# ディレクトリごと張るとこれらを除外する規則が要るが、ファイル単位なら不要。
+#
+# link/ にファイルを置けば次の apply で張られる。宣言を書く必要はない。
+# link/ のファイル構成が変わったときだけ実行する。中身の変更は symlink 越しに
+# 反映されるので、ハッシュ対象はパスの一覧だけでよい。
+# link-set: {{ glob (printf "%s/link/**" .chezmoi.workingTree) | join "," | sha256sum }}
+set -eu
+
+LINK="{{ .chezmoi.workingTree }}/link"
+DEST="${CHEZMOI_DEST_DIR:-$HOME}"
+# 前回張った一覧。これが無いと link/ から消したファイルの symlink を
+# 掃除できない（消えたものは link/ の走査に現れないため）。
+STATE="${XDG_CACHE_HOME:-$DEST/.cache}/dotfiles/linked"
+
+[ -d "$LINK" ] || exit 0
+mkdir -p "$(dirname "$STATE")"
+NEW=$(mktemp)
+trap 'rm -f "$NEW"' EXIT
+
+# 祖先に link/ を指す symlink があれば除去する。
+# ファイル単位で張る以上、途中の階層が symlink であることは無い。
+prune_ancestors() {
+    p=$1
+    while [ "$p" != "$DEST" ] && [ "$p" != "/" ]; do
+        if [ -L "$p" ]; then
+            case "$(readlink "$p")" in "$LINK"/*) rm -f "$p" ;; esac
+        fi
+        p=$(dirname "$p")
+    done
+}
+
+# 1) link/ 配下の全ファイルを symlink し、張った先を記録する
+find "$LINK" -type f | while IFS= read -r src; do
+    dst="$DEST/${src#"$LINK"/}"
+    printf '%s\n' "$dst" >> "$NEW"
+    [ "$(readlink "$dst" 2>/dev/null || true)" = "$src" ] && continue
+    prune_ancestors "$(dirname "$dst")"
+    mkdir -p "$(dirname "$dst")"
+    ln -sfn "$src" "$dst"
+done
+
+# 2) 前回張ったが今回は対象外になったものを掃除する
+if [ -f "$STATE" ]; then
+    while IFS= read -r old; do
+        [ -n "$old" ] || continue
+        grep -qxF "$old" "$NEW" && continue
+        [ -L "$old" ] || continue
+        case "$(readlink "$old")" in
+            "$LINK"/*)
+                rm -f "$old"
+                # 空になった親ディレクトリも畳む（失敗は無視）
+                rmdir -p "$(dirname "$old")" 2>/dev/null || true
+                ;;
+        esac
+    done < "$STATE"
+fi
+
+cp "$NEW" "$STATE"
