@@ -10,7 +10,7 @@ brew install chezmoi   # 未導入なら
 chezmoi init --apply git@github.com:ambi/dotfiles.git --source ~/src/dotfiles
 ```
 
-初回に Git の email と HTTP proxy を聞かれる（proxy が無ければ空欄でよい）。
+初回に Git の name / email と HTTP proxy を聞かれる（proxy が無ければ空欄でよい）。
 Homebrew の導入と `brew bundle` は `run_once_` スクリプトが自動で行う。
 
 ## 日々の操作
@@ -34,6 +34,7 @@ chezmoi は**実ファイル**を配置する（symlink ではない）。
 
 | 変数 | 用途 |
 |---|---|
+| `name` | `.gitconfig` の `user.name` |
 | `email` | `.gitconfig` の `user.email` |
 | `proxy` | `.zprofile` の `http_proxy` 等と `.gitconfig` の `http.proxy`。空なら該当ブロックごと出力されない |
 | `brewPrefix` | OS/arch から自動決定（darwin arm64 → `/opt/homebrew`、darwin amd64 → `/usr/local`、linux → linuxbrew） |

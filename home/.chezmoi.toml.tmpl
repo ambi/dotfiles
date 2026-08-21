@@ -1,4 +1,5 @@
 {{- /* マシンごとの差分。非機密のみなので prompt + テンプレート変数で完結させる */ -}}
+{{- $name  := promptStringOnce . "name"  "Git name"  "tn" -}}
 {{- $email := promptStringOnce . "email" "Git email" "prtnog@gmail.com" -}}
 {{- $proxy := promptStringOnce . "proxy" "HTTP proxy (none の場合は空欄)" "" -}}
 
@@ -14,6 +15,7 @@
 sourceDir = {{ .chezmoi.workingTree | quote }}
 
 [data]
+    name       = {{ $name  | quote }}
     email      = {{ $email | quote }}
     proxy      = {{ $proxy | quote }}
     brewPrefix = {{ $brewPrefix | quote }}
