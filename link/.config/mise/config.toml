@@ -2,6 +2,7 @@
 bun = "latest"
 go = "latest"
 golangci-lint = "latest"
+node = "lts"
 "npm:@fission-ai/openspec" = "latest"
 "npm:skills" = "latest"
 uv = "latest"

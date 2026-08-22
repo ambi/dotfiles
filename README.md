@@ -92,5 +92,5 @@ selection, run `skills update -g -y`.
 ## Update the Brewfile
 
 ```shell
-brew bundle dump --force --no-go
+brew bundle dump --force --no-go --no-npm
 ```

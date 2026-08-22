@@ -29,16 +29,12 @@ brew "fzf"
 brew "gh"
 # Remote repository management made easy
 brew "ghq"
-# Make JSON greppable
-brew "gron"
 # Review-first terminal diff viewer for agent-authored changesets
 brew "hunk"
 # Lightweight and flexible command-line JSON processor
 brew "jq"
 # Simple terminal UI for git commands
 brew "lazygit"
-# Postgres C API library
-brew "libpq"
 # TIFF library and utilities
 brew "libtiff"
 # Web and API based SMTP testing
@@ -53,8 +49,6 @@ brew "p7zip"
 brew "ripgrep"
 # Intuitive find & replace CLI
 brew "sd"
-# High-performance data structure server that primarily serves key/value workloads
-brew "valkey"
 # Image format providing lossless and lossy compression for web images
 brew "webp"
 # Blazing fast terminal file manager written in Rust, based on async I/O
