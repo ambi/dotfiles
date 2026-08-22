@@ -1,4 +1,4 @@
-{{- /* macOS 専用のもの。将来 linux で apply したときに展開されないようにする */ -}}
+{{- /* Do not deploy macOS-only files when applying on Linux. */ -}}
 {{ if ne .chezmoi.os "darwin" }}
 Library/
 .config/karabiner/

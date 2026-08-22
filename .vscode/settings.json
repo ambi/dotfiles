@@ -1,15 +1,15 @@
 {
-  // link/ は $HOME の完全なミラーなので、.zshrc / .zprofile / .gitconfig は
-  // VS Code の組み込み判定が効く。ここに書くのは判定できないものだけ。
+  // link/ mirrors $HOME, so VS Code recognizes files such as .zshrc,
+  // .zprofile, and .gitconfig automatically. List only exceptions here.
   "files.associations": {
-    // link/ … 拡張子も既知のファイル名も持たないもの
+    // link/: files with neither a recognized extension nor a known filename
     "**/link/.gemrc": "yaml",
     "**/link/.config/bat/config": "properties",
     "**/link/.config/git/ignore": "ignore",
 
-    // home/ … chezmoi のソース。dot_ 接頭辞と .tmpl 接尾辞で判定できない
+    // home/: chezmoi source files not identified by the dot_ prefix or .tmpl suffix
     "*.sh.tmpl": "shellscript",
-    // modify_ は名前に .json が入るが中身はシェルスクリプト
+    // modify_ filenames may contain .json, but their contents are shell scripts
     "modify_*": "shellscript",
     "*.toml.tmpl": "toml",
     ".chezmoiignore": "ignore",

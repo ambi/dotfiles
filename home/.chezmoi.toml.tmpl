@@ -1,9 +1,9 @@
-{{- /* マシンごとの差分。非機密のみなので prompt + テンプレート変数で完結させる */ -}}
+{{- /* Machine-specific, non-secret values collected through prompts and template variables. */ -}}
 {{- $name  := promptStringOnce . "name"  "Git name"  "tn" -}}
 {{- $email := promptStringOnce . "email" "Git email" "prtnog@gmail.com" -}}
-{{- $proxy := promptStringOnce . "proxy" "HTTP proxy (none の場合は空欄)" "" -}}
+{{- $proxy := promptStringOnce . "proxy" "HTTP proxy (leave blank for none)" "" -}}
 
-{{- /* Homebrew の prefix は OS/arch で変わる。直書きを一箇所に集約する */ -}}
+{{- /* Keep the OS- and architecture-specific Homebrew prefix in one place. */ -}}
 {{- $brewPrefix := "/opt/homebrew" -}}
 {{- if eq .chezmoi.os "linux" -}}
 {{-   $brewPrefix = "/home/linuxbrew/.linuxbrew" -}}
@@ -11,7 +11,7 @@
 {{-   $brewPrefix = "/usr/local" -}}
 {{- end -}}
 
-{{- /* ソースはこのリポジトリ自身。.chezmoiroot が home/ へ降りる */}}
+{{- /* Use this repository as the source; .chezmoiroot descends into home/. */}}
 sourceDir = {{ .chezmoi.workingTree | quote }}
 
 [data]
