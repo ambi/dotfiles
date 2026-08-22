@@ -1,0 +1,58 @@
+#!/bin/sh
+# Sync external Agent Skills into ~/.agents/skills.
+#
+# The skills CLI lock file tracks installed contents and their sources. Chezmoi
+# records only the desired skill names and reruns this script when the list
+# changes. Locally authored skills are symlinked from link/.agents/skills/ and
+# are not touched here.
+set -eu
+
+echo "==> Preparing the Agent Skills CLI"
+mise install bun
+mise install npm:skills
+
+# npm:skills uses a Node shebang. Execute the mise-installed file directly with
+# Bun instead of installing Node.js.
+SKILLS_BIN=$(mise which skills)
+skills() {
+    mise exec bun npm:skills -- bun --bun "$SKILLS_BIN" "$@"
+}
+
+echo "==> Syncing mattpocock/skills"
+skills add mattpocock/skills \
+    --skill \
+    ask-matt \
+    code-review \
+    codebase-design \
+    diagnosing-bugs \
+    domain-modeling \
+    grill-me \
+    grill-with-docs \
+    grilling \
+    handoff \
+    implement \
+    improve-codebase-architecture \
+    prototype \
+    research \
+    resolving-merge-conflicts \
+    setup-matt-pocock-skills \
+    tdd \
+    teach \
+    to-questionnaire \
+    to-spec \
+    to-tickets \
+    triage \
+    wait-what \
+    wayfinder \
+    wizard \
+    writing-for-agents \
+    --global \
+    --agent claude-code \
+    --yes
+
+echo "==> Syncing yusukebe/ax"
+skills add yusukebe/ax \
+    --skill ax \
+    --global \
+    --agent claude-code \
+    --yes

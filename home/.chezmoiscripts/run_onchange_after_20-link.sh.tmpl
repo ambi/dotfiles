@@ -1,24 +1,26 @@
 #!/bin/sh
-# link/ を $HOME にミラーして symlink を張る。
+# Mirror link/ into $HOME with symlinks.
 #
-# 規則は 1 つだけ:  link/<path>  ->  ~/<path>   （ファイル単位）
+# The default mapping rule is: link/<path> -> ~/<path>, one file at a time.
+# Locally authored Agent Skills are linked one directory at a time because a
+# skill is a package whose SKILL.md can refer to sibling resources and scripts.
 #
-# ファイル単位にしているのは、リポジトリに入れてはいけないものと同居する
-# ディレクトリがあるため。~/.config/gh は config.yml だけを追跡し、
-# トークンを持つ hosts.yml は実ファイルのまま残す必要がある。
-# ~/.claude も statusline-command.sh だけで、settings.json は chezmoi 管理。
-# ディレクトリごと張るとこれらを除外する規則が要るが、ファイル単位なら不要。
+# Per-file links allow tracked files to share directories with untracked state.
+# For example, ~/.config/gh tracks config.yml while hosts.yml, which contains
+# tokens, remains a regular file. ~/.claude likewise links only selected files.
+# Linking whole directories would require exclusion rules for this state.
 #
-# link/ にファイルを置けば次の apply で張られる。宣言を書く必要はない。
-# link/ のファイル構成が変わったときだけ実行する。中身の変更は symlink 越しに
-# 反映されるので、ハッシュ対象はパスの一覧だけでよい。
+# Adding a file under link/ links it on the next apply without a declaration.
+# Run only when the set of paths changes. Content changes flow through the
+# symlinks, so the path list alone is sufficient for the change hash.
 # link-set: {{ glob (printf "%s/link/**" .chezmoi.workingTree) | join "," | sha256sum }}
 set -eu
 
 LINK="{{ .chezmoi.workingTree }}/link"
 DEST="${CHEZMOI_DEST_DIR:-$HOME}"
-# 前回張った一覧。これが無いと link/ から消したファイルの symlink を
-# 掃除できない（消えたものは link/ の走査に現れないため）。
+SKILLS="$LINK/.agents/skills"
+# Paths linked during the previous run. Without this state, links for files
+# removed from link/ could not be cleaned up because they no longer appear there.
 STATE="${XDG_CACHE_HOME:-$DEST/.cache}/dotfiles/linked"
 
 [ -d "$LINK" ] || exit 0
@@ -26,8 +28,8 @@ mkdir -p "$(dirname "$STATE")"
 NEW=$(mktemp)
 trap 'rm -f "$NEW"' EXIT
 
-# 祖先に link/ を指す symlink があれば除去する。
-# ファイル単位で張る以上、途中の階層が symlink であることは無い。
+# Remove any ancestor symlink that points into link/. Per-file links require
+# their intermediate paths to be real directories.
 prune_ancestors() {
     p=$1
     while [ "$p" != "$DEST" ] && [ "$p" != "/" ]; do
@@ -38,28 +40,35 @@ prune_ancestors() {
     done
 }
 
-# 前回この場所に symlink を張ったか。取り込みの判定に使う。
+# Remove empty directories created for managed links, but never remove DEST.
+remove_empty_parents() {
+    p=$1
+    while [ "$p" != "$DEST" ] && [ "$p" != "/" ]; do
+        rmdir "$p" 2>/dev/null || break
+        p=$(dirname "$p")
+    done
+}
+
+# Whether this destination was linked previously, used to decide whether to import it.
 was_linked() { [ -f "$STATE" ] && grep -qxF "$1" "$STATE"; }
 
-# 1) link/ 配下の全ファイルを symlink し、張った先を記録する
+# 1) Record the desired links. Agent Skills are directories; everything else
+# remains a per-file link so managed files can coexist with unmanaged state.
 find "$LINK" -type f | while IFS= read -r src; do
+    case "$src" in "$SKILLS"/*) continue ;; esac
     dst="$DEST/${src#"$LINK"/}"
     printf '%s\n' "$dst" >> "$NEW"
-    [ "$(readlink "$dst" 2>/dev/null || true)" = "$src" ] && continue
-    # 前回張った場所が実ファイルになっていたら、アプリが「一時ファイルに
-    # 書いて rename」で symlink を張り替えたということ。その実ファイルが
-    # アプリの書いた最新なので、上書きする前にリポジトリへ取り込む。
-    # 「前回張った」条件が要る。新マシンで元からあった実ファイルを
-    # 誤って取り込まないため。
-    if [ -f "$dst" ] && [ ! -L "$dst" ] && was_linked "$dst"; then
-        cp "$dst" "$src"
-    fi
-    prune_ancestors "$(dirname "$dst")"
-    mkdir -p "$(dirname "$dst")"
-    ln -sfn "$src" "$dst"
 done
 
-# 2) 前回張ったが今回は対象外になったものを掃除する
+if [ -d "$SKILLS" ]; then
+    for src in "$SKILLS"/*; do
+        [ -d "$src" ] || continue
+        printf '%s\n' "$DEST/.agents/skills/${src##*/}" >> "$NEW"
+    done
+fi
+
+# 2) Remove managed links that are no longer desired. This runs before links
+# are created so legacy per-file skill links can be replaced by directory links.
 if [ -f "$STATE" ]; then
     while IFS= read -r old; do
         [ -n "$old" ] || continue
@@ -68,11 +77,49 @@ if [ -f "$STATE" ]; then
         case "$(readlink "$old")" in
             "$LINK"/*)
                 rm -f "$old"
-                # 空になった親ディレクトリも畳む（失敗は無視）
-                rmdir -p "$(dirname "$old")" 2>/dev/null || true
+                remove_empty_parents "$(dirname "$old")"
                 ;;
         esac
     done < "$STATE"
+fi
+
+# 3) Link ordinary files.
+find "$LINK" -type f | while IFS= read -r src; do
+    case "$src" in "$SKILLS"/*) continue ;; esac
+    dst="$DEST/${src#"$LINK"/}"
+    [ "$(readlink "$dst" 2>/dev/null || true)" = "$src" ] && continue
+    # If a previously linked destination is now a regular file, an application
+    # replaced the symlink by writing a temporary file and renaming it. Import
+    # that newer content before restoring the link. The previous-link check
+    # prevents importing an unrelated pre-existing file on a new machine.
+    if [ -f "$dst" ] && [ ! -L "$dst" ] && was_linked "$dst"; then
+        cp "$dst" "$src"
+    fi
+    prune_ancestors "$(dirname "$dst")"
+    mkdir -p "$(dirname "$dst")"
+    ln -sfn "$src" "$dst"
+done
+
+# 4) Link each locally authored skill as one directory. Refuse to replace a
+# non-empty real directory because it may contain unmanaged user data.
+if [ -d "$SKILLS" ]; then
+    for src in "$SKILLS"/*; do
+        [ -d "$src" ] || continue
+        dst="$DEST/.agents/skills/${src##*/}"
+        [ "$(readlink "$dst" 2>/dev/null || true)" = "$src" ] && continue
+        prune_ancestors "$(dirname "$dst")"
+        mkdir -p "$(dirname "$dst")"
+        if [ -d "$dst" ] && [ ! -L "$dst" ]; then
+            if ! rmdir "$dst"; then
+                echo "error: cannot replace non-empty skill directory: $dst" >&2
+                exit 1
+            fi
+        elif [ -e "$dst" ] && [ ! -L "$dst" ]; then
+            echo "error: cannot replace non-directory skill path: $dst" >&2
+            exit 1
+        fi
+        ln -sfn "$src" "$dst"
+    done
 fi
 
 cp "$NEW" "$STATE"

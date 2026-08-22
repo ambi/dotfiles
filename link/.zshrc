@@ -3,6 +3,11 @@
 ## mise
 eval "$(mise activate zsh)"
 
+# npm:skills uses a Node shebang; run it with Bun instead of installing Node.js.
+skills() {
+  bun --bun "$(mise which skills)" "$@"
+}
+
 ## Alias
 alias rg="rg -M 1000 --max-columns-preview"
 ## Changing Directories

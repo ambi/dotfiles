@@ -3,6 +3,7 @@ bun = "latest"
 go = "latest"
 golangci-lint = "latest"
 "npm:@fission-ai/openspec" = "latest"
+"npm:skills" = "latest"
 uv = "latest"
 
 [settings.npm]

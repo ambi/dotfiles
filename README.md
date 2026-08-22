@@ -1,84 +1,95 @@
 # dotfiles
 
-[chezmoi](https://www.chezmoi.io/) で管理している。ディレクトリは2つに分かれる。
+Managed with [chezmoi](https://www.chezmoi.io/). The repository is split into two directories:
 
-| | 方式 | 中身 |
+| Directory | Method | Contents |
 |---|---|---|
-| `link/` | **symlink の実体** | `$HOME` の完全なミラー。`link/<path>` が `~/<path>` に symlink される |
-| `home/` | **chezmoi のソース**（`.chezmoiroot` で指定） | テンプレート、外部取得、bootstrap、アプリがアトミックに書き換えるファイル |
+| `link/` | **Symlink sources** | A complete mirror of `$HOME`. `link/<path>` is symlinked to `~/<path>`. |
+| `home/` | **Chezmoi source** selected by `.chezmoiroot` | Templates, bootstrap scripts, and files that applications update atomically. |
 
-### link/ — 手編集する設定
+### `link/`: manually edited configuration
 
-`link/` にファイルを置けば、次の `chezmoi apply` で `~/` の同じパスに symlink が張られる。
-宣言を書く必要はない。消せば symlink も掃除される
-（`home/.chezmoiscripts/run_after_20-link.sh.tmpl` が行う）。
+Adding a file under `link/` creates the corresponding symlink under `~/` on the next
+`chezmoi apply`. No declaration is required. Removing a file also removes its symlink;
+[`run_onchange_after_20-link.sh.tmpl`](home/.chezmoiscripts/run_onchange_after_20-link.sh.tmpl)
+handles both operations.
 
-symlink なので、`echo ... >> ~/.zshrc` や `git config --global` がそのままリポジトリに
-書き戻る。インストーラが勝手に追記しても `git status` に出る。
+Because these are symlinks, commands such as `echo ... >> ~/.zshrc` and
+`git config --global` write directly back into the repository. Changes made by an
+installer therefore appear in `git status` as well.
 
-ディレクトリ単位ではなくファイル単位で張っている。`~/.config/gh` は `config.yml` だけを
-追跡し、トークンを持つ `hosts.yml` は実ファイルのまま残す必要があるため。
+Files are generally linked individually rather than by directory. For example, only
+`~/.config/gh/config.yml` is tracked, while `hosts.yml`, which contains tokens, remains
+a regular file. Locally authored Agent Skills are the exception: each skill directory is
+linked as a unit so its scripts, references, and assets remain part of the package.
 
-### home/ — chezmoi が配置するもの
+### `home/`: files deployed by chezmoi
 
-アプリが「一時ファイルに書いて rename」で更新する設定は symlink だと張り替えで壊れる。
-Karabiner と VS Code はこちら。マシン固有値のテンプレート
-（`.gitconfig.local` / `.zprofile.local`）と skill の外部取得もこちら。
+Some applications update settings by writing a temporary file and renaming it over the
+original. That operation replaces a symlink, so Karabiner and VS Code settings live here.
+This directory also contains machine-specific templates (`.gitconfig.local` and
+`.zprofile.local`) and the external-skill synchronization script.
 
-`~/.claude/settings.json` は**あえて追跡しない**。中身は `/config` で数秒で戻せる好み
-（model / theme / effortLevel）と 1 件の permission だけで、唯一復元が面倒に見える
-`enabledPlugins` も on/off のフラグしか持たない。プラグインの入手元は
-`~/.claude/plugins/known_marketplaces.json` にあり、そちらを追跡しない限り
-`enabledPlugins` だけあっても復元できない。
+`~/.claude/settings.json` is intentionally not tracked. Its model, theme, effort level,
+and single permission are quick to restore through `/config`. The only seemingly
+expensive field, `enabledPlugins`, contains enablement flags but not plugin sources.
+Those sources live in `~/.claude/plugins/known_marketplaces.json`, so tracking the flags
+alone would not make the plugins reproducible.
 
-## 新しいマシンで構築する
+## Set up a new machine
 
 ```shell
-brew install chezmoi   # 未導入なら
+brew install chezmoi   # If chezmoi is not installed yet
 chezmoi init --apply git@github.com:ambi/dotfiles.git --source ~/src/dotfiles
 ```
 
-初回に Git の name / email と HTTP proxy を聞かれる（proxy が無ければ空欄でよい）。
-Homebrew の導入と `brew bundle` は `run_once_` スクリプトが自動で行う。
+The initial run prompts for the Git name, email address, and optional HTTP proxy. A
+`run_once_` script installs Homebrew when necessary and applies the Brewfile.
 
-## 日々の操作
+## Daily operations
 
-| やりたいこと | コマンド |
+| Task | Command |
 |---|---|
-| 変更を反映する | `chezmoi apply` |
-| 何が変わるか見る | `chezmoi diff` |
-| ソースを直接編集して反映 | `chezmoi edit --apply ~/.zshrc` |
-| アプリが書き換えた設定を取り込む | `chezmoi re-add ~/.config/foo` |
-| 外部取得の skill を更新する | `chezmoi -R apply` |
-| 設定と実ファイルのズレを検査 | `chezmoi verify` / `chezmoi doctor` |
+| Apply changes | `chezmoi apply` |
+| Preview changes | `chezmoi diff` |
+| Edit the source and apply it | `chezmoi edit --apply ~/.zshrc` |
+| Import an application-modified file | `chezmoi re-add ~/.config/foo` |
+| Update external skills | `skills update -g -y` |
+| Check source and destination consistency | `chezmoi verify` / `chezmoi doctor` |
 
-chezmoi は**実ファイル**を配置する（symlink ではない）。
-リポジトリを編集しただけでは反映されないので `chezmoi apply` を挟む。
+Editing the repository does not deploy chezmoi-managed files until `chezmoi apply` runs.
 
-## マシンごとの差分
+## Machine-specific values
 
-非機密の出し分けのみ。`.chezmoi.toml.tmpl` が `chezmoi init` 時に一度だけ聞き、
-`~/.config/chezmoi/chezmoi.toml` に保存する。
+`.chezmoi.toml.tmpl` prompts once during `chezmoi init` and stores non-secret values in
+`~/.config/chezmoi/chezmoi.toml`.
 
-| 変数 | 用途 |
+| Variable | Purpose |
 |---|---|
-| `name` | `.gitconfig` の `user.name` |
-| `email` | `.gitconfig` の `user.email` |
-| `proxy` | `.zprofile` の `http_proxy` 等と `.gitconfig` の `http.proxy`。空なら該当ブロックごと出力されない |
-| `brewPrefix` | OS/arch から自動決定（darwin arm64 → `/opt/homebrew`、darwin amd64 → `/usr/local`、linux → linuxbrew） |
+| `name` | `.gitconfig` `user.name` |
+| `email` | `.gitconfig` `user.email` |
+| `proxy` | The `.zprofile` proxy environment variables and `.gitconfig` `http.proxy`. An empty value omits the relevant blocks. |
+| `brewPrefix` | Derived from the OS and architecture: `/opt/homebrew` on Darwin arm64, `/usr/local` on Darwin amd64, and Linuxbrew on Linux. |
 
-値を変えたいときは `chezmoi init --prompt` で聞き直すか、上記の設定ファイルを直接編集する。
+Run `chezmoi init --prompt` to answer the prompts again, or edit the configuration file
+directly.
 
-## Claude Code / Agent Skills
+## Claude Code and Agent Skills
 
-`~/.claude` は履歴やセッションなどの状態も持つため、ディレクトリごとではなく個別に管理する。
+`~/.claude` also contains history, sessions, and other application state, so only selected
+files are managed.
 
-- `home/dot_agents/skills/` … 自作の skill の実体。`~/.agents/skills` に配置される
-- `home/.chezmoiexternal.toml.tmpl` … 外部リポジトリから取得する skill の宣言。[mattpocock/skills](https://github.com/mattpocock/skills) は commit でピン留めし（更新は `$ref` を差し替える）、[yusukebe/ax](https://github.com/yusukebe/ax) は `main` を追う。いずれも `chezmoi -R apply` で取得し直せる
-- `home/dot_claude/symlink_skills.tmpl` … `~/.claude/skills` → `~/.agents/skills` の symlink 1 本
-- `home/dot_claude/modify_private_settings.json.tmpl` … `settings.json` は Claude Code 自身がテーマ変更などで書き換えるため、丸ごと上書きせず `jq` で管理キーだけを固定する。`theme` や `tui` は素通しする
+- `link/.agents/skills/` contains locally authored skills. Each direct child directory is symlinked into `~/.agents/skills`.
+- `home/.chezmoiscripts/run_onchange_after_30-install-agent-skills.sh.tmpl` lists external skills. The [skills](https://github.com/vercel-labs/skills) CLI synchronizes them from [mattpocock/skills](https://github.com/mattpocock/skills) and [yusukebe/ax](https://github.com/yusukebe/ax) into `~/.agents/skills`. Changing the list and running `chezmoi apply` reruns the script.
+- `link/.config/mise/config.toml` installs Bun and `npm:skills`. The `skills` shell function runs the CLI with Bun, so Node.js is not required.
+- `home/dot_claude/symlink_skills.tmpl` creates a single symlink from `~/.claude/skills` to `~/.agents/skills`.
 
-## Brewfile の更新
+The CLI records sources and update state in `~/.agents/.skill-lock.json`. To add a skill,
+edit the synchronization script and run `chezmoi apply`. To remove one, delete it from the
+list and run `skills remove -g <name> -y`. To update installed skills without changing the
+selection, run `skills update -g -y`.
+
+## Update the Brewfile
 
 ```shell
 brew bundle dump --force --no-go
