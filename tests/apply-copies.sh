@@ -114,6 +114,50 @@ grep -q "cd \"$REPO\"" "$MISE_SCRIPT"
 zsh -n "$DEST/.zprofile"
 zsh -n "$DEST/.zshrc"
 zsh -n "$TEST_DIR/shellenv.zsh"
+
+# Completion initialization accepts only Homebrew's standard group-writable
+# share directory, caches the audit, and reports any other insecure directory
+# without opening an interactive prompt.
+ZSH_TEST_HOME="$TEST_DIR/zsh-home"
+FAKE_BREW="$TEST_DIR/homebrew"
+mkdir -p "$ZSH_TEST_HOME" "$FAKE_BREW/share/zsh-completions"
+cp "$DEST/.zshrc" "$ZSH_TEST_HOME/.zshrc"
+chgrp admin "$FAKE_BREW/share"
+chmod 775 "$FAKE_BREW/share"
+
+run_test_zsh() {
+    HOME="$ZSH_TEST_HOME" \
+        ZDOTDIR="$ZSH_TEST_HOME" \
+        HOMEBREW_PREFIX="$FAKE_BREW" \
+        FPATH=/usr/share/zsh/site-functions:/usr/share/zsh/5.9/functions \
+        PATH=/usr/bin:/bin \
+        /bin/zsh -d -i -c exit </dev/null 2>&1 || true
+}
+
+zsh_output=$(run_test_zsh)
+case "$zsh_output" in
+    *"Ignoring insecure completion directories:"* | *"Ignore insecure directories"* | *"compinit: initialization aborted"*) exit 1 ;;
+esac
+[ -e "$ZSH_TEST_HOME/.cache/zsh/zcompaudit.stamp" ]
+
+mkdir "$ZSH_TEST_HOME/.zfunc"
+chgrp admin "$ZSH_TEST_HOME/.zfunc"
+chmod 775 "$ZSH_TEST_HOME/.zfunc"
+zsh_output=$(run_test_zsh)
+case "$zsh_output" in
+    *"$ZSH_TEST_HOME/.zfunc"*) exit 1 ;;
+esac
+
+touch -t 202001010000 "$ZSH_TEST_HOME/.cache/zsh/zcompaudit.stamp"
+zsh_output=$(run_test_zsh)
+case "$zsh_output" in
+    *"Ignoring insecure completion directories:"*"$ZSH_TEST_HOME/.zfunc"*) ;;
+    *) exit 1 ;;
+esac
+case "$zsh_output" in
+    *"Ignore insecure directories"* | *"compinit: initialization aborted"*) exit 1 ;;
+esac
+
 sh -n "$TEST_DIR/packages.sh"
 sh -n "$MISE_SCRIPT"
 sh -n "$SKILLS_SCRIPT"

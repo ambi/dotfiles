@@ -1,9 +1,6 @@
-### zsh
-
 # A directly started non-login shell might not have read .zprofile.
 if [[ -z ${HOMEBREW_PREFIX:-} ]]; then
-  [[ -r "$HOME/.config/dotfiles/shellenv.zsh" ]] &&
-    source "$HOME/.config/dotfiles/shellenv.zsh"
+  [[ -r "$HOME/.config/dotfiles/shellenv.zsh" ]] && source "$HOME/.config/dotfiles/shellenv.zsh"
 fi
 
 ## mise
@@ -11,30 +8,18 @@ if (( $+commands[mise] )); then
   eval "$(mise activate zsh)"
 fi
 
-# npm:skills uses a Node shebang; run it with Bun instead of installing Node.js.
-if (( $+commands[mise] && $+commands[bun] )); then
-  skills() {
-    bun --bun "$(mise which skills)" "$@"
-  }
-fi
-
-# Start Yazi and change the shell's working directory to its final directory.
-if (( $+commands[yazi] )); then
-  y() {
-    local tmp cwd
-    tmp="$(mktemp -t 'yazi-cwd.XXXXXX')" || return
-    command yazi "$@" --cwd-file="$tmp"
-    IFS= read -r -d '' cwd < "$tmp"
-    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
-    command rm -f -- "$tmp"
-  }
-fi
-
 ## Alias
+alias ll="ls -GFlah"
+alias ls="ls -GF"
 alias rg="rg -M 1000 --max-columns-preview"
 
+if (( $+commands[eza] )); then
+  lt() {
+    command eza --tree --level=2 --group-directories-first "$@"
+  }
+fi
+
 ## Interactive behavior
-bindkey -e
 setopt interactive_comments
 
 ## Changing Directories
@@ -49,16 +34,38 @@ fpath=(
   "$HOME/.zfunc"
   $fpath
 )
-autoload -Uz compinit
+autoload -Uz compinit compaudit
 zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+zcompaudit_stamp="${zcompdump:h}/zcompaudit.stamp"
 mkdir -p "${zcompdump:h}"
-# Recheck completion ownership and contents daily; use the dump otherwise.
-if [[ ! -e "$zcompdump" || -n ${zcompdump}(#qN.mh+24) ]]; then
-  compinit -d "$zcompdump"
+# Recheck completion ownership daily; use the dump without another audit until
+# then. Homebrew intentionally makes its share directory group-writable on
+# macOS, so trust that exact directory only when it is owned by this user.
+old_zcompaudit_stamp=("$zcompaudit_stamp"(N.mh+24))
+if [[ ! -e "$zcompdump" || ! -e "$zcompaudit_stamp" ]] || (( ${#old_zcompaudit_stamp} )); then
+  insecure_dirs=(${(f)"$(compaudit 2>/dev/null)"})
+  unexpected_insecure_dirs=()
+  for insecure_dir in "${insecure_dirs[@]}"; do
+    if [[ -n ${HOMEBREW_PREFIX:-} &&
+          "$insecure_dir" == "$HOMEBREW_PREFIX/share" &&
+          -O "$insecure_dir" && ! -L "$insecure_dir" ]]; then
+      continue
+    fi
+    unexpected_insecure_dirs+=("$insecure_dir")
+  done
+
+  if (( ${#unexpected_insecure_dirs} )); then
+    print -u2 -r -- "Ignoring insecure completion directories:"
+    print -u2 -r -l -- "${unexpected_insecure_dirs[@]}"
+    compinit -i -d "$zcompdump" && command touch "$zcompaudit_stamp"
+  else
+    compinit -u -d "$zcompdump" && command touch "$zcompaudit_stamp"
+  fi
 else
   compinit -C -d "$zcompdump"
 fi
-unset zcompdump
+unset zcompdump zcompaudit_stamp old_zcompaudit_stamp
+unset insecure_dirs unexpected_insecure_dirs insecure_dir
 
 if (( $+commands[uv] )); then
   eval "$(uv generate-shell-completion zsh)"
