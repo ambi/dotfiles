@@ -1,0 +1,9 @@
+#!/bin/sh
+# Run whenever the global or repository-local mise tool configuration changes.
+# global-config-hash: {{ include (joinPath .chezmoi.sourceDir "dot_config/mise/config.toml") | sha256sum }}
+# repository-config-hash: {{ include (joinPath .chezmoi.workingTree "mise.toml") | sha256sum }}
+set -eu
+
+echo "==> Installing mise tools"
+cd "{{ .chezmoi.workingTree }}"
+mise install

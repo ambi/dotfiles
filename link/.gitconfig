@@ -1,8 +1,0 @@
-[alias]
-  co = checkout
-[init]
-  defaultBranch = main
-# Chezmoi generates machine-specific values (user, ghq.root, and proxy) here.
-# Git silently ignores a missing include, so this is safe before generation.
-[include]
-  path = ~/.gitconfig.local

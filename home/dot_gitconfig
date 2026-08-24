@@ -1,0 +1,22 @@
+[alias]
+  co = checkout
+  rs = restore
+  sw = switch
+[diff]
+  algorithm = histogram
+[fetch]
+  prune = true
+[init]
+  defaultBranch = main
+[merge]
+  conflictStyle = zdiff3
+[push]
+  autoSetupRemote = true
+[rerere]
+  enabled = true
+[include]
+  # Generated identity and proxy settings. Git ignores a missing include.
+  path = .config/git/machine.inc
+  # Later includes take precedence over generated and shared settings.
+  # This arbitrary machine-specific file is intentionally unmanaged.
+  path = .gitconfig.local

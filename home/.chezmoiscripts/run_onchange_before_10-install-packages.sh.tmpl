@@ -1,0 +1,22 @@
+#!/bin/sh
+# Run whenever either Brewfile changes (run_onchange_).
+# Run before applying files so Homebrew and common packages are ready first.
+# bundle-hash: {{ printf "%s\n%s" (include (joinPath .chezmoi.workingTree "Brewfile")) (include (joinPath .chezmoi.workingTree "Brewfile.personal")) | sha256sum }}
+set -eu
+{{ if eq .chezmoi.os "darwin" -}}
+if ! command -v brew >/dev/null 2>&1; then
+    echo "==> Installing Homebrew"
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+fi
+eval "$({{ (joinPath .brewPrefix "bin/brew") | quote }} shellenv)"
+echo "==> brew bundle"
+brew bundle install --no-upgrade --file="{{ .chezmoi.workingTree }}/Brewfile"
+{{ if index . "installPersonalPackages" -}}
+echo "==> brew bundle (personal)"
+brew bundle install --no-upgrade --file="{{ .chezmoi.workingTree }}/Brewfile.personal"
+{{ else -}}
+echo "==> Skipping personal Homebrew packages"
+{{ end -}}
+{{- else -}}
+echo "==> Skipping Brewfile on {{ .chezmoi.os }}"
+{{- end }}

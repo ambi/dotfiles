@@ -1,0 +1,122 @@
+### zsh
+
+# A directly started non-login shell might not have read .zprofile.
+if [[ -z ${HOMEBREW_PREFIX:-} ]]; then
+  [[ -r "$HOME/.config/dotfiles/shellenv.zsh" ]] &&
+    source "$HOME/.config/dotfiles/shellenv.zsh"
+fi
+
+## mise
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh)"
+fi
+
+# npm:skills uses a Node shebang; run it with Bun instead of installing Node.js.
+if (( $+commands[mise] && $+commands[bun] )); then
+  skills() {
+    bun --bun "$(mise which skills)" "$@"
+  }
+fi
+
+# Start Yazi and change the shell's working directory to its final directory.
+if (( $+commands[yazi] )); then
+  y() {
+    local tmp cwd
+    tmp="$(mktemp -t 'yazi-cwd.XXXXXX')" || return
+    command yazi "$@" --cwd-file="$tmp"
+    IFS= read -r -d '' cwd < "$tmp"
+    [[ "$cwd" != "$PWD" && -d "$cwd" ]] && builtin cd -- "$cwd"
+    command rm -f -- "$tmp"
+  }
+fi
+
+## Alias
+alias rg="rg -M 1000 --max-columns-preview"
+
+## Interactive behavior
+bindkey -e
+setopt interactive_comments
+
+## Changing Directories
+setopt auto_pushd
+setopt pushd_ignore_dups
+
+## Completion
+typeset -U fpath
+fpath=(
+  ${HOMEBREW_PREFIX:+$HOMEBREW_PREFIX/share/zsh-completions}
+  "$HOME/.docker/completions"
+  "$HOME/.zfunc"
+  $fpath
+)
+autoload -Uz compinit
+zcompdump="${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump"
+mkdir -p "${zcompdump:h}"
+# Recheck completion ownership and contents daily; use the dump otherwise.
+if [[ ! -e "$zcompdump" || -n ${zcompdump}(#qN.mh+24) ]]; then
+  compinit -d "$zcompdump"
+else
+  compinit -C -d "$zcompdump"
+fi
+unset zcompdump
+
+if (( $+commands[uv] )); then
+  eval "$(uv generate-shell-completion zsh)"
+fi
+if (( $+commands[uvx] )); then
+  eval "$(uvx --generate-shell-completion zsh)"
+fi
+if (( $+commands[fzf] )); then
+  source <(fzf --zsh)
+fi
+
+if [[ -n ${HOMEBREW_PREFIX:-} && -r "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
+
+## Expansion and Globbing
+# Filename expansion after "="
+setopt magic_equal_subst
+
+## History
+HISTSIZE=200000
+SAVEHIST=100000
+HISTFILE="$HOME/.zsh_history"
+
+setopt hist_expire_dups_first
+setopt hist_find_no_dups
+setopt hist_ignore_dups
+setopt hist_ignore_space
+setopt hist_reduce_blanks
+setopt share_history
+
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+
+## Prompt
+autoload -Uz vcs_info
+setopt prompt_subst
+zstyle ':vcs_info:git:*' check-for-staged-changes true
+zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
+zstyle ':vcs_info:*' formats "%F{green}%c[%b]%f"
+zstyle ':vcs_info:*' actionformats '[%b|%a]'
+autoload -Uz add-zsh-hook
+add-zsh-hook precmd vcs_info
+PROMPT='%B%/%b ${vcs_info_msg_0_}
+%B%#%b '
+
+## zoxide
+if (( $+commands[zoxide] )); then
+  eval "$(zoxide init zsh)"
+fi
+
+## Machine-specific settings, intentionally unmanaged by chezmoi
+[[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+## zsh-syntax-highlighting (MUST be last)
+if [[ -n ${HOMEBREW_PREFIX:-} && -r "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi

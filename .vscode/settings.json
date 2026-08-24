@@ -1,19 +1,18 @@
 {
-  // link/ mirrors $HOME, so VS Code recognizes files such as .zshrc,
-  // .zprofile, and .gitconfig automatically. List only exceptions here.
   "files.associations": {
-    // link/: files with neither a recognized extension nor a known filename
-    "**/link/.gemrc": "yaml",
-    "**/link/.config/bat/config": "properties",
-    "**/link/.config/git/ignore": "ignore",
-
-    // home/: chezmoi source files not identified by the dot_ prefix or .tmpl suffix
+    // Chezmoi source names do not retain the deployed file's recognizable name.
+    "**/Brewfile.personal": "ruby",
+    "**/home/dot_gemrc": "yaml",
+    "**/home/dot_gitconfig": "ini",
+    "**/home/dot_zprofile": "shellscript",
+    "**/home/dot_zshrc": "shellscript",
+    "**/home/dot_config/bat/config": "properties",
+    "**/home/dot_config/ghostty/config": "ini",
+    "**/home/dot_config/git/ignore": "ignore",
+    "**/home/dot_config/git/machine.inc.tmpl": "ini",
     "*.sh.tmpl": "shellscript",
-    // modify_ filenames may contain .json, but their contents are shell scripts
-    "modify_*": "shellscript",
+    "*.zsh.tmpl": "shellscript",
     "*.toml.tmpl": "toml",
-    ".chezmoiignore": "ignore",
-    "dot_zprofile.local.tmpl": "shellscript",
-    "dot_gitconfig.local.tmpl": "properties"
+    ".chezmoiignore": "ignore"
   }
 }

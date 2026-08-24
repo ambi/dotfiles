@@ -1,8 +1,0 @@
-[user]
-	name = {{ .name }}
-	email = {{ .email }}
-[ghq]
-	root = {{ .chezmoi.homeDir }}/src
-{{ if .proxy }}[http]
-	proxy = {{ .proxy }}
-{{ end -}}

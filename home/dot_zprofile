@@ -1,0 +1,16 @@
+# Homebrew and proxy settings generated from machine-specific template data.
+[[ -r "$HOME/.config/dotfiles/shellenv.zsh" ]] &&
+  source "$HOME/.config/dotfiles/shellenv.zsh"
+
+# User-installed executables take precedence without accumulating duplicates.
+typeset -U path PATH
+path=("$HOME/.local/bin" $path)
+
+# Shims expose mise tools to login-shell commands; interactive shells replace
+# this with full activation in .zshrc.
+if (( $+commands[mise] )); then
+  eval "$(mise activate zsh --shims)"
+fi
+
+## Machine-specific settings, intentionally unmanaged by chezmoi
+[[ -r "$HOME/.zprofile.local" ]] && source "$HOME/.zprofile.local"

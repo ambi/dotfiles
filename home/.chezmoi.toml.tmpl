@@ -2,6 +2,7 @@
 {{- $name  := promptStringOnce . "name"  "Git name"  "tn" -}}
 {{- $email := promptStringOnce . "email" "Git email" "prtnog@gmail.com" -}}
 {{- $proxy := promptStringOnce . "proxy" "HTTP proxy (leave blank for none)" "" -}}
+{{- $installPersonalPackages := promptBoolOnce . "installPersonalPackages" "Install personal Homebrew packages" false -}}
 
 {{- /* Keep the OS- and architecture-specific Homebrew prefix in one place. */ -}}
 {{- $brewPrefix := "/opt/homebrew" -}}
@@ -19,3 +20,4 @@ sourceDir = {{ .chezmoi.workingTree | quote }}
     email      = {{ $email | quote }}
     proxy      = {{ $proxy | quote }}
     brewPrefix = {{ $brewPrefix | quote }}
+    installPersonalPackages = {{ $installPersonalPackages }}

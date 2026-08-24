@@ -1,0 +1,20 @@
+# Packages that should not be installed on work machines.
+
+# Container runtimes on MacOS (and Linux) with minimal setup
+brew "colima", restart_service: :changed
+# Pack, ship and run any application as a lightweight container
+brew "docker"
+# Isolated development environments using Docker
+brew "docker-compose"
+# Play, record, convert, and stream select audio and video codecs
+brew "ffmpeg"
+# 7-Zip (high compression file archiver) implementation
+brew "p7zip"
+# Image format providing lossless and lossy compression for web images
+brew "webp"
+# Terminal interface for Antigravity agents
+cask "antigravity-cli"
+# Semantic code analysis engine
+cask "codeql"
+# Video game digital distribution service
+cask "steam", args: { appdir: "/Applications" }
