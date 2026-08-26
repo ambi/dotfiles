@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-REPO=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)
+REPO=$(CDPATH='' cd -- "$(dirname "$0")/.." && pwd)
 cd "$REPO"
 
 if ! command -v mise >/dev/null 2>&1; then

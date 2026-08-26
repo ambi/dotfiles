@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-REPO=$(CDPATH= cd -- "$(dirname "$0")/.." && pwd)
+REPO=$(CDPATH='' cd -- "$(dirname "$0")/.." && pwd)
 TEST_DIR=$(mktemp -d)
 DEST="$TEST_DIR/home"
 CONFIG="$TEST_DIR/chezmoi.toml"
@@ -15,7 +15,7 @@ trap 'rm -rf "$TEST_DIR"' EXIT
 mkdir -p "$DEST/.agents/skills/external"
 ln -s "$REPO/link/.zshrc" "$DEST/.zshrc"
 ln -s "$REPO/link/.agents/skills/commit" "$DEST/.agents/skills/commit"
-printf '%s\n' external > "$DEST/.agents/skills/external/SKILL.md"
+printf '%s\n' external >"$DEST/.agents/skills/external/SKILL.md"
 
 chezmoi \
     --config "$CONFIG" \
@@ -53,9 +53,9 @@ grep -q 'name = "Test User"' "$DEST/.config/git/machine.inc"
 [ "$(HOME="$DEST" git config --global --includes --get push.autoSetupRemote)" = true ]
 
 # Once created by a user, arbitrary local extensions survive later applies.
-printf '%s\n' '# local zprofile' > "$DEST/.zprofile.local"
-printf '%s\n' '# local zshrc' > "$DEST/.zshrc.local"
-printf '%s\n' '# local gitconfig' > "$DEST/.gitconfig.local"
+printf '%s\n' '# local zprofile' >"$DEST/.zprofile.local"
+printf '%s\n' '# local zshrc' >"$DEST/.zshrc.local"
+printf '%s\n' '# local gitconfig' >"$DEST/.gitconfig.local"
 chezmoi \
     --config "$CONFIG" \
     --source "$REPO/home" \
