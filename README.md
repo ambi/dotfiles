@@ -26,6 +26,8 @@ The personal Brewfile is applied only when the machine opted into it.
 | Edit the source and deploy it | `chezmoi edit --apply ~/.zshrc` |
 | Import a regular deployed file | `chezmoi re-add ~/.config/foo` |
 | Update external skills | `skills update -g -y` |
+| Upgrade Homebrew packages | `brew update && brew upgrade` |
+| Upgrade mise tools | `mise upgrade` |
 | Check source and destination consistency | `chezmoi verify` / `chezmoi doctor` |
 | Run repository checks | `tests/check.sh` |
 
@@ -118,7 +120,7 @@ To remove one, delete it from the list and run `skills remove -g <name> -y`.
 `Brewfile` contains OS-level packages and applications shared by all macOS machines.
 `Brewfile.personal` contains opt-in software such as Steam that should not be installed on work machines.
 Changing either file reruns `brew bundle install --no-upgrade` on the next `chezmoi apply`.
-Package upgrades remain an explicit maintenance operation, and Brew Bundle does not uninstall packages removed from a file.
+Package upgrades remain an explicit maintenance operation described in [Updating installed packages](#updating-installed-packages), and Brew Bundle does not uninstall packages removed from a file.
 
 Tools useful in every development directory remain in the global mise configuration.
 ShellCheck, shfmt, and Gitleaks are dependencies of this repository's checks, so they live in the repository-local `mise.toml` instead.
@@ -150,3 +152,54 @@ If the package was already installed with `brew install` or `brew install --cask
 Do not replace either managed file with `brew bundle dump` during routine updates.
 `dump` captures the whole installed state and cannot infer which profile owns each package.
 Use a dump written to a temporary file only as an audit snapshot.
+
+## Updating installed packages
+
+Installation and upgrade are deliberately separate operations.
+`chezmoi apply` only installs what is missing, because the package script runs `brew bundle install --no-upgrade` and `mise install` leaves an already installed version alone.
+Absorbing new versions is therefore a manual maintenance step.
+
+### Homebrew
+
+```shell
+brew update
+brew outdated
+brew upgrade
+```
+
+`brew upgrade` upgrades outdated formulae and casks.
+Casks that update themselves are reported as current; `brew upgrade --greedy` replaces those too and is rarely what you want for applications with their own updater.
+
+Restrict the upgrade to the packages this repository declares:
+
+```shell
+brew bundle install --file Brewfile
+brew bundle install --file Brewfile.personal
+```
+
+Without `--no-upgrade`, `brew bundle install` upgrades the listed entries and leaves anything installed outside the two files untouched.
+
+Reclaim disk space afterwards with `brew cleanup`.
+Do not run `brew bundle cleanup`: it uninstalls everything absent from the single file it reads, and this repository splits the declaration across `Brewfile` and `Brewfile.personal`.
+
+### mise
+
+```shell
+mise outdated
+mise upgrade
+```
+
+The tracked tools are pinned to moving targets such as `latest` and `lts`, so `mise upgrade` installs the newest matching version without any configuration edit.
+Run it from the repository root to cover the global tools and the repository-local `mise.toml` in one pass; elsewhere it covers only the global set.
+Use `mise upgrade --bump` only for tools pinned to a fixed version, because it rewrites the version in the configuration file.
+`mise prune` removes installed versions that no configuration references any more.
+
+mise itself is a Homebrew formula here, so `brew upgrade` updates it; do not use `mise self-update`.
+
+### External agent skills
+
+```shell
+skills update -g -y
+```
+
+Neither upgrade path modifies this repository, so nothing needs to be committed or re-applied unless a version pin in `mise.toml` or `home/dot_config/mise/config.toml` changes.
