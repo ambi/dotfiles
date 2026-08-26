@@ -92,7 +92,9 @@ Do not store secrets in tracked files.
 
 The fzf shell integration provides fuzzy history, file, and directory selection.
 Run `y` instead of `yazi` when the shell should change to Yazi's final directory on exit.
-The prompt checks only staged Git changes to avoid scanning the whole worktree before every prompt.
+The prompt reports the current Git branch, an in-progress operation such as a merge or rebase, a yellow `!` for staged changes, and a red `+` for unstaged ones.
+It collects all of this from a single `git status --porcelain=v2` call rather than from `vcs_info`, which spawned a Git process per question and cost more for the branch name alone.
+Untracked files are excluded so the check never scans beyond the index and tracked worktree entries.
 
 ## Managed application settings
 

@@ -104,15 +104,76 @@ bindkey "^P" history-beginning-search-backward-end
 bindkey "^N" history-beginning-search-forward-end
 
 ## Prompt
-autoload -Uz vcs_info
 setopt prompt_subst
-zstyle ':vcs_info:git:*' check-for-staged-changes true
-zstyle ':vcs_info:git:*' stagedstr "%F{yellow}!"
-zstyle ':vcs_info:*' formats "%F{green}%c[%b]%f"
-zstyle ':vcs_info:*' actionformats '[%b|%a]'
+
+# Resolve the repository's Git directory into REPLY without forking, so an
+# in-progress operation can be read from the files Git leaves there.
+_prompt_git_dir() {
+  local dir=$PWD
+  while true; do
+    if [[ -d $dir/.git ]]; then
+      REPLY=$dir/.git
+      return 0
+    elif [[ -f $dir/.git ]]; then
+      REPLY=${${"$(<$dir/.git)"}##gitdir: }
+      [[ $REPLY == /* ]] || REPLY=$dir/$REPLY
+      return 0
+    fi
+    [[ $dir == / || -z $dir ]] && return 1
+    dir=${dir:h}
+  done
+}
+
+# Name the operation the repository is in the middle of, as vcs_info reported
+# through actionformats.
+_prompt_git_action() {
+  local REPLY
+  _prompt_git_dir || return 1
+  if [[ -d $REPLY/rebase-merge ]]; then
+    [[ -f $REPLY/rebase-merge/interactive ]] && reply=rebase-i || reply=rebase-m
+  elif [[ -d $REPLY/rebase-apply ]]; then
+    [[ -f $REPLY/rebase-apply/applying ]] && reply=am || reply=rebase
+  elif [[ -f $REPLY/MERGE_HEAD ]]; then reply=merge
+  elif [[ -f $REPLY/CHERRY_PICK_HEAD ]]; then reply=cherry-pick
+  elif [[ -f $REPLY/REVERT_HEAD ]]; then reply=revert
+  elif [[ -f $REPLY/BISECT_LOG ]]; then reply=bisect
+  else return 1
+  fi
+  return 0
+}
+
+# One porcelain v2 call reports the branch and both change states. vcs_info
+# spawned a Git process per question, so it cost more for the branch name alone
+# than this costs for everything.
+_prompt_git_info() {
+  local line branch= oid= staged= unstaged= marks= reply=
+  while IFS= read -r line; do
+    case $line in
+      ('# branch.head '*) branch=${line#'# branch.head '} ;;
+      ('# branch.oid '*) oid=${line#'# branch.oid '} ;;
+      ([12]' '*)
+        [[ ${line[3]} == '.' ]] || staged=1
+        [[ ${line[4]} == '.' ]] || unstaged=1
+        ;;
+      ('u '*) unstaged=1 ;;
+    esac
+  done < <(command git --no-optional-locks status --porcelain=v2 --branch --untracked-files=no 2>/dev/null)
+
+  if [[ -z $branch ]]; then
+    _prompt_git_msg=
+    return 0
+  fi
+  # A detached HEAD reads better as the commit it points at than as a literal.
+  [[ $branch == '(detached)' && $oid == [0-9a-f]* ]] && branch=${oid[1,7]}
+  _prompt_git_action && branch="$branch|$reply"
+  [[ -n $staged ]] && marks='%F{yellow}!'
+  [[ -n $unstaged ]] && marks+='%F{red}+'
+  _prompt_git_msg="${marks}%F{green}[$branch]%f"
+}
+
 autoload -Uz add-zsh-hook
-add-zsh-hook precmd vcs_info
-PROMPT='%B%/%b ${vcs_info_msg_0_}
+add-zsh-hook precmd _prompt_git_info
+PROMPT='%B%/%b ${_prompt_git_msg}
 %B%#%b '
 
 ## zoxide
