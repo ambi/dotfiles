@@ -90,7 +90,8 @@ Do not store secrets in tracked files.
 `.zprofile` initializes the generated Homebrew and proxy environment, places `~/.local/bin` on `PATH`, and exposes mise shims to login-shell commands.
 `.zshrc` performs full mise activation and contains only interactive behavior such as completion, history, key bindings, and the prompt.
 
-The fzf shell integration provides fuzzy history, file, and directory selection.
+`fzf` stays installed for the commands and tools that invoke it, but its shell integration is not loaded, so it leaves the key bindings alone.
+History search is zsh's own prefix search on `^P` and `^N`.
 Run `y` instead of `yazi` when the shell should change to Yazi's final directory on exit.
 The prompt reports the current Git branch, an in-progress operation such as a merge or rebase, a yellow `!` for staged changes, and a red `+` for unstaged ones.
 It collects all of this from a single `git status --porcelain=v2` call rather than from `vcs_info`, which spawned a Git process per question and cost more for the branch name alone.

@@ -73,9 +73,6 @@ fi
 if (( $+commands[uvx] )); then
   eval "$(uvx --generate-shell-completion zsh)"
 fi
-if (( $+commands[fzf] )); then
-  source <(fzf --zsh)
-fi
 
 if [[ -n ${HOMEBREW_PREFIX:-} && -r "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
   source "$HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
