@@ -167,6 +167,3 @@ if command -v shellcheck >/dev/null 2>&1; then
     shellcheck "$MISE_SCRIPT"
     shellcheck "$SKILLS_SCRIPT"
 fi
-if command -v shfmt >/dev/null 2>&1; then
-    shfmt -d -i 4 -ci "$TEST_DIR/packages.sh" "$MISE_SCRIPT" "$SKILLS_SCRIPT"
-fi

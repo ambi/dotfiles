@@ -138,9 +138,9 @@ Changing either file reruns `brew bundle install --no-upgrade` on the next `chez
 Package upgrades remain an explicit maintenance operation described in [Updating installed packages](#updating-installed-packages), and Brew Bundle does not uninstall packages removed from a file.
 
 Tools useful in every development directory remain in the global mise configuration.
-ShellCheck, shfmt, and Betterleaks are dependencies of this repository's checks, so they live in the repository-local `mise.toml` instead.
+ShellCheck and Betterleaks are dependencies of this repository's checks, so they live in the repository-local `mise.toml` instead.
 Changing either mise configuration runs `mise install` from the repository on the next `chezmoi apply`.
-ShellCheck and shfmt validate the POSIX shell scripts, while Zsh startup files are syntax-checked with Zsh itself using `zsh -n`.
+ShellCheck validates the POSIX shell scripts, while Zsh startup files are syntax-checked with Zsh itself using `zsh -n`.
 Betterleaks performs a redacted scan of the working tree without live credential validation.
 
 From the repository root, install and record a shared formula in one operation:

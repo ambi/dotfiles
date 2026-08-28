@@ -71,11 +71,9 @@ selecting tools.
   mise.
 - **Go:** Declare Go at a version compatible with `go.mod`, its `toolchain`
   directive, and CI. Use runtime-provided checks such as `gofmt`, `go vet`, and
-  `go test`; consider repository-local golangci-lint for broader linting and
-  govulncheck for reachable dependency vulnerabilities. Manage each external
-  binary consistently through repository-local mise or Go's tool dependency
-  mechanism, while Go modules remain in `go.mod` and `go.sum`. For a Go-only
-  vulnerability check, prefer govulncheck over a second generic scanner.
+  `go test`; consider repository-local golangci-lint for broader linting. Manage
+  each external binary consistently through repository-local mise or Go's tool
+  dependency mechanism, while Go modules remain in `go.mod` and `go.sum`.
 - **JavaScript/TypeScript with Bun:** Declare Bun in repository-local mise, keep
   an exact compatible `packageManager` value in `package.json`, and commit the
   Bun lockfile. Put Biome, TypeScript, Vite, Vitest, Knip, and similar JS tools in
@@ -85,19 +83,13 @@ selecting tools.
   when the frontend or library build calls for it, and configure Knip from the
   project's real framework entry points; JS/TS utility scripts alone imply
   neither tool.
-- **Shell:** Use ShellCheck for supported shell dialects and shfmt for POSIX
-  shell, Bash, or mksh. Keep check mode non-writing and expose formatting
-  separately. Validate Zsh with Zsh-aware tooling such as `zsh -n`.
-- **GitHub Actions:** Use actionlint for workflow correctness and keep
-  ShellCheck on the same mise-provided `PATH` so eligible `run:` scripts are
-  checked. Add repository-local zizmor when GitHub Actions security is in scope;
-  it complements rather than replaces actionlint.
+- **Shell:** Use ShellCheck for supported shell dialects. Validate Zsh with
+  Zsh-aware tooling such as `zsh -n`.
+- **GitHub Actions:** Use repository-local zizmor to check owned workflows.
 - **Containers:** Use Hadolint when the repository owns Dockerfiles, passing all
   owned Dockerfile paths and keeping any ignores narrow and explained.
 - **Dependency vulnerabilities:** Consider repository-local OSV-Scanner for a
-  polyglot repository, multiple lockfile ecosystems, or container scanning. Run
-  it alongside an ecosystem-specific scanner such as govulncheck only when their
-  scopes are deliberately complementary.
+  repository with supported lockfiles or container images.
 - **Secrets:** A Git repository needs an explicit secret-scanning decision. For
   new setup, consider Betterleaks with a redacted working-tree check. Keep an
   established Gitleaks or equivalent scanner unless migration is requested.

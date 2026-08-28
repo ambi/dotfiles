@@ -9,7 +9,7 @@ if ! command -v mise >/dev/null 2>&1; then
     exit 1
 fi
 
-for command_name in shellcheck shfmt betterleaks; do
+for command_name in shellcheck betterleaks; do
     if ! mise which "$command_name" >/dev/null 2>&1; then
         echo "error: $command_name is required; run mise install" >&2
         exit 1
@@ -17,10 +17,6 @@ for command_name in shellcheck shfmt betterleaks; do
 done
 
 mise exec -- shellcheck \
-    tests/*.sh \
-    home/dot_claude/executable_statusline-command.sh \
-    home/dot_local/bin/executable_dotfiles-diff
-mise exec -- shfmt -d -i 4 -ci \
     tests/*.sh \
     home/dot_claude/executable_statusline-command.sh \
     home/dot_local/bin/executable_dotfiles-diff
