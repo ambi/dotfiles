@@ -33,6 +33,8 @@ brew "mailpit"
 brew "mise"
 # Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
+# Painless compression and decompression for your terminal
+brew "ouch"
 # Search tool like grep and The Silver Searcher
 brew "ripgrep"
 # Intuitive find & replace CLI
