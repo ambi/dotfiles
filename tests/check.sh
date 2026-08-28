@@ -16,8 +16,8 @@ for command_name in shellcheck shfmt gitleaks; do
     fi
 done
 
-mise exec -- shellcheck tests/*.sh
-mise exec -- shfmt -d -i 4 -ci tests/*.sh
+mise exec -- shellcheck tests/*.sh home/dot_local/bin/executable_dotfiles-diff
+mise exec -- shfmt -d -i 4 -ci tests/*.sh home/dot_local/bin/executable_dotfiles-diff
 zsh -n home/dot_zprofile
 zsh -n home/dot_zshrc
 mise exec -- gitleaks dir --no-banner --redact .

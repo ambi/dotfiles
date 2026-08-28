@@ -23,6 +23,7 @@ The personal Brewfile is applied only when the machine opted into it.
 |---|---|
 | Pull and deploy repository updates | `git pull && chezmoi apply` |
 | Preview deployed-file changes | `chezmoi diff` |
+| Audit all managed local state | `dotfiles-diff` |
 | Edit the source and deploy it | `chezmoi edit --apply ~/.zshrc` |
 | Import a regular deployed file | `chezmoi re-add ~/.config/foo` |
 | Update external skills | `skills update -g -y` |
@@ -30,6 +31,13 @@ The personal Brewfile is applied only when the machine opted into it.
 | Upgrade mise tools | `mise upgrade` |
 | Check source and destination consistency | `chezmoi verify` / `chezmoi doctor` |
 | Run repository checks | `tests/check.sh` |
+
+`dotfiles-diff` compares chezmoi-managed targets, the active Homebrew package
+profiles, mise tool installations, and external Agent Skills with the repository.
+It only reads local state and exits with 0 when everything matches, 1 when it
+finds drift, and 2 when a check cannot complete.
+Homebrew cache cleanup candidates and available package or tool upgrades are not
+configuration drift, so the command does not report them.
 
 Editing a deployed file changes only the copy under `$HOME`.
 Chezmoi reports that difference, and `chezmoi apply` asks before replacing a locally modified target.

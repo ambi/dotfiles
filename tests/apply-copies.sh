@@ -33,6 +33,7 @@ chezmoi \
 [ -f "$DEST/.agents/skills/commit/SKILL.md" ]
 [ ! -L "$DEST/.agents/skills/commit/SKILL.md" ]
 [ "$(cat "$DEST/.agents/skills/external/SKILL.md")" = external ]
+[ -x "$DEST/.local/bin/dotfiles-diff" ]
 
 # Unmanaged local extension files are neither required nor generated.
 [ ! -e "$DEST/.zshrc.local" ]

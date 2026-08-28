@@ -1,0 +1,204 @@
+#!/bin/sh
+set -u
+
+drift=0
+errors=0
+
+AUDIT_TEMP_DIR=$(mktemp -d "${TMPDIR:-/tmp}/dotfiles-diff.XXXXXX") || exit 2
+trap 'rm -rf "$AUDIT_TEMP_DIR"' EXIT HUP INT TERM
+
+section() {
+    printf '\n==> %s\n' "$1"
+}
+
+ok() {
+    printf 'ok: %s\n' "$1"
+}
+
+report_drift() {
+    printf 'drift: %s\n' "$1"
+    drift=1
+}
+
+report_error() {
+    printf 'error: %s\n' "$1" >&2
+    errors=1
+}
+
+if ! command -v chezmoi >/dev/null 2>&1; then
+    report_error "chezmoi is required"
+    exit 2
+fi
+
+if ! REPO=$(chezmoi execute-template '{{ .chezmoi.workingTree }}'); then
+    report_error "could not locate the chezmoi working tree"
+    exit 2
+fi
+
+if [ ! -d "$REPO" ]; then
+    report_error "chezmoi working tree does not exist: $REPO"
+    exit 2
+fi
+
+section "chezmoi-managed files and scripts"
+if chezmoi_status=$(chezmoi status --no-pager 2>&1); then
+    if [ -n "$chezmoi_status" ]; then
+        printf '%s\n' "$chezmoi_status"
+        printf '\n'
+        if ! chezmoi diff --no-pager; then
+            report_error "chezmoi diff failed"
+        fi
+        report_drift "chezmoi has unapplied changes"
+    else
+        ok "managed targets match the repository"
+    fi
+else
+    printf '%s\n' "$chezmoi_status" >&2
+    report_error "chezmoi status failed"
+fi
+
+section "Homebrew packages"
+if [ "$(uname -s)" != Darwin ]; then
+    ok "Homebrew package profiles do not apply on this operating system"
+elif ! command -v brew >/dev/null 2>&1; then
+    report_drift "Homebrew is not installed"
+else
+    HOMEBREW_NO_AUTO_UPDATE=1
+    export HOMEBREW_NO_AUTO_UPDATE
+    EXPECTED_BREWFILE="$AUDIT_TEMP_DIR/Brewfile"
+    if personal_packages=$(chezmoi execute-template '{{ if index . "installPersonalPackages" }}true{{ else }}false{{ end }}'); then
+        case "$personal_packages" in
+            true)
+                awk '1' "$REPO/Brewfile" "$REPO/Brewfile.personal" >"$EXPECTED_BREWFILE"
+                profile_description="common and personal profiles"
+                ;;
+            *)
+                awk '1' "$REPO/Brewfile" >"$EXPECTED_BREWFILE"
+                profile_description="common profile"
+                ;;
+        esac
+    else
+        report_error "could not determine the active Homebrew package profile"
+    fi
+
+    if [ -f "$EXPECTED_BREWFILE" ]; then
+        if brew_check=$(brew bundle check --no-upgrade --verbose --file="$EXPECTED_BREWFILE" 2>&1); then
+            ok "all entries from the $profile_description are installed"
+        else
+            printf '%s\n' "$brew_check"
+            report_drift "Homebrew entries are missing"
+        fi
+
+        # Redirect stdin so Brew Bundle cannot prompt to perform cleanup. Its dry-run
+        # exits with 1 only when undeclared packages, casks, taps, or extensions exist;
+        # ordinary `brew cleanup` cache candidates leave the exit status at 0.
+        if brew_cleanup=$(brew bundle cleanup --file="$EXPECTED_BREWFILE" </dev/null 2>&1); then
+            ok "no undeclared Homebrew entries are installed"
+        else
+            printf '%s\n' "$brew_cleanup"
+            report_drift "undeclared Homebrew entries are installed"
+        fi
+    fi
+fi
+
+section "mise tools"
+if ! command -v mise >/dev/null 2>&1; then
+    report_drift "mise is not installed"
+else
+    if mise_missing=$(mise -C "$REPO" ls --missing 2>&1); then
+        if [ -n "$mise_missing" ]; then
+            printf '%s\n' "$mise_missing"
+            report_drift "configured mise tools are missing"
+        else
+            ok "all configured mise tools are installed"
+        fi
+    else
+        printf '%s\n' "$mise_missing" >&2
+        report_error "mise missing-tool check failed"
+    fi
+
+    if mise_prunable=$(mise -C "$REPO" ls --prunable 2>&1); then
+        if [ -n "$mise_prunable" ]; then
+            printf '%s\n' "$mise_prunable"
+            report_drift "unreferenced mise tool versions are installed"
+        else
+            ok "no unreferenced mise tool versions are installed"
+        fi
+    else
+        printf '%s\n' "$mise_prunable" >&2
+        report_error "mise prunable-tool check failed"
+    fi
+fi
+
+section "external Agent Skills"
+if ! command -v skills >/dev/null 2>&1; then
+    report_drift "the Agent Skills CLI is not installed"
+elif ! command -v jq >/dev/null 2>&1; then
+    report_error "jq is required to inspect installed Agent Skills"
+else
+    EXPECTED_SKILLS="$AUDIT_TEMP_DIR/expected-skills"
+    EXPECTED_SKILLS_UNSORTED="$AUDIT_TEMP_DIR/expected-skills-unsorted"
+    ACTUAL_SKILLS="$AUDIT_TEMP_DIR/actual-skills"
+    ACTUAL_SKILLS_UNSORTED="$AUDIT_TEMP_DIR/actual-skills-unsorted"
+    SKILLS_JSON="$AUDIT_TEMP_DIR/skills.json"
+
+    if awk '
+        /^skills add / {
+            source = $3
+            selecting = 0
+            next
+        }
+        $1 == "--skill" {
+            selecting = 1
+            if ($2 != "" && $2 != "\\") print source "\t" $2
+            next
+        }
+        selecting && $1 ~ /^--/ {
+            selecting = 0
+        }
+        selecting {
+            name = $1
+            if (name != "" && name != "\\") print source "\t" name
+        }
+    ' "$REPO/home/.chezmoiscripts/run_onchange_after_30-install-agent-skills.sh.tmpl" >"$EXPECTED_SKILLS_UNSORTED"; then
+        sort "$EXPECTED_SKILLS_UNSORTED" >"$EXPECTED_SKILLS"
+    else
+        report_error "could not read the external Agent Skills declaration"
+    fi
+
+    if skills_json=$(skills list --global --json 2>&1); then
+        printf '%s\n' "$skills_json" >"$SKILLS_JSON"
+        if jq -r '.[] | select(.source != null) | [.source, .name] | @tsv' "$SKILLS_JSON" >"$ACTUAL_SKILLS_UNSORTED"; then
+            sort "$ACTUAL_SKILLS_UNSORTED" >"$ACTUAL_SKILLS"
+            if [ -f "$EXPECTED_SKILLS" ]; then
+                if diff -u --label repository --label installed "$EXPECTED_SKILLS" "$ACTUAL_SKILLS"; then
+                    ok "installed external skills match the synchronization script"
+                else
+                    diff_status=$?
+                    if [ "$diff_status" -eq 1 ]; then
+                        report_drift "external Agent Skills differ"
+                    else
+                        report_error "could not compare external Agent Skills"
+                    fi
+                fi
+            fi
+        else
+            report_error "could not parse the Agent Skills list"
+        fi
+    else
+        printf '%s\n' "$skills_json" >&2
+        report_error "could not list installed Agent Skills"
+    fi
+fi
+
+printf '\n'
+if [ "$errors" -ne 0 ]; then
+    printf 'dotfiles diff check could not complete\n' >&2
+    exit 2
+fi
+if [ "$drift" -ne 0 ]; then
+    printf 'dotfiles drift detected\n'
+    exit 1
+fi
+
+printf 'dotfiles match the repository\n'
