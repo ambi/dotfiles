@@ -9,12 +9,15 @@ The detailed rationale and the boundary between shared and machine-specific sett
 ## Set up a new machine
 
 ```shell
-brew install chezmoi
-chezmoi init --apply git@github.com:ambi/dotfiles.git --source ~/src/dotfiles
+sh -c "$(curl -fsLS https://get.chezmoi.io)" -- \
+    init --apply --purge-binary \
+    git@github.com:ambi/dotfiles.git \
+    --source "$HOME/src/dotfiles"
 ```
 
+The bootstrap installer runs a temporary chezmoi binary and removes it after the apply.
 The initial run prompts for the Git name, email address, optional HTTP proxy, and whether to install personal Homebrew packages.
-Homebrew is installed when necessary, then the common Brewfile is applied.
+Homebrew is installed when necessary, then the common Brewfile installs the managed chezmoi package.
 The personal Brewfile is applied only when the machine opted into it.
 
 ## Daily operations
@@ -30,7 +33,8 @@ The personal Brewfile is applied only when the machine opted into it.
 | Upgrade Homebrew packages | `brew update && brew upgrade` |
 | Upgrade mise tools | `mise upgrade` |
 | Check source and destination consistency | `chezmoi verify` / `chezmoi doctor` |
-| Run repository checks | `tests/check.sh` |
+| Run repository checks | `mise run check` |
+| Format repository shell scripts | `mise run format` |
 
 `dotfiles-diff` compares chezmoi-managed targets, the active Homebrew package
 profiles, mise tool installations, and external Agent Skills with the repository.
@@ -134,9 +138,10 @@ Changing either file reruns `brew bundle install --no-upgrade` on the next `chez
 Package upgrades remain an explicit maintenance operation described in [Updating installed packages](#updating-installed-packages), and Brew Bundle does not uninstall packages removed from a file.
 
 Tools useful in every development directory remain in the global mise configuration.
-ShellCheck, shfmt, and Gitleaks are dependencies of this repository's checks, so they live in the repository-local `mise.toml` instead.
+ShellCheck, shfmt, and Betterleaks are dependencies of this repository's checks, so they live in the repository-local `mise.toml` instead.
 Changing either mise configuration runs `mise install` from the repository on the next `chezmoi apply`.
 ShellCheck and shfmt validate the POSIX shell scripts, while Zsh startup files are syntax-checked with Zsh itself using `zsh -n`.
+Betterleaks performs a redacted scan of the working tree without live credential validation.
 
 From the repository root, install and record a shared formula in one operation:
 

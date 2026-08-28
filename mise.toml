@@ -1,4 +1,17 @@
 [tools]
-gitleaks = "latest"
+betterleaks = "latest"
 shellcheck = "latest"
 shfmt = "latest"
+
+[tasks.check]
+description = "Run repository checks"
+run = "tests/check.sh"
+
+[tasks.format]
+description = "Format POSIX shell scripts"
+run = """
+shfmt -w -i 4 -ci \
+    tests/*.sh \
+    home/dot_claude/executable_statusline-command.sh \
+    home/dot_local/bin/executable_dotfiles-diff
+"""
