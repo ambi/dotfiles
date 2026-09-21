@@ -1,50 +1,10 @@
 tap "yusukebe/tap"
-# Code searching, linting, rewriting
-brew "ast-grep"
-# Clone of cat(1) with syntax highlighting and Git integration
-brew "bat"
 # Manage your dotfiles across multiple diverse machines, securely
 brew "chezmoi"
-# Formatting tools for C, C++, Obj-C, Java, JavaScript, TypeScript
-brew "clang-format"
 # GNU File, Shell, and Text utilities
 brew "coreutils"
-# More intuitive version of du in rust
-brew "dust"
-# Modern, maintained replacement for ls
-brew "eza"
-# Simple, fast and user-friendly alternative to find
-brew "fd"
-# Command-line fuzzy finder written in Go
-brew "fzf"
-# GitHub command-line tool
-brew "gh"
-# Remote repository management made easy
-brew "ghq"
-# Review-first terminal diff viewer for agent-authored changesets
-brew "hunk"
-# Lightweight and flexible command-line JSON processor
-brew "jq"
-# Simple terminal UI for git commands
-brew "lazygit"
-# Web and API based SMTP testing
-brew "mailpit"
-# Polyglot runtime manager (asdf rust clone)
-brew "mise"
 # Collection of tools that nobody wrote when UNIX was young
 brew "moreutils"
-# Painless compression and decompression for your terminal
-brew "ouch"
-# Search tool like grep and The Silver Searcher
-brew "ripgrep"
-# Intuitive find & replace CLI
-brew "sd"
-# Blazing fast terminal file manager written in Rust, based on async I/O
-brew "yazi"
-# Process YAML, JSON, XML, CSV and properties documents from the CLI
-brew "yq"
-# Shell extension to navigate your filesystem faster
-brew "zoxide"
 # Fish-like fast/unobtrusive autosuggestions for zsh
 brew "zsh-autosuggestions"
 # Additional completion definitions for zsh
@@ -68,6 +28,7 @@ cask "visual-studio-code", args: { appdir: "/Applications" }
 vscode "bierner.markdown-mermaid"
 vscode "bpruitt-goddard.mermaid-markdown-syntax-highlighting"
 vscode "cardinal90.multi-cursor-case-preserve"
+vscode "codesmith.markdown-inline-editor-vscode"
 vscode "golang.go"
 vscode "jebbs.plantuml"
 vscode "narsenico.vscode-progressive-increment"

@@ -1,8 +1,10 @@
 #!/bin/sh
-# Run whenever either Brewfile changes (run_onchange_).
-# Run before applying files so Homebrew and common packages are ready first.
-# bundle-hash: {{ printf "%s\n%s" (include (joinPath .chezmoi.workingTree "Brewfile")) (include (joinPath .chezmoi.workingTree "Brewfile.personal")) | sha256sum }}
 set -eu
+
+if ! command -v mise >/dev/null 2>&1; then
+    curl https://mise.run | sh
+fi
+
 {{ if eq .chezmoi.os "darwin" -}}
 if ! command -v brew >/dev/null 2>&1; then
     echo "==> Installing Homebrew"

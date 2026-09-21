@@ -1,11 +1,30 @@
 [tools]
+ast-grep = "latest"
+bat = "latest"
 bun = "latest"
+colima = { version = "latest", os = ["macos/arm64"] }
+docker-cli = { version = "latest", os = ["macos/arm64"] }
+docker-compose = { version = "latest", os = ["macos/arm64"] }
+dust = "latest"
+eza = "latest"
+fd = "latest"
+gh = "latest"
+ghq = "latest"
 go = "latest"
 golangci-lint = "latest"
+hunk = "latest"
+jq = "latest"
+lazygit = "latest"
+mailpit = "latest"
 node = "lts"
 "npm:@fission-ai/openspec" = "latest"
 "npm:skills" = "latest"
+ripgrep = "latest"
+sd = "latest"
 uv = "latest"
+yazi = "latest"
+yq = "latest"
+zoxide = "latest"
 
 [settings.npm]
 bun = true
