@@ -200,6 +200,23 @@ Do not run `brew bundle cleanup`: it uninstalls everything absent from the singl
 
 ### mise
 
+ax is managed by the global mise configuration using the
+[GitHub backend](https://mise.jdx.dev/dev-tools/backends/github.html), which downloads
+the standalone binary from [upstream releases](https://github.com/yusukebe/ax/releases).
+It uses neither Homebrew nor a separately installed Bun runtime.
+mise automatically selects the release asset for the operating system and
+native architecture; the downloaded executable is exposed as `ax`.
+
+| Platform | Release asset |
+|---|---|
+| Apple Silicon Mac | `ax-darwin-arm64` |
+| Intel Mac | `ax-darwin-x64` |
+| Linux x86_64 | `ax-linux-x64` |
+| Linux ARM64 | `ax-linux-arm64` |
+
+Run `chezmoi apply` to deploy the declaration and install ax with the existing
+mise installation hook. Subsequent ax updates use `mise upgrade github:yusukebe/ax`.
+
 ```shell
 mise outdated
 mise upgrade
