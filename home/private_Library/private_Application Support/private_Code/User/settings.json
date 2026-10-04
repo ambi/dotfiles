@@ -1,6 +1,4 @@
 {
-    "C_Cpp.clang_format_fallbackStyle": "Google",
-    "C_Cpp.clang_format_style": "Google",
     "editor.fontFamily": "HackGen",
     "editor.formatOnSave": true,
     "editor.minimap.enabled": false,
@@ -18,8 +16,6 @@
         "editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
     },
     "go.toolsManagement.autoUpdate": true,
-    "continue.telemetryEnabled": false,
-    "dotnetAcquisitionExtension.enableTelemetry": false,
     "telemetry.telemetryLevel": "off",
     "editor.wordWrap": "on",
     "editor.unicodeHighlight.ambiguousCharacters": false,
@@ -30,12 +26,7 @@
     "[typescriptreact]": {
         "editor.defaultFormatter": "biomejs.biome"
     },
-    "geminicodeassist.project": "",
-    "geminicodeassist.inlineSuggestions.enableAuto": false,
-    "biome.searchInPath": false,
-    "docker.extension.dockerEngineAvailabilityPrompt": false,
     "telemetry.feedback.enabled": false,
-    "docker.lsp.telemetry": "off",
     "editor.accessibilitySupport": "off",
     "plantuml.server": "https://www.plantuml.com/plantuml",
     "json.schemaDownload.trustedDomains": {
@@ -46,7 +37,6 @@
         "https://json-schema.org/": true,
         "https://biomejs.dev": true
     },
-    "claudeCode.preferredLocation": "panel",
     "chat.viewSessions.orientation": "stacked",
     "files.associations": {
         "**/ghostty/config": "ini"
@@ -54,5 +44,10 @@
     "markdown.extension.tableFormatter.delimiterRowNoPadding": true,
     "markdown.extension.tableFormatter.normalizeIndentation": true,
     "markdown.extension.tableFormatter.enabled": false,
-    "markdown.preview.breaks": true
+    "markdown.preview.breaks": true,
+    "workbench.editorAssociations": {
+        "*.copilotmd": "vscode.markdown.preview.editor",
+        "*.md": "mdLivePreview.editor"
+    },
+    "mdLivePreview.defaultEditor": "livePreview"
 }
