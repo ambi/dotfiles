@@ -20,3 +20,5 @@
   # Later includes take precedence over generated and shared settings.
   # This arbitrary machine-specific file is intentionally unmanaged.
   path = .gitconfig.local
+[core]
+	quotePath = false
