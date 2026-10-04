@@ -10,7 +10,7 @@ Editing a deployed file does not modify the repository's working tree, so an unc
 The next `chezmoi apply` detects the difference and requires a choice between replacing the local edit and promoting it into shared configuration.
 
 When a deployed regular-file change should be shared by every machine, import it with `chezmoi re-add` and commit the source change.
-Frequently edited shared files remain regular source files so this workflow also applies to `.zprofile`, `.zshrc`, and `.gitconfig`.
+Frequently edited shared files remain regular source files so this workflow also applies to `.zprofile`, `.zshrc`, `.gitconfig`, and mise's package declarations.
 Templates are limited to generated machine fragments and bootstrap logic.
 Do not import temporary experiments or machine-only changes.
 
@@ -21,7 +21,7 @@ Machine-specific configuration is split between generated fragments and unmanage
 - **Generated fragments:** Files rendered from Git identity, a proxy, the Homebrew prefix, and other template data that shared configuration needs to load.
 - **Local extension files:** Arbitrary configuration loaded by shared files but intentionally left unmanaged by chezmoi.
 
-The generated fragments are `~/.config/dotfiles/shellenv.zsh` and `~/.config/git/machine.inc`.
+The generated fragments are `~/.config/dotfiles/shellenv.zsh`, `~/.config/git/machine.inc`, and mise's small `miserc.toml` profile selector.
 Keeping template syntax out of the primary shell and Git files preserves a simple `chezmoi re-add` workflow.
 
 `.zprofile.local`, `.zshrc.local`, and `.gitconfig.local` are local extension files.
@@ -36,20 +36,31 @@ Read them from a local extension file or the operating system's credential store
 
 ## Package profiles
 
-Homebrew packages are split between `Brewfile`, which applies to every machine, and `Brewfile.personal`, which applies only to personal machines.
-A work machine skips personal packages, while a personal machine applies both files according to its initialization choice.
+The ordinary global `config.toml` declares shared tools and macOS applications.
+The ordinary `config.personal.toml` declares FFmpeg, WebP utilities, and Steam.
+`miserc.toml` selects the `personal` environment when `installPersonalPackages` is enabled.
+Package declarations remain directly importable after `mise use -g`.
 
 This profile controls installation and does not remove packages that are already present.
 After changing a machine's profile, inspect and uninstall packages that are no longer wanted.
 
-Add a package with `brew bundle add --install`, explicitly selecting either `Brewfile` or `Brewfile.personal`.
-This records the ownership decision when the package is installed.
-Do not regenerate either managed file from a full `brew bundle dump`, because an installed-state snapshot does not retain that decision.
-Applying dotfiles uses `brew bundle install --no-upgrade`; package upgrades are a separate explicit operation.
+Record package changes in the common or personal TOML file according to their scope.
+CLI tools use `[tools]`; macOS applications and fonts use `[bootstrap.packages]` with `brew-cask:` entries.
+The latter uses Homebrew metadata but downloads and installs directly through mise.
+Existing Homebrew-owned casks remain Homebrew-owned until explicitly uninstalled and reinstalled with mise.
+Chrome is installed through the `chrome:install` task instead of being declared
+in `[bootstrap.packages]`, so bulk upgrades exclude it and its own updater owns
+version changes on every machine. The task participates in bootstrap and
+`packages:install`; it applies the cask only when missing. Existing Homebrew pins
+remain local Homebrew state. Chrome is outside the package drift audit.
 
 Versioned development CLIs belong in mise when its registry provides a supported backend.
 Tools needed everywhere belong in the global mise configuration, while repository-only validators belong in the repository's `mise.toml`.
-An onchange script installs missing tools after both configurations are available.
+An onchange script invokes mise's bootstrap phases after the configurations are available.
+Zsh extensions are Git checkouts declared in `[bootstrap.repos]` and sourced from the runtime directory under `~/.local/share/zsh`.
+VS Code extensions are arguments of a mise task using the application's CLI directly.
+Delegate installation state and extension updates to VS Code instead of maintaining a custom installer or diff parser.
+Applying dotfiles installs missing entries; upgrades and removals are explicit maintenance operations.
 
 ## Selecting application settings
 

@@ -1,0 +1,6 @@
+[tools]
+"conda:ffmpeg" = "latest"
+"conda:libwebp" = "latest"
+
+[bootstrap.packages]
+"brew-cask:steam" = { version = "latest", os = "macos", appdir = "/Applications" }

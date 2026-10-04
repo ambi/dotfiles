@@ -57,50 +57,6 @@ else
     report_error "chezmoi status failed"
 fi
 
-section "Homebrew packages"
-if [ "$(uname -s)" != Darwin ]; then
-    ok "Homebrew package profiles do not apply on this operating system"
-elif ! command -v brew >/dev/null 2>&1; then
-    report_drift "Homebrew is not installed"
-else
-    HOMEBREW_NO_AUTO_UPDATE=1
-    export HOMEBREW_NO_AUTO_UPDATE
-    EXPECTED_BREWFILE="$AUDIT_TEMP_DIR/Brewfile"
-    if personal_packages=$(chezmoi execute-template '{{ if index . "installPersonalPackages" }}true{{ else }}false{{ end }}'); then
-        case "$personal_packages" in
-            true)
-                awk '1' "$REPO/Brewfile" "$REPO/Brewfile.personal" >"$EXPECTED_BREWFILE"
-                profile_description="common and personal profiles"
-                ;;
-            *)
-                awk '1' "$REPO/Brewfile" >"$EXPECTED_BREWFILE"
-                profile_description="common profile"
-                ;;
-        esac
-    else
-        report_error "could not determine the active Homebrew package profile"
-    fi
-
-    if [ -f "$EXPECTED_BREWFILE" ]; then
-        if brew_check=$(brew bundle check --no-upgrade --verbose --file="$EXPECTED_BREWFILE" 2>&1); then
-            ok "all entries from the $profile_description are installed"
-        else
-            printf '%s\n' "$brew_check"
-            report_drift "Homebrew entries are missing"
-        fi
-
-        # Redirect stdin so Brew Bundle cannot prompt to perform cleanup. Its dry-run
-        # exits with 1 only when undeclared packages, casks, taps, or extensions exist;
-        # ordinary `brew cleanup` cache candidates leave the exit status at 0.
-        if brew_cleanup=$(brew bundle cleanup --file="$EXPECTED_BREWFILE" </dev/null 2>&1); then
-            ok "no undeclared Homebrew entries are installed"
-        else
-            printf '%s\n' "$brew_cleanup"
-            report_drift "undeclared Homebrew entries are installed"
-        fi
-    fi
-fi
-
 section "mise tools"
 if ! command -v mise >/dev/null 2>&1; then
     report_drift "mise is not installed"
@@ -128,6 +84,31 @@ else
         printf '%s\n' "$mise_prunable" >&2
         report_error "mise prunable-tool check failed"
     fi
+
+    for resource in packages repos; do
+        section "mise bootstrap $resource"
+        if ! command -v jq >/dev/null 2>&1; then
+            report_error "jq is required to inspect mise bootstrap $resource"
+        elif bootstrap_status=$(mise -C "$REPO" bootstrap "$resource" status --json 2>&1); then
+            printf '%s\n' "$bootstrap_status" >"$AUDIT_TEMP_DIR/bootstrap-$resource.json"
+            if jq -e 'all(.. | objects | select(has("state"));
+                .state == "installed" or .state == "current")' \
+                "$AUDIT_TEMP_DIR/bootstrap-$resource.json" >/dev/null; then
+                ok "configured $resource are installed"
+            else
+                bootstrap_exit=$?
+                printf '%s\n' "$bootstrap_status"
+                if [ "$bootstrap_exit" -eq 1 ]; then
+                    report_drift "mise bootstrap $resource differ"
+                else
+                    report_error "could not parse mise bootstrap $resource status"
+                fi
+            fi
+        else
+            printf '%s\n' "$bootstrap_status" >&2
+            report_error "mise bootstrap $resource check failed"
+        fi
+    done
 fi
 
 section "external Agent Skills"
@@ -143,8 +124,8 @@ else
     SKILLS_JSON="$AUDIT_TEMP_DIR/skills.json"
 
     if awk '
-        /^skills add / {
-            source = $3
+        /^mise exec -- skills add / {
+            source = $6
             selecting = 0
             next
         }

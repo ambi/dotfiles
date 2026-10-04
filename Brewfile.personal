@@ -1,8 +1,0 @@
-# Packages that should not be installed on work machines.
-
-# Play, record, convert, and stream select audio and video codecs
-brew "ffmpeg"
-# Image format providing lossless and lossy compression for web images
-brew "webp"
-# Video game digital distribution service
-cask "steam", args: { appdir: "/Applications" }

@@ -4,4 +4,9 @@ shellcheck = "latest"
 
 [tasks.check]
 description = "Run repository checks"
-run = "tests/check.sh"
+run = [
+  "shellcheck tests/*.sh home/dot_claude/executable_statusline-command.sh home/dot_local/bin/executable_dotfiles-diff",
+  "zsh -n home/dot_zprofile && zsh -n home/dot_zshrc",
+  "betterleaks dir . --no-banner --redact",
+  "tests/apply-copies.sh",
+]

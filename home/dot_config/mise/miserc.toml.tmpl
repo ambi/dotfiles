@@ -1,0 +1,6 @@
+# Generated machine profile; package declarations remain ordinary TOML files.
+{{ if index . "installPersonalPackages" -}}
+env = ["personal"]
+{{ else -}}
+env = []
+{{ end -}}

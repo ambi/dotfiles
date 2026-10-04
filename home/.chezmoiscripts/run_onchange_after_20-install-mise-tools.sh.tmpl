@@ -1,9 +1,10 @@
 #!/bin/sh
-# Run whenever the global or repository-local mise tool configuration changes.
-# global-config-hash: {{ include (joinPath .chezmoi.sourceDir "dot_config/mise/config.toml") | sha256sum }}
+# global-config-hash: {{ include "dot_config/mise/config.toml" | sha256sum }}
+# personal-config-hash: {{ include "dot_config/mise/config.personal.toml" | sha256sum }}
+# profile-hash: {{ includeTemplate "dot_config/mise/miserc.toml.tmpl" . | sha256sum }}
 # repository-config-hash: {{ include (joinPath .chezmoi.workingTree "mise.toml") | sha256sum }}
 set -eu
 
-echo "==> Installing mise tools"
+export PATH="$HOME/.local/bin:$PATH"
 cd "{{ .chezmoi.workingTree }}"
-mise install
+mise bootstrap --only packages,repos,tools,task --yes

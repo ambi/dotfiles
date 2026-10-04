@@ -1,7 +1,12 @@
+min_version = "2026.10.0"
+
 [tools]
 ast-grep = "latest"
 bat = "latest"
 bun = "latest"
+chezmoi = "latest"
+claude-code = "latest"
+codex = "latest"
 colima = { version = "latest", os = ["macos/arm64"] }
 docker-cli = { version = "latest", os = ["macos/arm64"] }
 docker-compose = { version = "latest", os = ["macos/arm64"] }
@@ -31,3 +36,85 @@ zoxide = "latest"
 
 [settings.npm]
 bun = true
+
+[bootstrap.packages]
+"brew-cask:cmux" = { version = "latest", os = "macos" }
+"brew-cask:font-hackgen" = { version = "latest", os = "macos" }
+"brew-cask:font-hackgen-nerd" = { version = "latest", os = "macos" }
+"brew-cask:visual-studio-code" = { version = "latest", os = "macos", appdir = "/Applications" }
+
+[bootstrap.repos]
+"~/.local/share/zsh/zsh-autosuggestions" = { url = "https://github.com/zsh-users/zsh-autosuggestions.git" }
+"~/.local/share/zsh/zsh-completions" = { url = "https://github.com/zsh-users/zsh-completions.git" }
+"~/.local/share/zsh/zsh-syntax-highlighting" = { url = "https://github.com/zsh-users/zsh-syntax-highlighting.git" }
+
+[tasks."packages:install"]
+description = "Install missing GUI applications and fonts"
+depends = ["chrome:install"]
+run = "mise bootstrap packages apply --yes"
+
+[tasks."packages:upgrade"]
+description = "Upgrade mise-owned GUI applications and fonts"
+run = "mise bootstrap packages upgrade --yes"
+
+[tasks."zsh:update"]
+description = "Update Zsh plugin repositories"
+run = "mise bootstrap repos update --yes"
+
+[tasks.bootstrap]
+description = "Install Chrome and VS Code extensions after bootstrap packages and tools"
+depends = ["chrome:install", "vscode:install"]
+
+# Keep Chrome outside bootstrap.packages so bulk upgrades leave it to its updater.
+[tasks."chrome:install"]
+description = "Install Chrome if missing; leave updates to Chrome itself"
+env = { MISE_BREW_CASK_OPT_APPDIR = "/Applications" }
+run = '''
+{% if os() == "macos" %}
+mise bootstrap packages apply brew-cask:google-chrome --yes
+{% else %}
+true
+{% endif %}
+'''
+
+[tasks."vscode:install"]
+description = "Install missing declared VS Code extensions"
+run = '''
+{% if os() == "macos" %}
+"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" \
+  --install-extension "bierner.markdown-mermaid" \
+  --install-extension "bpruitt-goddard.mermaid-markdown-syntax-highlighting" \
+  --install-extension "cardinal90.multi-cursor-case-preserve" \
+  --install-extension "golang.go" \
+  --install-extension "jebbs.plantuml" \
+  --install-extension "narsenico.vscode-progressive-increment" \
+  --install-extension "sgryjp.japanese-word-handler" \
+  --install-extension "t-shoot.markdown-live-preview-editor" \
+  --install-extension "tamasfe.even-better-toml" \
+  --install-extension "typespec.typespec-vscode" \
+  --install-extension "yeannylam.recenter-top-bottom" \
+  --install-extension "yzhang.markdown-all-in-one"
+{% else %}
+true
+{% endif %}
+'''
+
+[tasks."vscode:list"]
+description = "List installed VS Code extensions"
+run = '''
+{% if os() == "macos" %}
+"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --list-extensions
+{% else %}
+true
+{% endif %}
+'''
+
+[tasks."vscode:upgrade"]
+description = "Update installed VS Code extensions"
+run = '''
+{% if os() == "macos" %}
+"/Applications/Visual Studio Code.app/Contents/Resources/app/bin/code" --update-extensions
+{% else %}
+true
+{% endif %}
+'''
