@@ -87,7 +87,6 @@ run = '''
   --install-extension "jebbs.plantuml" \
   --install-extension "narsenico.vscode-progressive-increment" \
   --install-extension "sgryjp.japanese-word-handler" \
-  --install-extension "t-shoot.markdown-live-preview-editor" \
   --install-extension "tamasfe.even-better-toml" \
   --install-extension "typespec.typespec-vscode" \
   --install-extension "yeannylam.recenter-top-bottom" \

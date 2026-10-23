@@ -44,10 +44,5 @@
     "markdown.extension.tableFormatter.delimiterRowNoPadding": true,
     "markdown.extension.tableFormatter.normalizeIndentation": true,
     "markdown.extension.tableFormatter.enabled": false,
-    "markdown.preview.breaks": true,
-    "workbench.editorAssociations": {
-        "*.copilotmd": "vscode.markdown.preview.editor",
-        "*.md": "mdLivePreview.editor"
-    },
-    "mdLivePreview.defaultEditor": "livePreview"
+    "markdown.preview.breaks": true
 }
