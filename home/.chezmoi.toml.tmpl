@@ -21,3 +21,7 @@ sourceDir = {{ .chezmoi.workingTree | quote }}
     proxy      = {{ $proxy | quote }}
     brewPrefix = {{ $brewPrefix | quote }}
     installPersonalPackages = {{ $installPersonalPackages }}
+
+{{- /* Pending run_onchange scripts show up as new files in chezmoi diff; check them with chezmoi status instead. */}}
+[diff]
+    exclude = ["scripts"]
